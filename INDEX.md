@@ -1,0 +1,46 @@
+# Forge Compact Index
+
+Use this file when you need one compact map of Forge routes, references, templates, and scripts.
+
+| Route | Minimum Reference | Optional Reference | Useful Templates | Useful Scripts |
+|---|---|---|---|---|
+| Lite | none | `route-selector.md` | any single requested template | none |
+| Clarify | `clarify-first.md` | `brainstorm-to-mvp.md` | `brainstorm_canvas.md`, `OPTION_SET.md` | `idea_ranker.py` |
+| Project/MVP | `route-selector.md` | `brainstorm-to-mvp.md`, `scope-control.md`, `stage-gates.md`, `idea-backlog.md` | `mvp_plan.md`, `version_plan.md`, `PROJECT_STATE.md`, `IDEA_BACKLOG.md` | `new_project_scaffold.py` |
+| Reference Scout | `reference-scout.md` | `evidence-discipline.md` | `reference_candidates.csv`, `reference_scout_report.md`, `competitor_matrix.md` | `reference_ranker.py` |
+| Engineering Delivery | `engineering-delivery.md` | `definition-of-done.md`, then Review/Submit gate | `ACCEPTANCE_CHECK.md`, `EXECUTION_LOG.md`, `troubleshooting.md` | `project_audit.py` |
+| AI Orchestration | `ai-orchestration.md` | `definition-of-done.md` | `AI_TASK_BRIEF.md`, `AGENT_WORK_ORDER.md`, `TASK_QUEUE.md`, `REWORK_PROMPT.md` | none |
+| Review/Submit | `review-and-submit.md` | `multi-role-review.md` | `mr_description.md`, `ACCEPTANCE_CHECK.md` | `diff_review_helper.py` |
+| Docs/Compatibility | `docs-compatibility-api.md` | `definition-of-done.md` | `quickstart.md`, `api_doc.md`, `troubleshooting.md`, `PROJECT_HANDOFF.md` | `doc_index_builder.py` |
+| Automation | `automation-loop.md` | `stage-gates.md` | `AUTOMATION_PLAN.md`, `OPTION_SET.md`, `TASK_QUEUE.md` | `automation_initializer.py` |
+| Work Summary | `work-summary.md` | none | `WORK_SUMMARY.md`, `BOSS_REPORT.md`, `daily_report.md` | `state_initializer.py` |
+| Next Step | `next-step-protocol.md` | `route-selector.md`, `work-summary.md` | any current route artifact | none |
+| Capability Hints | `capability-hints.md` | `route-selector.md`, `next-step-protocol.md`, `work-summary.md` | current route artifact | none |
+
+## Template One-Liners
+
+- `ACCEPTANCE_CHECK.md`: verify whether an AI/user change meets explicit acceptance criteria.
+- `AGENT_WORK_ORDER.md`: hand a bounded coding/task order to another AI agent.
+- `AI_TASK_BRIEF.md`: split a goal into a compact AI task package.
+- `AUTOMATION_PLAN.md`: plan guided or confirmation-gated automation.
+- `BOSS_REPORT.md`: summarize progress for a manager or stakeholder.
+- `DECISION_LOG.md`: record technical/product decisions and trade-offs.
+- `EXECUTION_LOG.md`: record what was done and how it was verified.
+- `IDEA_BACKLOG.md`: park useful ideas deferred from the current version and define when to revisit them.
+- `OPTION_SET.md`: compare options and recommend one.
+- `PROJECT_HANDOFF.md`: prepare another person to run or continue the project.
+- `PROJECT_STATE.md`: capture current project status for later continuation.
+- `RETROSPECTIVE.md`: review what worked, what failed, and next improvements.
+- `REWORK_PROMPT.md`: ask an AI agent to fix failed acceptance checks.
+- `TASK_QUEUE.md`: track planned, active, blocked, and completed tasks.
+- `WORK_SUMMARY.md`: produce a concise completion or handoff summary.
+- `api_doc.md`: document CLI/API/SDK or integration surfaces.
+- `brainstorm_canvas.md`: diverge and converge ideas.
+- `competitor_matrix.md`: compare competitors or similar products.
+- `daily_report.md`: daily work record.
+- `mr_description.md`: PR/MR description.
+- `mvp_plan.md`: first shippable version scope.
+- `quickstart.md`: install, run, verify for real users.
+- `reference_scout_report.md`: summarize researched references and evidence.
+- `troubleshooting.md`: common failures and fixes.
+- `version_plan.md`: staged version roadmap.

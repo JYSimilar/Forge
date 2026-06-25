@@ -1,0 +1,9 @@
+interface:
+  display_name: "Forge 1.0"
+  short_description: "Turn ideas into shippable engineering projects"
+  default_prompt: "Use $forge token-saving by default: choose the smallest useful route, load only needed references, and turn this into an MVP, AI work order, review checklist, or delivery plan."
+
+policy:
+  allow_implicit_invocation: true
+
+# Explicit Burn Mode / 燃烧模式 is one-shot and expands visible artifacts without changing the core quality bar.
