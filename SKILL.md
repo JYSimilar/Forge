@@ -1,6 +1,6 @@
 ---
 name: forge
-description: "Use when a user is shaping an idea into an MVP, auditing an existing workspace, choosing next steps, preparing AI or multi-agent work orders, reviewing diffs, writing delivery docs, checking compatibility, automating safe progress, or deciding whether work is ready to ship."
+description: "Use when a user is shaping an idea into an MVP, auditing or field-testing an existing workspace, choosing next steps, preparing AI or multi-agent work orders, reviewing diffs, writing delivery docs, checking compatibility, automating safe progress, or deciding whether work is ready to ship."
 ---
 
 # Forge
@@ -27,6 +27,7 @@ Do not require `Forge:`. Apply Forge silently when requests are project-shaped:
 - "有没有现成方案", "参考一下", "别人怎么做" -> Reference Scout.
 - "给别人用", "普通人能跑", "写 README/Quick Start" -> Docs/Compatibility/Handoff.
 - "接手这个工程", "当前工作区有什么", "先自查", "列一个 md 汇总" -> Existing Project Audit.
+- "试跑 Forge", "field test", "验证这套流程", "沉淀摩擦点" -> Field Test Loop.
 - "改完能提交吗", "看 diff", "写 commit/PR" -> Review/Submit.
 - "交给 Codex/Claude/ChatGPT 做", "写提示词", "验收 AI 结果" -> AI Orchestration.
 - "多个模型协作", "多智能体", "前端后端测试分工" -> Multi-Agent Collaboration.
@@ -44,6 +45,7 @@ Choose one primary route; add another only when it changes the next action or re
 - **Reference Scout**: open-source, competitors, existing solutions, licenses, current facts. Read `reference-scout.md`.
 - **Engineering Delivery**: build, stabilize, test, package, or reduce project risk. Read `engineering-delivery.md`; add `definition-of-done.md` when acceptance is unclear.
 - **Existing Project Audit**: inspect workspace, detect projects, summarize materials, choose next gate. Read `existing-project-audit.md`; run `workspace_inventory.py` when useful.
+- **Field Test Loop**: validate Forge against a real workspace, record evidence, friction, and next improvements. Read `field-test-loop.md`; run `field_test_runner.py` when useful.
 - **AI Orchestration**: work orders, prompts, task queues, acceptance checks, rework prompts. Read `ai-orchestration.md`.
 - **Multi-Agent Collaboration**: multiple AI models, role split, agent JSON index, write boundaries. Read `multi-agent-collaboration.md`; validate `AGENT_INDEX.json` when produced.
 - **Review/Submit**: diff review, commit message, PR/MR, submit readiness. Read `review-and-submit.md`.
@@ -58,6 +60,7 @@ Choose one primary route; add another only when it changes the next action or re
 - **Evidence before completion**: do not claim work is complete without verification evidence or a clear note that verification was skipped.
 - **Next Step Protocol**: end non-trivial responses with a clear `下一步` / `Next step`, unless asked to stop or only produce the artifact.
 - **Capability Hints**: after meaningful non-trivial work, one optional `可选增强` may reveal a useful hidden Forge ability. Skip hints for tiny tasks, direct-result requests, or ignored hints. Use `references/capability-hints.md`.
+- **Field evidence loop**: when validating Forge itself, use real workspace evidence, name friction, and convert it into next-version improvements without modifying the target project.
 - **Brainstorm Everywhere**: at meaningful decisions, briefly diverge into options, converge on one recommendation, and park valuable deferred ideas in Idea Backlog. Skip for direct execution or tiny tasks.
 - **Work Summary**: after non-trivial tasks, close with a short summary of done, produced, verified, risks, next gate, and next step. No long reports by default.
 

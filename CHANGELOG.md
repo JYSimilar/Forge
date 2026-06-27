@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.6 - Field Test Loop
+
+- Added a repository `.gitignore` for local archives, macOS files, Python caches, logs, and root-level generated Forge artifacts.
+- Added `references/field-test-loop.md` and `FIELD_TEST_REPORT.md` for validating Forge against real workspaces.
+- Added `field_test_runner.py` to run read-only workspace field tests, write Markdown/JSON reports, and optionally validate `AGENT_INDEX.json`.
+- Added unit tests for empty workspaces, single projects, multiple projects, invalid inputs, invalid agent indexes, and secret redaction.
+- Updated SKILL routing, INDEX, README, QUICK_COMMANDS, trigger examples, and OpenAI metadata for Forge 1.6.
+
 ## v1.5.1 - Audit and Agent Index Hardening
 
 - Improved workspace inventory for monorepo/root-plus-child project detection, run/test command hints, max-file input validation, skipped directory notes, and scan-limit logging.

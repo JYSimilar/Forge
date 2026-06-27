@@ -9,6 +9,7 @@ Use this file when you need one compact map of Forge routes, references, templat
 | Project/MVP | `route-selector.md` | `brainstorm-to-mvp.md`, `scope-control.md`, `stage-gates.md`, `idea-backlog.md` | `mvp_plan.md`, `version_plan.md`, `PROJECT_STATE.md`, `IDEA_BACKLOG.md` | `new_project_scaffold.py` |
 | Reference Scout | `reference-scout.md` | `evidence-discipline.md` | `reference_candidates.csv`, `reference_scout_report.md`, `competitor_matrix.md` | `reference_ranker.py` |
 | Existing Project Audit | `existing-project-audit.md` | `engineering-delivery.md`, `definition-of-done.md` | `WORKSPACE_SUMMARY.md`, `PROJECT_STATE.md`, `TASK_QUEUE.md` | `workspace_inventory.py`, `project_audit.py` |
+| Field Test Loop | `field-test-loop.md` | `existing-project-audit.md`, `multi-agent-collaboration.md` | `FIELD_TEST_REPORT.md`, `WORKSPACE_SUMMARY.md` | `field_test_runner.py`, `workspace_inventory.py`, `agent_index_validator.py` |
 | Engineering Delivery | `engineering-delivery.md` | `definition-of-done.md`, then Review/Submit gate | `ACCEPTANCE_CHECK.md`, `EXECUTION_LOG.md`, `troubleshooting.md` | `project_audit.py` |
 | AI Orchestration | `ai-orchestration.md` | `definition-of-done.md`, `multi-agent-collaboration.md` | `AI_TASK_BRIEF.md`, `AGENT_WORK_ORDER.md`, `TASK_QUEUE.md`, `REWORK_PROMPT.md` | none |
 | Multi-Agent Collaboration | `multi-agent-collaboration.md` | `ai-orchestration.md`, `existing-project-audit.md` | `MULTI_AGENT_PLAN.md`, `AGENT_INDEX.json`, `AGENT_INDEX.schema.json`, `AGENT_TASK_CARD.md`, `ACCEPTANCE_CHECK.md` | `agent_index_validator.py`, `agent_index_update.py`, `workspace_inventory.py` |
@@ -31,6 +32,7 @@ Use this file when you need one compact map of Forge routes, references, templat
 - `BOSS_REPORT.md`: summarize progress for a manager or stakeholder.
 - `DECISION_LOG.md`: record technical/product decisions and trade-offs.
 - `EXECUTION_LOG.md`: record what was done and how it was verified.
+- `FIELD_TEST_REPORT.md`: record a real-workspace Forge field test, friction points, evidence, and next improvements.
 - `IDEA_BACKLOG.md`: park useful ideas deferred from the current version and define when to revisit them.
 - `MULTI_AGENT_PLAN.md`: human-readable plan for multi-agent collaboration.
 - `OPTION_SET.md`: compare options and recommend one.

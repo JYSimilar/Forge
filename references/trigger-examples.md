@@ -30,6 +30,10 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "根据当前已有资料列一个 md 汇总。" -> Existing Project Audit + Workspace Summary.
 - "如果这里有多个项目，先帮我识别出来。" -> Existing Project Audit.
 - "这个仓库像 monorepo 吗？识别 root、apps 和 packages。" -> Existing Project Audit.
+- "用这个真实项目试跑一下 Forge 的自查流程，并记录摩擦点。" -> Field Test Loop.
+- "跑一轮 field test，输出 FIELD_TEST_REPORT 和 field_test.json。" -> Field Test Loop.
+- "验证这套多智能体规划在当前项目上会不会卡住。" -> Field Test Loop + Multi-Agent Collaboration.
+- "把这轮使用 Forge 的问题沉淀成下一版改进建议。" -> Field Test Loop.
 - "帮我看这次改动能不能提交。" -> Review/Submit.
 - "帮我写一份别人也能看懂的 README。" -> Docs/Compatibility.
 - "帮我检查 Windows、Mac、Linux、Docker 都怎么跑。" -> Compatibility.
@@ -50,6 +54,7 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "这个想法别人是不是已经做过了？" -> Reference Scout.
 - "这个 demo 给朋友用会不会翻车？" -> Docs/Compatibility + risk.
 - "这个文件夹里有什么项目？" -> Existing Project Audit.
+- "这套 Forge 流程在这个项目上好不好用？" -> Field Test Loop.
 - "帮我写一段给 Codex 的任务。" -> AI Orchestration.
 - "这个任务要几个 AI 分工比较好？" -> Multi-Agent Collaboration.
 - "AI 改完了，你帮我看看行不行。" -> Review/Submit or Acceptance.
@@ -62,3 +67,4 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "prepare this for submit" -> Review/Submit.
 - "write docs for real users" -> Docs/Compatibility.
 - "find the biggest project risks" -> Engineering Delivery or Review.
+- "run a field test on this workspace" -> Field Test Loop.
