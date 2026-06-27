@@ -1,4 +1,5 @@
 {
+  "$schema": "./AGENT_INDEX.schema.json",
   "schema_version": "1.0",
   "task_id": "replace-with-task-id",
   "status": "planned",

@@ -94,6 +94,33 @@ class AgentIndexValidatorTests(unittest.TestCase):
         self.assertFalse(result.ok)
         self.assertTrue(any("unknown assigned_agent" in error for error in result.errors))
 
+    def test_unknown_task_dependency_fails(self):
+        payload = valid_index()
+        payload["tasks"][0]["dependencies"] = ["missing-task"]
+
+        result = agent_index_validator.validate_index(payload)
+
+        self.assertFalse(result.ok)
+        self.assertTrue(any("unknown dependency" in error for error in result.errors))
+
+    def test_agent_allowed_and_forbidden_scope_conflict_fails(self):
+        payload = valid_index()
+        payload["agents"][0]["forbidden_files"] = ["src/ui/components"]
+
+        result = agent_index_validator.validate_index(payload)
+
+        self.assertFalse(result.ok)
+        self.assertTrue(any("allowed_files conflicts with forbidden_files" in error for error in result.errors))
+
+    def test_task_output_outside_assigned_scope_fails(self):
+        payload = valid_index()
+        payload["tasks"][0]["output"] = ["src/api/server.ts"]
+
+        result = agent_index_validator.validate_index(payload)
+
+        self.assertFalse(result.ok)
+        self.assertTrue(any("outside allowed scope" in error for error in result.errors))
+
 
 if __name__ == "__main__":
     unittest.main()

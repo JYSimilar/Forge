@@ -29,6 +29,7 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "接手这个工程前，先帮我自查当前工作区。" -> Existing Project Audit.
 - "根据当前已有资料列一个 md 汇总。" -> Existing Project Audit + Workspace Summary.
 - "如果这里有多个项目，先帮我识别出来。" -> Existing Project Audit.
+- "这个仓库像 monorepo 吗？识别 root、apps 和 packages。" -> Existing Project Audit.
 - "帮我看这次改动能不能提交。" -> Review/Submit.
 - "帮我写一份别人也能看懂的 README。" -> Docs/Compatibility.
 - "帮我检查 Windows、Mac、Linux、Docker 都怎么跑。" -> Compatibility.
@@ -36,6 +37,7 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "让前端、后端、测试几个 AI 分工协作。" -> Multi-Agent Collaboration.
 - "我想自己定义每个智能体用什么模型。" -> Multi-Agent Collaboration.
 - "给我一个人类看的协作计划和 AI 看的 JSON 索引。" -> Multi-Agent Collaboration.
+- "把 AGENT_INDEX 里的 T1 标成 done，并记录验证证据。" -> Multi-Agent Collaboration status update.
 - "AI 做完了，帮我验收一下，不合格就给返工提示词。" -> Acceptance + Rework.
 - "我想自动完成这个目标，先给我几个可选路线。" -> Automation.
 

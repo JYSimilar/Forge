@@ -11,7 +11,7 @@ Use this file when you need one compact map of Forge routes, references, templat
 | Existing Project Audit | `existing-project-audit.md` | `engineering-delivery.md`, `definition-of-done.md` | `WORKSPACE_SUMMARY.md`, `PROJECT_STATE.md`, `TASK_QUEUE.md` | `workspace_inventory.py`, `project_audit.py` |
 | Engineering Delivery | `engineering-delivery.md` | `definition-of-done.md`, then Review/Submit gate | `ACCEPTANCE_CHECK.md`, `EXECUTION_LOG.md`, `troubleshooting.md` | `project_audit.py` |
 | AI Orchestration | `ai-orchestration.md` | `definition-of-done.md`, `multi-agent-collaboration.md` | `AI_TASK_BRIEF.md`, `AGENT_WORK_ORDER.md`, `TASK_QUEUE.md`, `REWORK_PROMPT.md` | none |
-| Multi-Agent Collaboration | `multi-agent-collaboration.md` | `ai-orchestration.md`, `existing-project-audit.md` | `MULTI_AGENT_PLAN.md`, `AGENT_INDEX.json`, `AGENT_TASK_CARD.md`, `ACCEPTANCE_CHECK.md` | `agent_index_validator.py`, `workspace_inventory.py` |
+| Multi-Agent Collaboration | `multi-agent-collaboration.md` | `ai-orchestration.md`, `existing-project-audit.md` | `MULTI_AGENT_PLAN.md`, `AGENT_INDEX.json`, `AGENT_INDEX.schema.json`, `AGENT_TASK_CARD.md`, `ACCEPTANCE_CHECK.md` | `agent_index_validator.py`, `agent_index_update.py`, `workspace_inventory.py` |
 | Review/Submit | `review-and-submit.md` | `multi-role-review.md` | `mr_description.md`, `ACCEPTANCE_CHECK.md` | `diff_review_helper.py` |
 | Docs/Compatibility | `docs-compatibility-api.md` | `definition-of-done.md` | `quickstart.md`, `api_doc.md`, `troubleshooting.md`, `PROJECT_HANDOFF.md` | `doc_index_builder.py` |
 | Automation | `automation-loop.md` | `stage-gates.md` | `AUTOMATION_PLAN.md`, `OPTION_SET.md`, `TASK_QUEUE.md` | `automation_initializer.py` |
@@ -24,6 +24,7 @@ Use this file when you need one compact map of Forge routes, references, templat
 - `ACCEPTANCE_CHECK.md`: verify whether an AI/user change meets explicit acceptance criteria.
 - `AGENT_WORK_ORDER.md`: hand a bounded coding/task order to another AI agent.
 - `AGENT_INDEX.json`: machine-readable multi-agent index with agents, tasks, status, and write locks.
+- `AGENT_INDEX.schema.json`: schema reference for the machine-readable multi-agent index.
 - `AGENT_TASK_CARD.md`: bounded task card for one AI executor.
 - `AI_TASK_BRIEF.md`: split a goal into a compact AI task package.
 - `AUTOMATION_PLAN.md`: plan guided or confirmation-gated automation.

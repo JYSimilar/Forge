@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.5.1 - Audit and Agent Index Hardening
+
+- Improved workspace inventory for monorepo/root-plus-child project detection, run/test command hints, max-file input validation, skipped directory notes, and scan-limit logging.
+- Added `AGENT_INDEX.schema.json` and stricter agent index validation for task dependencies, allowed/forbidden scope conflicts, and task outputs outside assigned agent scopes.
+- Added `agent_index_update.py` for safe status/evidence/artifact updates using atomic JSON writes.
+- Added workflow examples for existing-project audit and multi-agent collaboration.
+- Updated README, QUICK_COMMANDS, INDEX, and references for the new hardening behavior.
+
 ## v1.5 - Existing Project Audit and Multi-Agent Collaboration
 
 - Added `references/existing-project-audit.md` for detecting existing workspaces, generating workspace summaries, and choosing next quality gates.

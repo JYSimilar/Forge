@@ -1,6 +1,8 @@
 import json
+import io
 import tempfile
 import unittest
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 
 from scripts import workspace_inventory
@@ -45,6 +47,65 @@ class WorkspaceInventoryTests(unittest.TestCase):
 
         self.assertEqual(result["status"], "multiple_projects")
         self.assertEqual(len(result["projects"]), 2)
+
+    def test_root_project_with_child_workspaces_reports_multiple_projects(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            apps = root / "apps" / "web"
+            packages = root / "packages" / "core"
+            apps.mkdir(parents=True)
+            packages.mkdir(parents=True)
+            (root / "package.json").write_text('{"workspaces":["apps/*","packages/*"],"scripts":{"test":"turbo test"}}', encoding="utf-8")
+            (apps / "package.json").write_text('{"scripts":{"dev":"vite","test":"vitest"}}', encoding="utf-8")
+            (packages / "package.json").write_text('{"scripts":{"build":"tsc"}}', encoding="utf-8")
+
+            result = workspace_inventory.scan_workspace(root)
+            paths = {project["path"] for project in result["projects"]}
+
+        self.assertEqual(result["status"], "multiple_projects")
+        self.assertIn(".", paths)
+        self.assertIn("apps/web", paths)
+        self.assertIn("packages/core", paths)
+
+    def test_command_hints_include_package_makefile_and_docker(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "project"
+            root.mkdir()
+            (root / "package.json").write_text('{"scripts":{"dev":"vite","test":"vitest"}}', encoding="utf-8")
+            (root / "Makefile").write_text("test:\n\tpytest\nrun:\n\tpython app.py\n", encoding="utf-8")
+            (root / "Dockerfile").write_text("FROM python:3.12\n", encoding="utf-8")
+
+            project = workspace_inventory.scan_workspace(root)["projects"][0]
+
+        self.assertIn("npm run dev", project["run_commands"])
+        self.assertIn("npm test", project["test_commands"])
+        self.assertIn("make test", project["test_commands"])
+        self.assertIn("docker build -t project .", project["run_commands"])
+
+    def test_invalid_max_files_returns_input_error(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            with redirect_stderr(io.StringIO()), redirect_stdout(io.StringIO()):
+                code = workspace_inventory.run(tmp, max_files=0)
+
+        self.assertEqual(code, 2)
+
+    def test_log_records_skipped_dirs_and_scan_limit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "project"
+            root.mkdir()
+            (root / "package.json").write_text('{"scripts":{"test":"vitest"}}', encoding="utf-8")
+            (root / "node_modules").mkdir()
+            (root / "a.js").write_text("console.log(1)\n", encoding="utf-8")
+            (root / "b.js").write_text("console.log(2)\n", encoding="utf-8")
+            log_path = Path(tmp) / "scan.log"
+
+            with redirect_stdout(io.StringIO()):
+                code = workspace_inventory.run(str(root), log_path=str(log_path), max_files=1)
+            log_text = log_path.read_text(encoding="utf-8")
+
+        self.assertEqual(code, 0)
+        self.assertIn("skipped_dir=node_modules", log_text)
+        self.assertIn("file_limit_reached=1", log_text)
 
     def test_writes_markdown_json_and_redacted_log(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -51,6 +51,29 @@ def _scopes_overlap(left: str, right: str) -> bool:
     return a == b or a.startswith(b + "/") or b.startswith(a + "/")
 
 
+def _within_any_scope(path: str, scopes: list[str]) -> bool:
+    normalized = _scope(path)
+    return any(normalized == _scope(scope) or normalized.startswith(_scope(scope) + "/") for scope in scopes)
+
+
+def _artifact_scopes(payload: dict[str, Any]) -> list[str]:
+    artifacts = payload.get("artifacts")
+    scopes: list[str] = []
+
+    def collect(value: Any) -> None:
+        if isinstance(value, str) and value.strip():
+            scopes.append(value)
+        elif isinstance(value, list):
+            for item in value:
+                collect(item)
+        elif isinstance(value, dict):
+            for item in value.values():
+                collect(item)
+
+    collect(artifacts)
+    return scopes
+
+
 def validate_index(payload: Any) -> ValidationResult:
     errors: list[str] = []
     warnings: list[str] = []
@@ -78,6 +101,7 @@ def validate_index(payload: Any) -> ValidationResult:
         write_locks = []
 
     agent_ids: set[str] = set()
+    agents_by_id: dict[str, dict[str, Any]] = {}
     allowed_scopes: list[tuple[str, str]] = []
     for index, agent in enumerate(agents):
         label = f"agents[{index}]"
@@ -93,12 +117,18 @@ def validate_index(payload: Any) -> ValidationResult:
             if agent_id in agent_ids:
                 errors.append(f"{label}.id duplicates agent id {agent_id!r}")
             agent_ids.add(agent_id)
+            agents_by_id[agent_id] = agent
         for key in ("allowed_files", "forbidden_files"):
             _expect_string_list(agent, key, label, errors)
         if isinstance(agent.get("allowed_files"), list) and _is_text(agent_id):
             for scope in agent["allowed_files"]:
                 if isinstance(scope, str) and scope.strip():
                     allowed_scopes.append((agent_id, scope))
+        if isinstance(agent.get("allowed_files"), list) and isinstance(agent.get("forbidden_files"), list):
+            for allowed in agent["allowed_files"]:
+                for forbidden in agent["forbidden_files"]:
+                    if isinstance(allowed, str) and isinstance(forbidden, str) and _scopes_overlap(allowed, forbidden):
+                        errors.append(f"{label}.allowed_files conflicts with forbidden_files: {allowed} vs {forbidden}")
 
     for left_index, (left_agent, left_scope) in enumerate(allowed_scopes):
         for right_agent, right_scope in allowed_scopes[left_index + 1 :]:
@@ -108,6 +138,8 @@ def validate_index(payload: Any) -> ValidationResult:
                     f"{left_agent}:{left_scope} conflicts with {right_agent}:{right_scope}"
                 )
 
+    task_ids = {task.get("id") for task in tasks if isinstance(task, dict) and _is_text(task.get("id"))}
+    shared_artifacts = _artifact_scopes(payload)
     for index, task in enumerate(tasks):
         label = f"tasks[{index}]"
         if not isinstance(task, dict):
@@ -122,6 +154,21 @@ def validate_index(payload: Any) -> ValidationResult:
         assigned = task.get("assigned_agent")
         if _is_text(assigned) and assigned not in agent_ids:
             errors.append(f"{label}.assigned_agent references unknown assigned_agent {assigned!r}")
+        dependencies = task.get("dependencies")
+        if isinstance(dependencies, list):
+            for dependency in dependencies:
+                if isinstance(dependency, str) and dependency not in task_ids:
+                    errors.append(f"{label}.dependencies references unknown dependency {dependency!r}")
+        outputs = task.get("output")
+        if _is_text(assigned) and assigned in agents_by_id and isinstance(outputs, list):
+            allowed = agents_by_id[assigned].get("allowed_files", [])
+            if not isinstance(allowed, list):
+                allowed = []
+            for output in outputs:
+                if not isinstance(output, str):
+                    continue
+                if not _within_any_scope(output, allowed) and not _within_any_scope(output, shared_artifacts):
+                    errors.append(f"{label}.output {output!r} is outside allowed scope for agent {assigned!r}")
 
     lock_owners: dict[str, str] = {}
     for index, lock in enumerate(write_locks):

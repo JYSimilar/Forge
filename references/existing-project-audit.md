@@ -13,9 +13,9 @@ Do not use this for one-line artifacts such as commit messages, small wording ch
 
 ## Workflow
 
-1. **Detect**: check the current directory for project signals such as manifests, README, code files, tests, scripts, and `.git`.
+1. **Detect**: check the current directory for project signals such as manifests, README, code files, tests, scripts, `.git`, and monorepo child projects.
 2. **Classify**: return exactly one status: `no_project`, `single_project`, or `multiple_projects`.
-3. **Summarize facts**: list project type, manifests, docs, run/test signals, languages, and obvious risks.
+3. **Summarize facts**: list project type, manifests, docs, run/test commands, languages, skipped scan notes, and obvious risks.
 4. **Separate facts from assumptions**: say when something was inferred or not verified.
 5. **Recommend next options**: give 2-3 concrete choices with explanations.
 6. **Route onward**: after audit, continue to Engineering Delivery, AI Orchestration, Review/Submit, Docs/Compatibility, or Multi-Agent Collaboration only if useful.
@@ -50,7 +50,7 @@ Status behavior:
 
 - `no_project`: explain that no clear project was detected and offer selecting a directory, creating a scaffold, or using pasted docs.
 - `single_project`: summarize the detected project and recommend the next quality gate.
-- `multiple_projects`: list candidates, recommend the likely target if obvious, and ask the user to confirm before write-heavy work.
+- `multiple_projects`: list root/child candidates, recommend the likely target if obvious, and ask the user to confirm before write-heavy work.
 
 ## Risk Checks
 

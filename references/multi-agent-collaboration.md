@@ -62,18 +62,25 @@ Use `assets/templates/AGENT_TASK_CARD.md`.
 
 Human index: use `assets/templates/MULTI_AGENT_PLAN.md`.
 
-Machine index: use `assets/templates/AGENT_INDEX.json`, then validate with:
+Machine index: use `assets/templates/AGENT_INDEX.json`; structure is documented in `assets/templates/AGENT_INDEX.schema.json`. Validate before execution:
 
 ```bash
 python scripts/agent_index_validator.py AGENT_INDEX.json
 ```
 
-The JSON index should track agents, tasks, dependencies, write locks, status, and artifacts. It is the shared state; do not rely on chat memory as hidden state.
+The JSON index should track agents, tasks, dependencies, write locks, status, evidence, and artifacts. It is the shared state; do not rely on chat memory as hidden state.
+
+Use `agent_index_update.py` for safe status changes:
+
+```bash
+python scripts/agent_index_update.py AGENT_INDEX.json --type task --id T1 --status done --evidence "tests passed"
+```
 
 ## Boundary Gates
 
 - Validate paths, JSON, statuses, agent ids, model fields, and file scopes.
 - Default to no concurrent writes to the same file or nested path.
+- Check task dependencies and ensure task outputs stay inside the assigned agent's allowed scope or a declared shared artifact.
 - Use a coordinator/integrator for overlapping interfaces.
 - Log status and evidence, not secret values.
 - If an agent fails, change something before retry: add context, split the task, upgrade model, or ask the user.
