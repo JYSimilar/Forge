@@ -34,6 +34,11 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "跑一轮 field test，输出 FIELD_TEST_REPORT 和 field_test.json。" -> Field Test Loop.
 - "验证这套多智能体规划在当前项目上会不会卡住。" -> Field Test Loop + Multi-Agent Collaboration.
 - "把这轮使用 Forge 的问题沉淀成下一版改进建议。" -> Field Test Loop.
+- "对这个 Skill 仓库跑一轮 field test，检查 quick_validate、测试命令和发布风险。" -> Field Test Loop + Release Readiness.
+- "先不要拆实现，帮我设计 router skill + 子 skill 的插件化路线图。" -> Pluginization Roadmap.
+- "像 Superpowers 那样拆成多个能力时，哪些应该是子 skill？" -> Pluginization Roadmap.
+- "按 RELEASE_CHECKLIST 检查这版能不能打 tag 发布。" -> Release Readiness.
+- "帮我整理 GitHub 安装说明、版本 tag、验证命令和已知风险。" -> Release Readiness.
 - "帮我看这次改动能不能提交。" -> Review/Submit.
 - "帮我写一份别人也能看懂的 README。" -> Docs/Compatibility.
 - "帮我检查 Windows、Mac、Linux、Docker 都怎么跑。" -> Compatibility.
@@ -55,6 +60,8 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "这个 demo 给朋友用会不会翻车？" -> Docs/Compatibility + risk.
 - "这个文件夹里有什么项目？" -> Existing Project Audit.
 - "这套 Forge 流程在这个项目上好不好用？" -> Field Test Loop.
+- "这个 skill 能不能以后拆成插件？" -> Pluginization Roadmap.
+- "这版能不能发布？" -> Release Readiness.
 - "帮我写一段给 Codex 的任务。" -> AI Orchestration.
 - "这个任务要几个 AI 分工比较好？" -> Multi-Agent Collaboration.
 - "AI 改完了，你帮我看看行不行。" -> Review/Submit or Acceptance.
@@ -68,3 +75,5 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "write docs for real users" -> Docs/Compatibility.
 - "find the biggest project risks" -> Engineering Delivery or Review.
 - "run a field test on this workspace" -> Field Test Loop.
+- "plan a future plugin split" -> Pluginization Roadmap.
+- "prepare this release" -> Release Readiness.

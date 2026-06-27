@@ -95,6 +95,26 @@ class WorkspaceInventoryTests(unittest.TestCase):
 
         self.assertIn("python3 -m unittest discover -s tests -v", project["test_commands"])
 
+    def test_skill_repo_reports_skill_signals_and_validation_command(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "SKILL.md").write_text("---\nname: demo\ndescription: Use when testing.\n---\n", encoding="utf-8")
+            (root / "agents").mkdir()
+            (root / "agents" / "openai.yaml").write_text("interface:\n  display_name: Demo\n", encoding="utf-8")
+            (root / "references").mkdir()
+            (root / "assets" / "templates").mkdir(parents=True)
+            (root / "scripts").mkdir()
+            (root / "tests").mkdir()
+            (root / "tests" / "test_demo.py").write_text("def test_demo():\n    assert True\n", encoding="utf-8")
+
+            project = workspace_inventory.scan_workspace(root)["projects"][0]
+
+        self.assertEqual(project["project_type"], "skill")
+        self.assertIn("SKILL.md", project["skill_signals"])
+        self.assertIn("agents/openai.yaml", project["skill_signals"])
+        self.assertIn("python3 .../quick_validate.py .", project["validation_commands"])
+        self.assertIn("python3 -m unittest discover -s tests -v", project["test_commands"])
+
     def test_invalid_max_files_returns_input_error(self):
         with tempfile.TemporaryDirectory() as tmp:
             with redirect_stderr(io.StringIO()), redirect_stdout(io.StringIO()):

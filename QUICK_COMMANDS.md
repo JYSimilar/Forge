@@ -126,6 +126,38 @@ Forge: 验证这套多智能体规划在当前项目上会不会卡住。
 Forge: 把这轮使用 Forge 的问题沉淀成下一版改进建议。
 ```
 
+```text
+Forge: 对这个 Skill 仓库跑一轮 field test，检查 quick_validate、测试命令和发布风险。
+```
+
+## Pluginization / 插件化设计
+
+```text
+Forge: 先不要拆实现，帮我设计 router skill + 子 skill 的插件化路线图。
+```
+
+```text
+Forge: 像 Superpowers 那样拆成多个能力时，哪些应该是子 skill，哪些继续留在 router？
+```
+
+```text
+Forge: 用 PLUGINIZATION_PLAN 模板规划未来怎么拆，但这轮不要真的拆。
+```
+
+## Release Readiness / 发布检查
+
+```text
+Forge: 按 RELEASE_CHECKLIST 检查这版能不能打 tag 发布。
+```
+
+```text
+Forge: 帮我整理 GitHub 安装说明、版本 tag、验证命令和已知风险。
+```
+
+```text
+Forge: 这版准备发布前，检查不要把 zip、缓存、日志或本地运行产物提交上去。
+```
+
 ## Multi-Agent Collaboration / 多智能体协作
 
 ```text

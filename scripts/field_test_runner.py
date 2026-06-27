@@ -64,8 +64,10 @@ def _project_lines(project: dict[str, Any]) -> list[str]:
         f"  - Manifests: {', '.join(project['manifests']) or 'none'}",
         f"  - Languages: {', '.join(project['languages']) or 'unknown'}",
         f"  - Docs: {', '.join(project['docs']) or 'none'}",
+        f"  - Skill signals: {', '.join(project.get('skill_signals', [])) or 'none'}",
         f"  - Run commands: {', '.join(project['run_commands']) or 'none inferred'}",
         f"  - Test commands: {', '.join(project['test_commands']) or 'none inferred'}",
+        f"  - Validation commands: {', '.join(project.get('validation_commands', [])) or 'none inferred'}",
         f"  - Risks: {', '.join(project['risk_flags']) or 'none obvious'}",
     ]
 
@@ -79,7 +81,7 @@ def _friction_points(inventory: dict[str, Any], agent_index: dict[str, Any]) -> 
         points.append("Multiple project candidates were detected; confirm the target before write-heavy work.")
 
     for project in inventory["projects"]:
-        if not project["run_commands"]:
+        if not project["run_commands"] and not project.get("validation_commands"):
             points.append(f"{project['path']}: no run command was inferred.")
         if not project["test_commands"]:
             points.append(f"{project['path']}: no test command was inferred.")

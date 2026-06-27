@@ -125,6 +125,27 @@ class FieldTestRunnerTests(unittest.TestCase):
         self.assertNotIn("sk-secret", payload_text)
         self.assertNotIn("sk-secret", report)
 
+    def test_skill_repo_validation_command_suppresses_missing_run_friction(self):
+        from scripts import field_test_runner
+
+        with tempfile.TemporaryDirectory() as tmp:
+            workspace = Path(tmp) / "skill"
+            out_dir = Path(tmp) / "out"
+            workspace.mkdir()
+            (workspace / "SKILL.md").write_text("---\nname: demo\ndescription: Use when testing.\n---\n", encoding="utf-8")
+            (workspace / "tests").mkdir()
+            (workspace / "tests" / "test_demo.py").write_text("def test_demo():\n    assert True\n", encoding="utf-8")
+
+            with redirect_stdout(io.StringIO()):
+                code = field_test_runner.run(str(workspace), str(out_dir))
+
+            payload = json.loads((out_dir / "field_test.json").read_text(encoding="utf-8"))
+            report = (out_dir / "FIELD_TEST_REPORT.md").read_text(encoding="utf-8")
+
+        self.assertEqual(code, 0)
+        self.assertIn("Validation commands: python3 .../quick_validate.py .", report)
+        self.assertNotIn(".: no run command was inferred.", payload["friction_points"])
+
 
 if __name__ == "__main__":
     unittest.main()

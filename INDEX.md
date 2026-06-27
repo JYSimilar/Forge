@@ -10,11 +10,13 @@ Use this file when you need one compact map of Forge routes, references, templat
 | Reference Scout | `reference-scout.md` | `evidence-discipline.md` | `reference_candidates.csv`, `reference_scout_report.md`, `competitor_matrix.md` | `reference_ranker.py` |
 | Existing Project Audit | `existing-project-audit.md` | `engineering-delivery.md`, `definition-of-done.md` | `WORKSPACE_SUMMARY.md`, `PROJECT_STATE.md`, `TASK_QUEUE.md` | `workspace_inventory.py`, `project_audit.py` |
 | Field Test Loop | `field-test-loop.md` | `existing-project-audit.md`, `multi-agent-collaboration.md` | `FIELD_TEST_REPORT.md`, `WORKSPACE_SUMMARY.md` | `field_test_runner.py`, `workspace_inventory.py`, `agent_index_validator.py` |
+| Pluginization Roadmap | `pluginization-roadmap.md` | `route-selector.md`, `ai-orchestration.md` | `PLUGINIZATION_PLAN.md` | none |
 | Engineering Delivery | `engineering-delivery.md` | `definition-of-done.md`, then Review/Submit gate | `ACCEPTANCE_CHECK.md`, `EXECUTION_LOG.md`, `troubleshooting.md` | `project_audit.py` |
 | AI Orchestration | `ai-orchestration.md` | `definition-of-done.md`, `multi-agent-collaboration.md` | `AI_TASK_BRIEF.md`, `AGENT_WORK_ORDER.md`, `TASK_QUEUE.md`, `REWORK_PROMPT.md` | none |
 | Multi-Agent Collaboration | `multi-agent-collaboration.md` | `ai-orchestration.md`, `existing-project-audit.md` | `MULTI_AGENT_PLAN.md`, `AGENT_INDEX.json`, `AGENT_INDEX.schema.json`, `AGENT_TASK_CARD.md`, `ACCEPTANCE_CHECK.md` | `agent_index_validator.py`, `agent_index_update.py`, `workspace_inventory.py` |
 | Review/Submit | `review-and-submit.md` | `multi-role-review.md` | `mr_description.md`, `ACCEPTANCE_CHECK.md` | `diff_review_helper.py` |
 | Docs/Compatibility | `docs-compatibility-api.md` | `definition-of-done.md` | `quickstart.md`, `api_doc.md`, `troubleshooting.md`, `PROJECT_HANDOFF.md` | `doc_index_builder.py` |
+| Release Readiness | `review-and-submit.md` | `docs-compatibility-api.md`, `field-test-loop.md` | `RELEASE_CHECKLIST.md`, `PROJECT_HANDOFF.md`, `BOSS_REPORT.md` | `field_test_runner.py` |
 | Automation | `automation-loop.md` | `stage-gates.md` | `AUTOMATION_PLAN.md`, `OPTION_SET.md`, `TASK_QUEUE.md` | `automation_initializer.py` |
 | Work Summary | `work-summary.md` | none | `WORK_SUMMARY.md`, `BOSS_REPORT.md`, `daily_report.md` | `state_initializer.py` |
 | Next Step | `next-step-protocol.md` | `route-selector.md`, `work-summary.md` | any current route artifact | none |
@@ -36,9 +38,11 @@ Use this file when you need one compact map of Forge routes, references, templat
 - `IDEA_BACKLOG.md`: park useful ideas deferred from the current version and define when to revisit them.
 - `MULTI_AGENT_PLAN.md`: human-readable plan for multi-agent collaboration.
 - `OPTION_SET.md`: compare options and recommend one.
+- `PLUGINIZATION_PLAN.md`: plan a future router skill, child skills, shared artifacts, and migration gates.
 - `PROJECT_HANDOFF.md`: prepare another person to run or continue the project.
 - `PROJECT_STATE.md`: capture current project status for later continuation.
 - `RETROSPECTIVE.md`: review what worked, what failed, and next improvements.
+- `RELEASE_CHECKLIST.md`: check validation, packaging, git, tag, release notes, risks, and next steps before publishing.
 - `REWORK_PROMPT.md`: ask an AI agent to fix failed acceptance checks.
 - `TASK_QUEUE.md`: track planned, active, blocked, and completed tasks.
 - `WORK_SUMMARY.md`: produce a concise completion or handoff summary.

@@ -70,6 +70,7 @@ RUN_SCRIPT_NAMES = {"dev", "start", "serve"}
 TEST_SCRIPT_NAMES = {"test", "tests"}
 BUILD_SCRIPT_NAMES = {"build", "compile"}
 PROJECT_CONTAINER_DIRS = {"apps", "packages", "services", "frontend", "backend"}
+SKILL_VALIDATION_COMMAND = "python3 .../quick_validate.py ."
 
 
 def _rel(path: Path, root: Path) -> str:
@@ -111,8 +112,22 @@ def _manifest_names(root: Path) -> list[str]:
     return sorted(name for name in MANIFEST_TYPES if (root / name).exists())
 
 
+def _skill_signals(root: Path) -> list[str]:
+    signals: list[str] = []
+    if (root / "SKILL.md").exists():
+        signals.append("SKILL.md")
+    if (root / "agents" / "openai.yaml").exists():
+        signals.append("agents/openai.yaml")
+    for path in ("references", "assets/templates", "scripts", "tests"):
+        if (root / path).is_dir():
+            signals.append(path)
+    return signals
+
+
 def _has_project_signal(root: Path) -> bool:
     if _manifest_names(root):
+        return True
+    if (root / "SKILL.md").exists():
         return True
     if (root / ".git").exists() and _has_code(root):
         return True
@@ -202,13 +217,22 @@ def _make_targets(root: Path) -> set[str]:
     return targets
 
 
-def _command_hints(root: Path, scripts: list[str], test_indicators: set[str]) -> dict[str, list[str]]:
+def _command_hints(
+    root: Path,
+    scripts: list[str],
+    test_indicators: set[str],
+    skill_signals: list[str],
+) -> dict[str, list[str]]:
     manager = _package_manager(root)
     run_commands: set[str] = set()
     test_commands: set[str] = set()
     build_commands: set[str] = set()
+    validation_commands: set[str] = set()
     tooling: set[str] = set()
 
+    if "SKILL.md" in skill_signals:
+        tooling.add("skill")
+        validation_commands.add(SKILL_VALIDATION_COMMAND)
     if scripts:
         tooling.add(manager)
     for script in scripts:
@@ -247,6 +271,7 @@ def _command_hints(root: Path, scripts: list[str], test_indicators: set[str]) ->
         "run_commands": sorted(run_commands),
         "test_commands": sorted(test_commands),
         "build_commands": sorted(build_commands),
+        "validation_commands": sorted(validation_commands),
         "tooling": sorted(tooling),
     }
 
@@ -275,7 +300,8 @@ def _summarize_project(project_root: Path, workspace_root: Path, max_files: int,
 
     docs = [name for name in DOC_NAMES if (project_root / name).exists()]
     scripts = _package_scripts(project_root)
-    commands = _command_hints(project_root, scripts, test_indicators)
+    skill_signals = _skill_signals(project_root)
+    commands = _command_hints(project_root, scripts, test_indicators, skill_signals)
     risk_flags: list[str] = []
     if "README.md" not in docs:
         risk_flags.append("missing_readme")
@@ -284,7 +310,9 @@ def _summarize_project(project_root: Path, workspace_root: Path, max_files: int,
     if (project_root / ".git").exists() and not (project_root / ".gitignore").exists():
         risk_flags.append("missing_gitignore")
 
-    if len(manifest_types) > 1:
+    if "SKILL.md" in skill_signals:
+        project_type = "skill"
+    elif len(manifest_types) > 1:
         project_type = "mixed"
     elif manifest_types:
         project_type = manifest_types[0]
@@ -301,6 +329,7 @@ def _summarize_project(project_root: Path, workspace_root: Path, max_files: int,
         "languages": sorted(languages),
         "docs": docs,
         "scripts": scripts,
+        "skill_signals": skill_signals,
         "test_indicators": sorted(test_indicators),
         **commands,
         "risk_flags": risk_flags,
@@ -384,8 +413,10 @@ def render_markdown(result: dict[str, Any]) -> str:
                 f"  - Languages: {', '.join(project['languages']) or 'unknown'}",
                 f"  - Docs: {', '.join(project['docs']) or 'none'}",
                 f"  - Scripts: {', '.join(project['scripts']) or 'none'}",
+                f"  - Skill signals: {', '.join(project.get('skill_signals', [])) or 'none'}",
                 f"  - Run commands: {', '.join(project['run_commands']) or 'none inferred'}",
                 f"  - Test commands: {', '.join(project['test_commands']) or 'none inferred'}",
+                f"  - Validation commands: {', '.join(project.get('validation_commands', [])) or 'none inferred'}",
                 f"  - Tests: {', '.join(project['test_indicators']) or 'none detected'}",
                 f"  - Risks: {', '.join(project['risk_flags']) or 'none obvious'}",
             ]

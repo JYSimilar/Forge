@@ -1,6 +1,6 @@
 ---
 name: forge
-description: "Use when a user is shaping an idea into an MVP, auditing or field-testing an existing workspace, choosing next steps, preparing AI or multi-agent work orders, reviewing diffs, writing delivery docs, checking compatibility, automating safe progress, or deciding whether work is ready to ship."
+description: "Use when a user is shaping an idea into an MVP, auditing or field-testing an existing workspace, choosing next steps, preparing AI or multi-agent work orders, reviewing diffs, writing delivery docs, checking compatibility, automating safe progress, planning pluginization, preparing releases, or deciding whether work is ready to ship."
 ---
 
 # Forge
@@ -28,6 +28,8 @@ Do not require `Forge:`. Apply Forge silently when requests are project-shaped:
 - "给别人用", "普通人能跑", "写 README/Quick Start" -> Docs/Compatibility/Handoff.
 - "接手这个工程", "当前工作区有什么", "先自查", "列一个 md 汇总" -> Existing Project Audit.
 - "试跑 Forge", "field test", "验证这套流程", "沉淀摩擦点" -> Field Test Loop.
+- "插件化", "拆成多个 skill", "router skill", "像 Superpowers 那样" -> Pluginization Roadmap.
+- "发布", "打 tag", "release checklist", "安装说明" -> Release Readiness.
 - "改完能提交吗", "看 diff", "写 commit/PR" -> Review/Submit.
 - "交给 Codex/Claude/ChatGPT 做", "写提示词", "验收 AI 结果" -> AI Orchestration.
 - "多个模型协作", "多智能体", "前端后端测试分工" -> Multi-Agent Collaboration.
@@ -46,10 +48,12 @@ Choose one primary route; add another only when it changes the next action or re
 - **Engineering Delivery**: build, stabilize, test, package, or reduce project risk. Read `engineering-delivery.md`; add `definition-of-done.md` when acceptance is unclear.
 - **Existing Project Audit**: inspect workspace, detect projects, summarize materials, choose next gate. Read `existing-project-audit.md`; run `workspace_inventory.py` when useful.
 - **Field Test Loop**: validate Forge against a real workspace, record evidence, friction, and next improvements. Read `field-test-loop.md`; run `field_test_runner.py` when useful.
+- **Pluginization Roadmap**: plan future router skill, child skills, plugin packaging, and migration gates. Read `pluginization-roadmap.md`; do not split Forge by default.
 - **AI Orchestration**: work orders, prompts, task queues, acceptance checks, rework prompts. Read `ai-orchestration.md`.
 - **Multi-Agent Collaboration**: multiple AI models, role split, agent JSON index, write boundaries. Read `multi-agent-collaboration.md`; validate `AGENT_INDEX.json` when produced.
 - **Review/Submit**: diff review, commit message, PR/MR, submit readiness. Read `review-and-submit.md`.
 - **Docs/Compatibility**: README, Quick Start, API/CLI/SDK, install, device/mock/offline, handoff. Read `docs-compatibility-api.md`.
+- **Release Readiness**: release checklist, tag, install notes, validation evidence, public handoff. Use `RELEASE_CHECKLIST.md`; add Review/Submit when code changed.
 - **Automation**: guided execution, option sets, task queues, confirmation gates. Read `automation-loop.md`.
 - **Trigger Examples**: read `trigger-examples.md` only when the user asks how to call Forge or examples are needed.
 

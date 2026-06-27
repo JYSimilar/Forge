@@ -1,10 +1,14 @@
 # Changelog
 
-## v1.7 - Field-Test Feedback
+## v1.7 - Field-Test Feedback and Release Readiness
 
 - Used Forge 1.6 field-test evidence to improve `workspace_inventory.py`.
 - Added Python unittest command inference for codebases with `tests/` but no Python manifest, such as skill repositories.
 - Added a regression test for manifest-free Python projects so field tests no longer report missing test commands for this case.
+- Added Skill repository detection signals and `validation_commands` so Forge can surface `quick_validate.py` as a validation path.
+- Updated Field Test reporting so Skill repositories with validation commands are not treated like normal apps missing run commands.
+- Added a pluginization roadmap and template for a future router skill + child skills / plugin architecture.
+- Added a release checklist template and README/QUICK_COMMANDS guidance for GitHub install, tags, release readiness, and 1.7 field-test calls.
 
 ## v1.6 - Field Test Loop
 
