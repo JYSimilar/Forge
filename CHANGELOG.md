@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.7 - Field-Test Feedback
+
+- Used Forge 1.6 field-test evidence to improve `workspace_inventory.py`.
+- Added Python unittest command inference for codebases with `tests/` but no Python manifest, such as skill repositories.
+- Added a regression test for manifest-free Python projects so field tests no longer report missing test commands for this case.
+
 ## v1.6 - Field Test Loop
 
 - Added a repository `.gitignore` for local archives, macOS files, Python caches, logs, and root-level generated Forge artifacts.

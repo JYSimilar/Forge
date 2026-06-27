@@ -82,6 +82,19 @@ class WorkspaceInventoryTests(unittest.TestCase):
         self.assertIn("make test", project["test_commands"])
         self.assertIn("docker build -t project .", project["run_commands"])
 
+    def test_python_tests_without_manifest_infer_unittest_command(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "scripts").mkdir()
+            (root / "tests").mkdir()
+            (root / "README.md").write_text("# Python Tool\n", encoding="utf-8")
+            (root / "scripts" / "tool.py").write_text("def run():\n    return True\n", encoding="utf-8")
+            (root / "tests" / "test_tool.py").write_text("def test_tool():\n    assert True\n", encoding="utf-8")
+
+            project = workspace_inventory.scan_workspace(root)["projects"][0]
+
+        self.assertIn("python3 -m unittest discover -s tests -v", project["test_commands"])
+
     def test_invalid_max_files_returns_input_error(self):
         with tempfile.TemporaryDirectory() as tmp:
             with redirect_stderr(io.StringIO()), redirect_stdout(io.StringIO()):

@@ -236,8 +236,12 @@ def _command_hints(root: Path, scripts: list[str], test_indicators: set[str]) ->
     if any((root / name).exists() for name in ("docker-compose.yml", "docker-compose.yaml", "compose.yml", "compose.yaml")):
         tooling.add("docker compose")
         run_commands.add("docker compose up")
-    if any((root / name).exists() for name in ("pyproject.toml", "requirements.txt")) and test_indicators:
+    has_python_manifest = any((root / name).exists() for name in ("pyproject.toml", "requirements.txt"))
+    has_python_tests = bool(test_indicators) and (root / "tests").is_dir()
+    if has_python_manifest and test_indicators:
         test_commands.add("python -m pytest")
+    elif has_python_tests:
+        test_commands.add("python3 -m unittest discover -s tests -v")
 
     return {
         "run_commands": sorted(run_commands),

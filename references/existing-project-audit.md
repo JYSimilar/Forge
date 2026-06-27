@@ -30,6 +30,8 @@ python scripts/workspace_inventory.py /path/to/workspace --markdown WORKSPACE_SU
 
 The script is read-only except for explicit output paths. It should not read or log secret values.
 
+For Python codebases with `tests/` but no Python manifest, infer the standard-library command `python3 -m unittest discover -s tests -v` rather than reporting no test command.
+
 Use `assets/templates/WORKSPACE_SUMMARY.md` when producing a hand-edited summary.
 
 ## Output Contract
