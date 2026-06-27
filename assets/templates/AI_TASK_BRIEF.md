@@ -24,7 +24,7 @@
 3.
 
 ## Acceptance Criteria
-- 
+-
 
 ## Verification
 - Command / manual check:
@@ -36,4 +36,4 @@
 - Remaining risks:
 
 ## Stop and Ask If
-- 
+-

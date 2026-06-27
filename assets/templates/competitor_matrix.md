@@ -7,25 +7,25 @@
 
 ## Standard Features
 
-- 
+-
 
 ## v0.1 Must-Haves
 
-- 
+-
 
 ## v0.1 Non-Goals
 
-- 
+-
 
 ## Recommended First User Path
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Demo Story
 
-- 
+-
 
 ## Iteration Roadmap
 

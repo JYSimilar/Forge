@@ -1,7 +1,7 @@
 interface:
-  display_name: "Forge 1.0"
+  display_name: "Forge 1.5"
   short_description: "Turn ideas into shippable engineering projects"
-  default_prompt: "Use $forge token-saving by default: choose the smallest useful route, load only needed references, and turn this into an MVP, AI work order, review checklist, or delivery plan."
+  default_prompt: "Use $forge token-saving by default: choose the smallest useful route, audit existing workspaces before large changes, load only needed references, and turn this into an MVP, AI or multi-agent work order, review checklist, or delivery plan."
 
 policy:
   allow_implicit_invocation: true

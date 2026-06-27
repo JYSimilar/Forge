@@ -38,11 +38,11 @@ Evidence examples:
 
 ## 4. What To Borrow
 
-- 
+-
 
 ## 5. What Not To Borrow
 
-- 
+-
 
 ## 6. MVP Impact
 
@@ -62,4 +62,4 @@ Evidence examples:
 
 ## 8. Recommended Next Step
 
-- 
+-

@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "task_id": "replace-with-task-id",
+  "status": "planned",
+  "workspace": "replace-with-workspace-path",
+  "agents": [
+    {
+      "id": "planner",
+      "role": "Project Planner",
+      "model": "replace-with-model",
+      "goal": "Define scope, risks, and acceptance criteria",
+      "allowed_files": [
+        "docs"
+      ],
+      "forbidden_files": [
+        "src"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "tester",
+      "role": "Tester",
+      "model": "replace-with-model",
+      "goal": "Design verification and regression checks",
+      "allowed_files": [
+        "tests"
+      ],
+      "forbidden_files": [
+        "src"
+      ],
+      "status": "planned"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "Create project plan",
+      "assigned_agent": "planner",
+      "goal": "Turn the user goal into scoped work with acceptance criteria",
+      "input": [
+        "WORKSPACE_SUMMARY.md"
+      ],
+      "output": [
+        "MULTI_AGENT_PLAN.md"
+      ],
+      "status": "planned",
+      "dependencies": [],
+      "acceptance": [
+        "Plan has goal, inputs, outputs, status, exceptions, limits, and next options"
+      ]
+    }
+  ],
+  "write_locks": [
+    {
+      "path": "docs",
+      "owner": "planner"
+    },
+    {
+      "path": "tests",
+      "owner": "tester"
+    }
+  ],
+  "artifacts": {
+    "human_index": "MULTI_AGENT_PLAN.md",
+    "machine_index": "AGENT_INDEX.json"
+  }
+}

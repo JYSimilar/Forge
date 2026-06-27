@@ -95,7 +95,6 @@ Common next gates:
 
 If the user asked to skip reports, still include one short skipped-gate warning when there is material risk, for example: `已按你的要求不展开总结；但这次有代码改动，提交前仍建议做 diff review。`
 
-
 ## Next Step Protocol Link
 
 Work Summary is for recording what happened; Next Step Protocol is for guiding what happens next. For non-trivial tasks, Work Summary should include a concise next step, but it should not become a long report unless the user asks or a milestone is complete.

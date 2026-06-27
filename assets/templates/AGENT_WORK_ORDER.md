@@ -22,10 +22,10 @@ Implementation instructions:
 3.
 
 Acceptance criteria:
-- 
+-
 
 Verification required:
-- 
+-
 
 Before making broad refactors, adding heavy dependencies, deleting files, changing public interfaces, or touching secrets/configs, stop and ask.
 

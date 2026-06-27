@@ -89,7 +89,6 @@ When giving options, always include a way for the user to reject all options:
 
 If the user rejects options, do not defend the previous plan. Ask for the missing constraint, update assumptions, and generate a new option set.
 
-
 ## Capability Hints Link
 
 Next Step tells the user the required or recommended next action. Capability Hints reveal an optional Forge ability that may help but is not required.

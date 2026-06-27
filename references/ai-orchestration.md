@@ -20,6 +20,8 @@ Use AI orchestration when the user says things like:
 
 Also use it when a broad task has multiple execution roles: research, planning, coding, testing, reviewing, documenting, or releasing.
 
+If the user explicitly wants multiple models, multiple agents, frontend/backend/test role splits, or a shared JSON index, read `multi-agent-collaboration.md` after this file. Keep this file as the single-agent or small-batch orchestration baseline.
+
 ## Project Manager Principle
 
 Forge is the project manager. Other AI tools are executors.
@@ -40,6 +42,7 @@ Forge should not:
 
 - give vague “please improve the project” prompts;
 - let another AI rewrite unrelated files;
+- create multi-agent ceremony when one bounded work order is enough;
 - skip acceptance criteria;
 - accept “tests passed” without knowing which tests;
 - ask an AI to do destructive, external, paid, or deployment actions without user confirmation.
@@ -58,6 +61,7 @@ Choose roles based on the task. Do not invent complex teams when one role is eno
 | Reviewer | diff, risks, regressions, submit readiness | findings, severity, submit decision |
 | Documenter | README, Quick Start, API docs, handoff | docs and usage examples |
 | Release Manager | changelog, MR, version, delivery | release notes, MR description, handoff |
+| Coordinator | multi-agent merge, shared contracts, conflict control | human index, JSON index, integration notes |
 | Human | product judgment, secrets, paid actions, final approval | choices, confirmations, external actions |
 
 ## Work Order Format

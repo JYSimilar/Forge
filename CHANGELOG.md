@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.5 - Existing Project Audit and Multi-Agent Collaboration
+
+- Added `references/existing-project-audit.md` for detecting existing workspaces, generating workspace summaries, and choosing next quality gates.
+- Added `references/multi-agent-collaboration.md` for lightweight multi-agent role planning, model fields, task cards, JSON indexes, write boundaries, and review loops.
+- Added `workspace_inventory.py` and `agent_index_validator.py` with unit tests for project detection, sanitized logs, JSON validation, and overlapping write-scope checks.
+- Added templates for `WORKSPACE_SUMMARY.md`, `MULTI_AGENT_PLAN.md`, `AGENT_INDEX.json`, and `AGENT_TASK_CARD.md`.
+- Integrated the new routes with SKILL routing, Route Selector, AI Orchestration, trigger examples, README, QUICK_COMMANDS, INDEX, and OpenAI metadata.
+
 ## v1.4 - Capability Hints
 
 - Added `references/capability-hints.md` for soft recommendations that reveal useful Forge abilities without forcing them into the main workflow.

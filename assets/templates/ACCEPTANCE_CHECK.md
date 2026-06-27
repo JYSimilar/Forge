@@ -6,7 +6,7 @@
 ## Submitted Evidence
 
 ## Acceptance Criteria
-- 
+-
 
 ## Checks
 
