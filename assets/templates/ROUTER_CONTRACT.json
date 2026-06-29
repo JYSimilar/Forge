@@ -191,6 +191,35 @@
       "token_mode_default": "Token Saver"
     },
     {
+      "id": "dual_index",
+      "name": "Dual Index",
+      "priority": 87,
+      "triggers": [
+        "人类索引",
+        "机器索引",
+        "双索引",
+        "给人看的 md",
+        "AI 看的 json",
+        "human index",
+        "machine index",
+        "FORGE_INDEX",
+        "forge_index.json"
+      ],
+      "minimum_reference": "references/dual-index.md",
+      "optional_references": [
+        "references/existing-project-audit.md",
+        "references/multi-agent-collaboration.md",
+        "references/field-test-loop.md"
+      ],
+      "default_output": "Create or update FORGE_INDEX.md and forge_index.json from one shared fact payload.",
+      "completion_evidence": [
+        "Both human and machine indexes are written or intentionally skipped",
+        "Markdown and JSON share the same status, artifacts, risks, evidence, and next options"
+      ],
+      "handoff": "Route to Existing Project Audit, Multi-Agent Collaboration, Field Test Loop, or Release Readiness based on indexed risks.",
+      "token_mode_default": "Token Saver"
+    },
+    {
       "id": "pluginization_roadmap",
       "name": "Pluginization Roadmap",
       "priority": 85,

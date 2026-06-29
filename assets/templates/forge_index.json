@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "status": "planned",
+  "statuses": [
+    "planned"
+  ],
+  "workspace": "replace-with-workspace-path",
+  "source_routes": [
+    "Dual Index"
+  ],
+  "artifacts": {
+    "human_index": "FORGE_INDEX.md",
+    "machine_index": "forge_index.json",
+    "workspace_summary": "WORKSPACE_SUMMARY.md",
+    "multi_agent_plan": "MULTI_AGENT_PLAN.md",
+    "agent_index": "AGENT_INDEX.json",
+    "field_test_report": "FIELD_TEST_REPORT.md"
+  },
+  "projects": [],
+  "agents": [],
+  "tasks": [],
+  "routes": [],
+  "evidence": [],
+  "risks": [],
+  "next_options": [],
+  "limits": {
+    "read_only_target_workspace": true,
+    "max_files": 2000,
+    "model_calls": "none",
+    "single_payload_source": true
+  }
+}

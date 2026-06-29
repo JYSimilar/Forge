@@ -11,6 +11,7 @@ Use this file when you need one compact map of Forge routes, references, templat
 | Existing Project Audit | `existing-project-audit.md` | `engineering-delivery.md`, `definition-of-done.md` | `WORKSPACE_SUMMARY.md`, `PROJECT_STATE.md`, `TASK_QUEUE.md` | `workspace_inventory.py`, `project_audit.py` |
 | Field Test Loop | `field-test-loop.md` | `existing-project-audit.md`, `multi-agent-collaboration.md` | `FIELD_TEST_REPORT.md`, `WORKSPACE_SUMMARY.md` | `field_test_runner.py`, `workspace_inventory.py`, `agent_index_validator.py` |
 | Router Contract | `router-contract.md` | `pluginization-roadmap.md`, `trigger-examples.md` | `ROUTER_CONTRACT.json`, `ROUTER_CONTRACT.md`, `ROUTER_TEST_REPORT.md` | `router_contract_validator.py` |
+| Dual Index | `dual-index.md` | `existing-project-audit.md`, `multi-agent-collaboration.md`, `field-test-loop.md` | `FORGE_INDEX.md`, `forge_index.json` | `dual_index_builder.py`, `workspace_inventory.py`, `agent_index_validator.py`, `router_contract_validator.py` |
 | Pluginization Roadmap | `pluginization-roadmap.md` | `router-contract.md`, `ai-orchestration.md` | `PLUGINIZATION_PLAN.md`, `ROUTER_CONTRACT.json`, `ROUTER_TEST_REPORT.md` | `router_contract_validator.py` |
 | Engineering Delivery | `engineering-delivery.md` | `definition-of-done.md`, then Review/Submit gate | `ACCEPTANCE_CHECK.md`, `EXECUTION_LOG.md`, `troubleshooting.md` | `project_audit.py` |
 | AI Orchestration | `ai-orchestration.md` | `definition-of-done.md`, `multi-agent-collaboration.md` | `AI_TASK_BRIEF.md`, `AGENT_WORK_ORDER.md`, `TASK_QUEUE.md`, `REWORK_PROMPT.md` | none |
@@ -36,6 +37,7 @@ Use this file when you need one compact map of Forge routes, references, templat
 - `DECISION_LOG.md`: record technical/product decisions and trade-offs.
 - `EXECUTION_LOG.md`: record what was done and how it was verified.
 - `FIELD_TEST_REPORT.md`: record a real-workspace Forge field test, friction points, evidence, and next improvements.
+- `FORGE_INDEX.md`: human-readable index for project status, routes, artifacts, risks, evidence, and next options.
 - `IDEA_BACKLOG.md`: park useful ideas deferred from the current version and define when to revisit them.
 - `MULTI_AGENT_PLAN.md`: human-readable plan for multi-agent collaboration.
 - `OPTION_SET.md`: compare options and recommend one.
@@ -61,3 +63,4 @@ Use this file when you need one compact map of Forge routes, references, templat
 - `reference_scout_report.md`: summarize researched references and evidence.
 - `troubleshooting.md`: common failures and fixes.
 - `version_plan.md`: staged version roadmap.
+- `forge_index.json`: machine-readable sibling to `FORGE_INDEX.md` for AI, scripts, routes, artifacts, evidence, and risks.

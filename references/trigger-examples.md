@@ -39,6 +39,10 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "先别拆 skill，先校验 router-contract.md 和子能力边界。" -> Router Contract + Pluginization Roadmap.
 - "用 ROUTER_CONTRACT.json 模拟这个仓库有什么问题应该走哪条路线。" -> Router Contract.
 - "给我一份 ROUTER_TEST_REPORT，记录预期路线、实际路线和修复建议。" -> Router Contract.
+- "给我同时生成人类索引和机器索引。" -> Dual Index.
+- "输出给人看的 md 和 AI 看的 json，后续协作都以它为准。" -> Dual Index.
+- "根据当前工作区生成 FORGE_INDEX.md 和 forge_index.json。" -> Dual Index + Existing Project Audit.
+- "不要生成索引文件，只给我结果。" -> skip Dual Index.
 - "先不要拆实现，帮我设计 router skill + 子 skill 的插件化路线图。" -> Pluginization Roadmap.
 - "像 Superpowers 那样拆成多个能力时，哪些应该是子 skill？" -> Pluginization Roadmap.
 - "按 RELEASE_CHECKLIST 检查这版能不能打 tag 发布。" -> Release Readiness.
@@ -65,6 +69,7 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "这个文件夹里有什么项目？" -> Existing Project Audit.
 - "这套 Forge 流程在这个项目上好不好用？" -> Field Test Loop.
 - "这个自然触发会不会走错能力？" -> Router Contract.
+- "这轮要不要留一个给人和 AI 都能看的索引？" -> Dual Index.
 - "这个 skill 能不能以后拆成插件？" -> Pluginization Roadmap.
 - "这版能不能发布？" -> Release Readiness.
 - "帮我写一段给 Codex 的任务。" -> AI Orchestration.
@@ -81,5 +86,6 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "find the biggest project risks" -> Engineering Delivery or Review.
 - "run a field test on this workspace" -> Field Test Loop.
 - "validate the router contract" -> Router Contract.
+- "create a human index and machine index" -> Dual Index.
 - "plan a future plugin split" -> Pluginization Roadmap.
 - "prepare this release" -> Release Readiness.

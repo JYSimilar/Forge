@@ -160,6 +160,24 @@ Forge: 用 ROUTER_CONTRACT.json 模拟“这个仓库有什么问题？”应该
 Forge: 给我一份 ROUTER_TEST_REPORT，记录预期路线、实际路线和修复建议。
 ```
 
+## Dual Index / 人类索引 + 机器索引
+
+```text
+Forge: 给我同时生成人类索引和机器索引。
+```
+
+```text
+Forge: 输出给人看的 md 和 AI 看的 json，后续协作都以它为准。
+```
+
+```text
+Forge: 根据当前工作区生成 FORGE_INDEX.md 和 forge_index.json。
+```
+
+```text
+Forge: 不要生成索引文件，只给我结果。
+```
+
 ## Release Readiness / 发布检查
 
 ```text

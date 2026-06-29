@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.9 - Dual Index
+
+- Added `references/dual-index.md` for generating paired human and machine indexes on non-small project work.
+- Added `FORGE_INDEX.md` and `forge_index.json` templates.
+- Added `dual_index_builder.py` to build both indexes from one shared payload, reusing workspace inventory and optional agent/router/field-test inputs.
+- Added Dual Index routing to SKILL, INDEX, README, QUICK_COMMANDS, trigger examples, and router contract.
+- Added unit tests for empty, single-project, multi-project, valid/invalid agent index, router contract, field-test JSON, and secret redaction scenarios.
+
 ## v1.8 - Router Contract and Pluginization Readiness
 
 - Added `references/router-contract.md` for validating natural triggers, route boundaries, minimum references, completion evidence, and child-skill handoffs.

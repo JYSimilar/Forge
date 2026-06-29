@@ -50,6 +50,7 @@ class RouterContractTests(unittest.TestCase):
             "multi_agent_collaboration",
             "pluginization_roadmap",
             "router_contract",
+            "dual_index",
             "release_readiness",
             "review_submit",
         }:
@@ -96,6 +97,8 @@ class RouterContractTests(unittest.TestCase):
             ("这几个模型怎么分工协作", "multi_agent_collaboration"),
             ("这个自然触发会不会走错能力", "router_contract"),
             ("修复前端页面的登录按钮", "engineering_delivery"),
+            ("给我同时生成人类索引和机器索引", "dual_index"),
+            ("输出给人看的 md 和 AI 看的 json", "dual_index"),
         ]
 
         for prompt, expected_route in scenarios:
