@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.8 - Router Contract and Pluginization Readiness
+
+- Added `references/router-contract.md` for validating natural triggers, route boundaries, minimum references, completion evidence, and child-skill handoffs.
+- Added machine-readable `ROUTER_CONTRACT.json`, human template `ROUTER_CONTRACT.md`, and `ROUTER_TEST_REPORT.md`.
+- Added `router_contract_validator.py` to validate the contract and simulate natural prompt routing without model calls.
+- Added `references/release-readiness.md` so release/tag requests start from a release-specific gate instead of generic review docs.
+- Updated SKILL routing, INDEX, README, QUICK_COMMANDS, trigger examples, pluginization roadmap, and OpenAI metadata for Forge 1.8.
+- Added router contract unit tests so future pluginization changes remain verifiable.
+
 ## v1.7 - Field-Test Feedback and Release Readiness
 
 - Used Forge 1.6 field-test evidence to improve `workspace_inventory.py`.

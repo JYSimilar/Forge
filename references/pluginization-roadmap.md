@@ -4,7 +4,7 @@ Use this when the user asks whether Forge can become a plugin, split into smalle
 
 ## Position
 
-Forge 1.7 remains one skill. Do not split implementation yet. Pluginization is a future architecture path after the current routes prove stable through field tests.
+Forge 1.8 remains one skill. Do not split implementation yet. Pluginization is a future architecture path after the current routes prove stable through field tests and `router-contract.md`.
 
 ## Target Shape
 
@@ -25,12 +25,20 @@ The router should keep the current silent activation behavior:
 - shared state lives in Markdown/JSON artifacts, not chat memory;
 - completion claims require evidence or an explicit unverified note.
 
+Before splitting, validate `assets/templates/ROUTER_CONTRACT.json`:
+
+```bash
+python scripts/router_contract_validator.py assets/templates/ROUTER_CONTRACT.json
+```
+
+Use `assets/templates/ROUTER_TEST_REPORT.md` to record expected routes, actual routes, and fixes for natural prompts.
+
 ## Migration Gates
 
 Do not split until these are true:
 
 1. Field tests show stable route boundaries.
-2. Each child route has a compact trigger description.
+2. Each child route has a compact trigger description in `router-contract.md` / `ROUTER_CONTRACT.json`.
 3. Shared templates and scripts have clear owners.
 4. Cross-skill handoff can be represented in Markdown/JSON.
 5. Release and install instructions explain both single-skill and plugin forms.
@@ -44,4 +52,4 @@ Do not split until these are true:
 
 ## Recommended Next Step
 
-Keep Forge as one skill through 1.7. Use `PLUGINIZATION_PLAN.md` only to design the future split, then revisit implementation in 1.8 or later.
+Keep Forge as one skill through 1.8. Use `PLUGINIZATION_PLAN.md` and `router-contract.md` to design and validate the future split, then revisit implementation after more field tests.

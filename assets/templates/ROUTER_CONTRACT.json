@@ -1,0 +1,427 @@
+{
+  "schema_version": "1.0",
+  "mode_default": "Token Saver",
+  "fallback_route_id": "clarify",
+  "policy": {
+    "silent_routing": true,
+    "max_default_references": 1,
+    "burn_mode_requires_explicit_command": true,
+    "completion_requires_evidence": true,
+    "shared_state": "Markdown and JSON artifacts, not chat memory"
+  },
+  "routes": [
+    {
+      "id": "lite",
+      "name": "Lite",
+      "priority": 100,
+      "triggers": [
+        "只给我",
+        "commit message",
+        "直接给结果",
+        "小任务",
+        "one command",
+        "不用解释"
+      ],
+      "minimum_reference": "none",
+      "optional_references": [],
+      "default_output": "Return the requested artifact directly plus one verification or next step only when useful.",
+      "completion_evidence": [
+        "Requested artifact is present",
+        "No non-essential route or reference was loaded"
+      ],
+      "handoff": "Stop after the artifact unless the user asks for the next gate.",
+      "token_mode_default": "Token Saver"
+    },
+    {
+      "id": "clarify",
+      "name": "Clarify",
+      "priority": 10,
+      "triggers": [
+        "不清楚",
+        "还不确定",
+        "缺少",
+        "问我",
+        "clarify",
+        "关键问题"
+      ],
+      "minimum_reference": "references/clarify-first.md",
+      "optional_references": [
+        "references/brainstorm-to-mvp.md"
+      ],
+      "default_output": "Ask only the blocking questions, then recommend a smallest next route.",
+      "completion_evidence": [
+        "Blocking unknowns are named",
+        "Next route or user decision is explicit"
+      ],
+      "handoff": "Route to Project/MVP, Existing Project Audit, or Lite after answers arrive.",
+      "token_mode_default": "Token Saver"
+    },
+    {
+      "id": "project_mvp",
+      "name": "Project/MVP",
+      "priority": 50,
+      "triggers": [
+        "想做",
+        "第一版",
+        "MVP",
+        "原型",
+        "怎么开始",
+        "能不能做",
+        "版本规划"
+      ],
+      "minimum_reference": "references/route-selector.md",
+      "optional_references": [
+        "references/brainstorm-to-mvp.md",
+        "references/scope-control.md",
+        "references/stage-gates.md"
+      ],
+      "default_output": "Turn an idea into a scoped first version, deferred ideas, risks, and the next executable step.",
+      "completion_evidence": [
+        "MVP scope is explicit",
+        "Deferred ideas or exclusions are captured",
+        "Next step is concrete"
+      ],
+      "handoff": "Route to Engineering Delivery, AI Orchestration, or Docs/Compatibility when execution starts.",
+      "token_mode_default": "Token Saver"
+    },
+    {
+      "id": "reference_scout",
+      "name": "Reference Scout",
+      "priority": 55,
+      "triggers": [
+        "开源参考",
+        "竞品",
+        "现成方案",
+        "别人怎么做",
+        "similar products",
+        "github 项目"
+      ],
+      "minimum_reference": "references/reference-scout.md",
+      "optional_references": [
+        "references/evidence-discipline.md"
+      ],
+      "default_output": "Find or plan evidence-backed references, compare options, and recommend what to reuse or avoid.",
+      "completion_evidence": [
+        "Sources or source gaps are named",
+        "Recommendation explains reuse, adapt, or avoid"
+      ],
+      "handoff": "Route to Project/MVP or Engineering Delivery after a recommendation is chosen.",
+      "token_mode_default": "Standard Deep"
+    },
+    {
+      "id": "existing_project_audit",
+      "name": "Existing Project Audit",
+      "priority": 80,
+      "triggers": [
+        "仓库",
+        "工作区",
+        "已有工程",
+        "接手",
+        "有什么问题",
+        "先自查",
+        "md 汇总",
+        "monorepo",
+        "项目体检"
+      ],
+      "minimum_reference": "references/existing-project-audit.md",
+      "optional_references": [
+        "references/engineering-delivery.md",
+        "references/definition-of-done.md"
+      ],
+      "default_output": "Detect projects, summarize manifests/docs/tests/scripts/risks, and recommend the next gate.",
+      "completion_evidence": [
+        "Workspace status is no_project, single_project, or multiple_projects",
+        "Run/test/validation evidence or gaps are named"
+      ],
+      "handoff": "Route to Field Test Loop for Forge validation, or Engineering Delivery for project changes.",
+      "token_mode_default": "Token Saver"
+    },
+    {
+      "id": "field_test_loop",
+      "name": "Field Test Loop",
+      "priority": 90,
+      "triggers": [
+        "field test",
+        "试跑",
+        "真实项目",
+        "实战闭环",
+        "摩擦点",
+        "验证这套流程",
+        "沉淀成下一版",
+        "Skill 项目"
+      ],
+      "minimum_reference": "references/field-test-loop.md",
+      "optional_references": [
+        "references/existing-project-audit.md",
+        "references/multi-agent-collaboration.md"
+      ],
+      "default_output": "Run or plan a read-only field test, record evidence, friction, risks, and next improvements.",
+      "completion_evidence": [
+        "FIELD_TEST_REPORT.md or equivalent facts are produced",
+        "Friction points are converted into next-version actions"
+      ],
+      "handoff": "Route to Router Contract, Release Readiness, or Engineering Delivery depending on findings.",
+      "token_mode_default": "Standard Deep"
+    },
+    {
+      "id": "router_contract",
+      "name": "Router Contract",
+      "priority": 86,
+      "triggers": [
+        "router contract",
+        "无感路由",
+        "自然触发",
+        "自然调用",
+        "触发方式",
+        "路由契约",
+        "路由表",
+        "自动路由"
+      ],
+      "minimum_reference": "references/router-contract.md",
+      "optional_references": [
+        "references/pluginization-roadmap.md",
+        "references/trigger-examples.md"
+      ],
+      "default_output": "Define or validate route boundaries, minimum references, output contracts, evidence gates, and prompt simulations.",
+      "completion_evidence": [
+        "ROUTER_CONTRACT.json validates",
+        "Representative prompts route to expected capabilities"
+      ],
+      "handoff": "Route to Pluginization Roadmap when planning a future split, or Field Test Loop when validating real usage.",
+      "token_mode_default": "Token Saver"
+    },
+    {
+      "id": "pluginization_roadmap",
+      "name": "Pluginization Roadmap",
+      "priority": 85,
+      "triggers": [
+        "插件化",
+        "拆成多个 skill",
+        "router skill",
+        "子 skill",
+        "Superpowers",
+        "不要拆实现",
+        "plugin split"
+      ],
+      "minimum_reference": "references/pluginization-roadmap.md",
+      "optional_references": [
+        "references/router-contract.md",
+        "references/ai-orchestration.md"
+      ],
+      "default_output": "Plan future router skill and child skill boundaries without splitting Forge yet.",
+      "completion_evidence": [
+        "Boundaries and migration gates are explicit",
+        "No real split is performed unless separately requested"
+      ],
+      "handoff": "Route to Router Contract before implementing any split.",
+      "token_mode_default": "Token Saver"
+    },
+    {
+      "id": "engineering_delivery",
+      "name": "Engineering Delivery",
+      "priority": 60,
+      "triggers": [
+        "实现",
+        "修复",
+        "测试",
+        "能跑",
+        "稳定",
+        "交付",
+        "放生产",
+        "错误处理",
+        "日志"
+      ],
+      "minimum_reference": "references/engineering-delivery.md",
+      "optional_references": [
+        "references/definition-of-done.md"
+      ],
+      "default_output": "Plan or execute scoped engineering work with tests, error handling, logs, and verification.",
+      "completion_evidence": [
+        "Changed behavior is verified or unverified gaps are stated",
+        "Next quality gate is named"
+      ],
+      "handoff": "Route to Review/Submit and Docs/Compatibility after meaningful changes.",
+      "token_mode_default": "Standard Deep"
+    },
+    {
+      "id": "ai_orchestration",
+      "name": "AI Orchestration",
+      "priority": 65,
+      "triggers": [
+        "交给 Codex",
+        "给 Codex 写",
+        "Claude Code",
+        "任务提示词",
+        "AI 任务",
+        "work order",
+        "验收 AI"
+      ],
+      "minimum_reference": "references/ai-orchestration.md",
+      "optional_references": [
+        "references/definition-of-done.md",
+        "references/multi-agent-collaboration.md"
+      ],
+      "default_output": "Create bounded AI work orders, acceptance checks, task queues, or rework prompts.",
+      "completion_evidence": [
+        "Goal, input, output, limits, and acceptance are explicit",
+        "Executor and review loop are named"
+      ],
+      "handoff": "Route to Multi-Agent Collaboration for multiple model roles.",
+      "token_mode_default": "Token Saver"
+    },
+    {
+      "id": "multi_agent_collaboration",
+      "name": "Multi-Agent Collaboration",
+      "priority": 88,
+      "triggers": [
+        "多智能体",
+        "多个模型",
+        "几个 AI",
+        "几个模型",
+        "模型协作",
+        "分工协作",
+        "AI 分工",
+        "智能体分工",
+        "AGENT_INDEX"
+      ],
+      "minimum_reference": "references/multi-agent-collaboration.md",
+      "optional_references": [
+        "references/ai-orchestration.md",
+        "references/existing-project-audit.md"
+      ],
+      "default_output": "Generate human-readable collaboration plans, agent task cards, machine JSON indexes, write scopes, and acceptance loops.",
+      "completion_evidence": [
+        "Each agent has role, model, goal, inputs, outputs, allowed files, forbidden files, and acceptance",
+        "AGENT_INDEX.json validates when produced"
+      ],
+      "handoff": "Route to Review/Submit or Field Test Loop for validation.",
+      "token_mode_default": "Standard Deep"
+    },
+    {
+      "id": "review_submit",
+      "name": "Review/Submit",
+      "priority": 82,
+      "triggers": [
+        "能不能提交",
+        "提交",
+        "看这次改动",
+        "review",
+        "diff",
+        "PR",
+        "MR",
+        "commit"
+      ],
+      "minimum_reference": "references/review-and-submit.md",
+      "optional_references": [
+        "references/multi-role-review.md"
+      ],
+      "default_output": "Review changes by risk, check verification evidence, and decide submit readiness.",
+      "completion_evidence": [
+        "Findings are ordered by severity",
+        "Submit verdict is explicit"
+      ],
+      "handoff": "Route to Release Readiness when publishing or tagging is next.",
+      "token_mode_default": "Token Saver"
+    },
+    {
+      "id": "docs_compatibility",
+      "name": "Docs/Compatibility",
+      "priority": 58,
+      "triggers": [
+        "README",
+        "Quick Start",
+        "文档",
+        "给别人用",
+        "兼容",
+        "Windows",
+        "Linux",
+        "Docker"
+      ],
+      "minimum_reference": "references/docs-compatibility-api.md",
+      "optional_references": [
+        "references/definition-of-done.md"
+      ],
+      "default_output": "Produce or review real-user docs, install paths, API/CLI surfaces, and compatibility notes.",
+      "completion_evidence": [
+        "Run/install/verify path is clear",
+        "Known platform gaps are named"
+      ],
+      "handoff": "Route to Release Readiness for public publishing.",
+      "token_mode_default": "Token Saver"
+    },
+    {
+      "id": "release_readiness",
+      "name": "Release Readiness",
+      "priority": 92,
+      "triggers": [
+        "RELEASE_CHECKLIST",
+        "发布",
+        "打 tag",
+        "tag",
+        "release",
+        "安装说明",
+        "GitHub 安装"
+      ],
+      "minimum_reference": "references/release-readiness.md",
+      "optional_references": [
+        "references/review-and-submit.md",
+        "references/docs-compatibility-api.md",
+        "references/field-test-loop.md"
+      ],
+      "default_output": "Check validation, packaging hygiene, changelog, docs, git status, tag, release risks, and next steps.",
+      "completion_evidence": [
+        "Validation commands are named with outcomes",
+        "Release/tag readiness is explicit"
+      ],
+      "handoff": "Route to Review/Submit if code changed, then publish only after explicit user intent.",
+      "token_mode_default": "Standard Deep"
+    },
+    {
+      "id": "automation",
+      "name": "Automation",
+      "priority": 52,
+      "triggers": [
+        "自动推进",
+        "一步步",
+        "任务队列",
+        "几个路线",
+        "选方案",
+        "小批次",
+        "automation"
+      ],
+      "minimum_reference": "references/automation-loop.md",
+      "optional_references": [
+        "references/stage-gates.md"
+      ],
+      "default_output": "Offer 2-3 execution routes, selected task queues, confirmation gates, and verification after each batch.",
+      "completion_evidence": [
+        "Options are concrete",
+        "Risk actions require confirmation"
+      ],
+      "handoff": "Route to Engineering Delivery, AI Orchestration, or Review/Submit as batches complete.",
+      "token_mode_default": "Token Saver"
+    },
+    {
+      "id": "work_summary",
+      "name": "Work Summary",
+      "priority": 48,
+      "triggers": [
+        "工作总结",
+        "项目经理的方式总结",
+        "阶段报告",
+        "Boss Report",
+        "负责人看",
+        "不要写报告"
+      ],
+      "minimum_reference": "references/work-summary.md",
+      "optional_references": [],
+      "default_output": "Close non-trivial work with a concise summary or stakeholder report when explicitly requested.",
+      "completion_evidence": [
+        "Done, produced, verification, risk, and next step are covered",
+        "Skip summary when the user explicitly asks to skip"
+      ],
+      "handoff": "Stop or route to the next gate named in the summary.",
+      "token_mode_default": "Token Saver"
+    }
+  ]
+}

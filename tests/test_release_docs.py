@@ -8,9 +8,11 @@ class ReleaseDocsTests(unittest.TestCase):
         index = (root / "INDEX.md").read_text(encoding="utf-8")
 
         self.assertTrue((root / "references" / "pluginization-roadmap.md").exists())
+        self.assertTrue((root / "references" / "release-readiness.md").exists())
         self.assertTrue((root / "assets" / "templates" / "PLUGINIZATION_PLAN.md").exists())
         self.assertTrue((root / "assets" / "templates" / "RELEASE_CHECKLIST.md").exists())
         self.assertIn("pluginization-roadmap.md", index)
+        self.assertIn("release-readiness.md", index)
         self.assertIn("PLUGINIZATION_PLAN.md", index)
         self.assertIn("RELEASE_CHECKLIST.md", index)
 

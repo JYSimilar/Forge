@@ -35,6 +35,10 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "验证这套多智能体规划在当前项目上会不会卡住。" -> Field Test Loop + Multi-Agent Collaboration.
 - "把这轮使用 Forge 的问题沉淀成下一版改进建议。" -> Field Test Loop.
 - "对这个 Skill 仓库跑一轮 field test，检查 quick_validate、测试命令和发布风险。" -> Field Test Loop + Release Readiness.
+- "检查这些自然调用会不会路由到正确能力。" -> Router Contract.
+- "先别拆 skill，先校验 router-contract.md 和子能力边界。" -> Router Contract + Pluginization Roadmap.
+- "用 ROUTER_CONTRACT.json 模拟这个仓库有什么问题应该走哪条路线。" -> Router Contract.
+- "给我一份 ROUTER_TEST_REPORT，记录预期路线、实际路线和修复建议。" -> Router Contract.
 - "先不要拆实现，帮我设计 router skill + 子 skill 的插件化路线图。" -> Pluginization Roadmap.
 - "像 Superpowers 那样拆成多个能力时，哪些应该是子 skill？" -> Pluginization Roadmap.
 - "按 RELEASE_CHECKLIST 检查这版能不能打 tag 发布。" -> Release Readiness.
@@ -60,6 +64,7 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "这个 demo 给朋友用会不会翻车？" -> Docs/Compatibility + risk.
 - "这个文件夹里有什么项目？" -> Existing Project Audit.
 - "这套 Forge 流程在这个项目上好不好用？" -> Field Test Loop.
+- "这个自然触发会不会走错能力？" -> Router Contract.
 - "这个 skill 能不能以后拆成插件？" -> Pluginization Roadmap.
 - "这版能不能发布？" -> Release Readiness.
 - "帮我写一段给 Codex 的任务。" -> AI Orchestration.
@@ -75,5 +80,6 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "write docs for real users" -> Docs/Compatibility.
 - "find the biggest project risks" -> Engineering Delivery or Review.
 - "run a field test on this workspace" -> Field Test Loop.
+- "validate the router contract" -> Router Contract.
 - "plan a future plugin split" -> Pluginization Roadmap.
 - "prepare this release" -> Release Readiness.

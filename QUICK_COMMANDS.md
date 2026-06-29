@@ -144,6 +144,22 @@ Forge: 像 Superpowers 那样拆成多个能力时，哪些应该是子 skill，
 Forge: 用 PLUGINIZATION_PLAN 模板规划未来怎么拆，但这轮不要真的拆。
 ```
 
+```text
+Forge: 先别拆 skill，先校验 router-contract.md 和子能力边界。
+```
+
+```text
+Forge: 检查这些自然调用会不会路由到正确能力。
+```
+
+```text
+Forge: 用 ROUTER_CONTRACT.json 模拟“这个仓库有什么问题？”应该走哪条路线。
+```
+
+```text
+Forge: 给我一份 ROUTER_TEST_REPORT，记录预期路线、实际路线和修复建议。
+```
+
 ## Release Readiness / 发布检查
 
 ```text
