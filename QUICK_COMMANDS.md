@@ -56,6 +56,28 @@ Forge: write a Boss Report for this milestone.
 Forge: 这轮不要写报告，直接给结果。
 ```
 
+## Forge 2.0 Stable Core / 稳定内核
+
+```text
+Forge: 跑一轮 Forge Doctor 稳定性总检，检查 2.0 稳定版能不能发布。
+```
+
+```text
+Forge: 把当前工作区、自查、双索引、路由回归和 release evidence 收束成一个稳定性报告。
+```
+
+```text
+Forge: 用 ROUTER_PROMPT_CORPUS 批量检查自然触发有没有漂移。
+```
+
+```text
+Forge: 更新 forge_index.json 的验证证据，并重新渲染 FORGE_INDEX.md。
+```
+
+```text
+Forge: 小任务别跑 Forge Doctor，直接给结果。
+```
+
 ## 不说 Forge 也可以
 
 ```text
@@ -176,6 +198,10 @@ Forge: 根据当前工作区生成 FORGE_INDEX.md 和 forge_index.json。
 
 ```text
 Forge: 不要生成索引文件，只给我结果。
+```
+
+```text
+Forge: 给 forge_index.json 追加一条风险和一条验证证据，然后重渲染 FORGE_INDEX.md。
 ```
 
 ## Release Readiness / 发布检查

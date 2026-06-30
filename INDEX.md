@@ -12,6 +12,7 @@ Use this file when you need one compact map of Forge routes, references, templat
 | Field Test Loop | `field-test-loop.md` | `existing-project-audit.md`, `multi-agent-collaboration.md` | `FIELD_TEST_REPORT.md`, `WORKSPACE_SUMMARY.md` | `field_test_runner.py`, `workspace_inventory.py`, `agent_index_validator.py` |
 | Router Contract | `router-contract.md` | `pluginization-roadmap.md`, `trigger-examples.md` | `ROUTER_CONTRACT.json`, `ROUTER_CONTRACT.md`, `ROUTER_TEST_REPORT.md` | `router_contract_validator.py` |
 | Dual Index | `dual-index.md` | `existing-project-audit.md`, `multi-agent-collaboration.md`, `field-test-loop.md` | `FORGE_INDEX.md`, `forge_index.json` | `dual_index_builder.py`, `workspace_inventory.py`, `agent_index_validator.py`, `router_contract_validator.py` |
+| Stability Gate | `stability-gate.md` | `dual-index.md`, `router-contract.md`, `field-test-loop.md`, `release-readiness.md` | `FORGE_INDEX.md`, `forge_index.json`, `ROUTER_PROMPT_CORPUS.json`, `ROUTER_TEST_REPORT.md` | `forge_doctor.py`, `forge_index_update.py`, `dual_index_builder.py`, `router_contract_validator.py` |
 | Pluginization Roadmap | `pluginization-roadmap.md` | `router-contract.md`, `ai-orchestration.md` | `PLUGINIZATION_PLAN.md`, `ROUTER_CONTRACT.json`, `ROUTER_TEST_REPORT.md` | `router_contract_validator.py` |
 | Engineering Delivery | `engineering-delivery.md` | `definition-of-done.md`, then Review/Submit gate | `ACCEPTANCE_CHECK.md`, `EXECUTION_LOG.md`, `troubleshooting.md` | `project_audit.py` |
 | AI Orchestration | `ai-orchestration.md` | `definition-of-done.md`, `multi-agent-collaboration.md` | `AI_TASK_BRIEF.md`, `AGENT_WORK_ORDER.md`, `TASK_QUEUE.md`, `REWORK_PROMPT.md` | none |
@@ -49,6 +50,7 @@ Use this file when you need one compact map of Forge routes, references, templat
 - `REWORK_PROMPT.md`: ask an AI agent to fix failed acceptance checks.
 - `ROUTER_CONTRACT.json`: machine-readable route contract for natural triggers, minimum references, outputs, evidence, and handoffs.
 - `ROUTER_CONTRACT.md`: human-readable route contract planning template.
+- `ROUTER_PROMPT_CORPUS.json`: route regression examples for natural trigger, token mode, and Dual Index expectations.
 - `ROUTER_TEST_REPORT.md`: record route simulation, expected/actual routes, issues, and fixes.
 - `TASK_QUEUE.md`: track planned, active, blocked, and completed tasks.
 - `WORK_SUMMARY.md`: produce a concise completion or handoff summary.
@@ -64,3 +66,8 @@ Use this file when you need one compact map of Forge routes, references, templat
 - `troubleshooting.md`: common failures and fixes.
 - `version_plan.md`: staged version roadmap.
 - `forge_index.json`: machine-readable sibling to `FORGE_INDEX.md` for AI, scripts, routes, artifacts, evidence, and risks.
+
+## Stable Core Scripts
+
+- `forge_doctor.py`: run Forge 2.0 stability checks and write `FORGE_DOCTOR_REPORT.md` plus `forge_doctor.json`.
+- `forge_index_update.py`: safely append status, evidence, risk, or artifact entries to `forge_index.json` and re-render `FORGE_INDEX.md`.

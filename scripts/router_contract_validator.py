@@ -41,6 +41,31 @@ class RouteDecision:
     minimum_reference: str
 
 
+@dataclass
+class CorpusResult:
+    cases: list[dict[str, Any]]
+    errors: list[str]
+    warnings: list[str]
+
+    @property
+    def ok(self) -> bool:
+        return not self.errors
+
+
+DUAL_INDEX_ROUTE_IDS = {
+    "existing_project_audit",
+    "field_test_loop",
+    "multi_agent_collaboration",
+    "router_contract",
+    "pluginization_roadmap",
+    "release_readiness",
+    "dual_index",
+    "stability_gate",
+}
+BURN_TRIGGERS = ("燃烧模式", "burn mode", "燃烧 token")
+STANDARD_DEEP_TRIGGERS = ("详细一点", "展开说说")
+
+
 def _is_text(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
 
@@ -62,6 +87,12 @@ def _normalize(value: str) -> str:
 
 def load_contract(contract_path: str | Path) -> dict[str, Any]:
     path = Path(contract_path).expanduser()
+    with path.open("r", encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def load_corpus(corpus_path: str | Path) -> dict[str, Any]:
+    path = Path(corpus_path).expanduser()
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
 
@@ -180,16 +211,134 @@ def simulate_route(payload: dict[str, Any], prompt: str) -> RouteDecision:
     if best_route is None:
         return RouteDecision("unknown", 0, [], "", "")
 
+    token_mode = str(best_route.get("token_mode_default", ""))
+    if any(trigger in prompt_norm for trigger in BURN_TRIGGERS):
+        token_mode = "Burn Mode"
+    elif any(trigger in prompt_norm for trigger in STANDARD_DEEP_TRIGGERS):
+        token_mode = "Standard Deep"
+
     return RouteDecision(
         route_id=str(best_route.get("id", "unknown")),
         score=max(best_score, 0),
         matched_triggers=best_matches,
-        token_mode=str(best_route.get("token_mode_default", "")),
+        token_mode=token_mode,
         minimum_reference=str(best_route.get("minimum_reference", "")),
     )
 
 
-def run(contract_path: str | Path, simulate_prompt: str | None = None) -> int:
+def _should_generate_dual_index(decision: RouteDecision, prompt: str) -> bool:
+    prompt_norm = _normalize(prompt)
+    if "不要生成索引" in prompt_norm or "不要索引" in prompt_norm or "skip index" in prompt_norm:
+        return False
+    return decision.route_id in DUAL_INDEX_ROUTE_IDS
+
+
+def _validate_corpus(corpus: Any) -> list[str]:
+    errors: list[str] = []
+    if not isinstance(corpus, dict):
+        return ["corpus top-level JSON must be an object"]
+    _expect_text(corpus, "schema_version", "corpus", errors)
+    scenarios = corpus.get("scenarios")
+    if not isinstance(scenarios, list) or not scenarios:
+        errors.append("corpus.scenarios must be a non-empty list")
+        return errors
+    seen_ids: set[str] = set()
+    for index, scenario in enumerate(scenarios):
+        label = f"scenarios[{index}]"
+        if not isinstance(scenario, dict):
+            errors.append(f"{label} must be an object")
+            continue
+        for key in ("id", "prompt", "expected_route_id", "expected_token_mode"):
+            _expect_text(scenario, key, label, errors)
+        if not isinstance(scenario.get("expected_dual_index"), bool):
+            errors.append(f"{label}.expected_dual_index must be a boolean")
+        scenario_id = scenario.get("id")
+        if _is_text(scenario_id):
+            if scenario_id in seen_ids:
+                errors.append(f"{label}.id duplicates scenario id {scenario_id!r}")
+            seen_ids.add(scenario_id)
+    return errors
+
+
+def run_corpus(payload: dict[str, Any], corpus: Any) -> CorpusResult:
+    errors = _validate_corpus(corpus)
+    if errors:
+        return CorpusResult([], errors, [])
+
+    route_ids = {route.get("id") for route in payload.get("routes", []) if isinstance(route, dict)}
+    cases: list[dict[str, Any]] = []
+    for scenario in corpus["scenarios"]:
+        expected_route = str(scenario["expected_route_id"])
+        if expected_route not in route_ids:
+            errors.append(f"{scenario['id']}: expected_route_id {expected_route!r} is not in router contract")
+            continue
+        decision = simulate_route(payload, str(scenario["prompt"]))
+        actual_dual_index = _should_generate_dual_index(decision, str(scenario["prompt"]))
+        case = {
+            "id": str(scenario["id"]),
+            "prompt": str(scenario["prompt"]),
+            "expected_route_id": expected_route,
+            "actual_route_id": decision.route_id,
+            "expected_token_mode": str(scenario["expected_token_mode"]),
+            "actual_token_mode": decision.token_mode,
+            "expected_dual_index": bool(scenario["expected_dual_index"]),
+            "actual_dual_index": actual_dual_index,
+            "matched_triggers": decision.matched_triggers,
+            "passed": True,
+        }
+        failures: list[str] = []
+        if decision.route_id != expected_route:
+            failures.append(f"route expected {expected_route}, got {decision.route_id}")
+        if decision.token_mode != case["expected_token_mode"]:
+            failures.append(f"token mode expected {case['expected_token_mode']}, got {decision.token_mode}")
+        if actual_dual_index != case["expected_dual_index"]:
+            failures.append(
+                f"dual index expected {case['expected_dual_index']}, got {actual_dual_index}"
+            )
+        if failures:
+            case["passed"] = False
+            case["failures"] = failures
+            errors.extend(f"{case['id']}: {failure}" for failure in failures)
+        cases.append(case)
+    return CorpusResult(cases, errors, [])
+
+
+def render_corpus_report(result: CorpusResult, contract_path: Path, corpus_path: Path) -> str:
+    status = "passed" if result.ok else "failed"
+    lines = [
+        "# Router Test Report",
+        "",
+        "功能目标：批量验证自然调用是否仍路由到预期 Forge 能力，并检查 token 模式和双索引触发预期。",
+        f"输入：`{contract_path}` + `{corpus_path}`",
+        "输出：Router corpus regression report.",
+        f"状态：{status}",
+        "异常情况：失败样例会列出实际路线、token 模式或双索引触发差异。",
+        "限制：本报告只做本地确定性模拟，不调用模型。",
+        "",
+        "## Cases",
+    ]
+    for case in result.cases:
+        marker = "PASS" if case["passed"] else "FAIL"
+        lines.append(
+            f"- {marker} `{case['id']}`: route {case['actual_route_id']} "
+            f"(expected {case['expected_route_id']}), token {case['actual_token_mode']} "
+            f"(expected {case['expected_token_mode']}), dual_index={case['actual_dual_index']}"
+        )
+        for failure in case.get("failures", []):
+            lines.append(f"  - {failure}")
+    if result.errors:
+        lines.extend(["", "## Errors"])
+        lines.extend(f"- {error}" for error in result.errors)
+    lines.append("")
+    return "\n".join(lines)
+
+
+def run(
+    contract_path: str | Path,
+    simulate_prompt: str | None = None,
+    corpus_path: str | Path | None = None,
+    report_path: str | Path | None = None,
+) -> int:
     path = Path(contract_path).expanduser()
     if not path.exists() or not path.is_file():
         print(f"Invalid router contract path: {path}", file=sys.stderr)
@@ -214,6 +363,32 @@ def run(contract_path: str | Path, simulate_prompt: str | None = None) -> int:
     if simulate_prompt:
         decision = simulate_route(payload, simulate_prompt)
         print(json.dumps(decision.__dict__, ensure_ascii=False, indent=2))
+
+    if corpus_path:
+        corpus_file = Path(corpus_path).expanduser()
+        if not corpus_file.exists() or not corpus_file.is_file():
+            print(f"Invalid router prompt corpus path: {corpus_file}", file=sys.stderr)
+            return 2
+        try:
+            corpus = load_corpus(corpus_file)
+        except (OSError, json.JSONDecodeError) as exc:
+            print(f"Invalid corpus JSON: {exc}", file=sys.stderr)
+            return 2
+        corpus_result = run_corpus(payload, corpus)
+        if report_path:
+            try:
+                report_file = Path(report_path).expanduser()
+                report_file.parent.mkdir(parents=True, exist_ok=True)
+                report_file.write_text(render_corpus_report(corpus_result, path, corpus_file), encoding="utf-8")
+            except OSError as exc:
+                print(f"Failed to write router test report: {exc}", file=sys.stderr)
+                return 2
+        if not corpus_result.ok:
+            print("Router prompt corpus failed.", file=sys.stderr)
+            for error in corpus_result.errors:
+                print(f"- {error}", file=sys.stderr)
+            return 1
+        print(f"Router prompt corpus passed ({len(corpus_result.cases)} scenarios).")
     return 0
 
 
@@ -221,8 +396,10 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Validate and simulate a Forge ROUTER_CONTRACT.json file.")
     parser.add_argument("contract", help="Path to ROUTER_CONTRACT.json")
     parser.add_argument("--simulate", help="Prompt to route through the contract")
+    parser.add_argument("--corpus", dest="corpus_path", help="Optional ROUTER_PROMPT_CORPUS.json to batch validate")
+    parser.add_argument("--report", dest="report_path", help="Optional Markdown report path for corpus validation")
     args = parser.parse_args()
-    return run(args.contract, args.simulate)
+    return run(args.contract, args.simulate, args.corpus_path, args.report_path)
 
 
 if __name__ == "__main__":

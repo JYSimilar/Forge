@@ -1,7 +1,7 @@
 interface:
-  display_name: "Forge 1.9"
+  display_name: "Forge 2.0"
   short_description: "Turn ideas into shippable engineering projects"
-  default_prompt: "Use $forge token-saving by default: choose the smallest useful route, audit or field-test existing workspaces before large changes, create Dual Index human/machine indexes for non-small project work, validate router-contract boundaries when triggers or pluginization matter, load only needed references, and turn this into an MVP, AI or multi-agent work order, review checklist, release plan, or delivery plan."
+  default_prompt: "Use $forge token-saving by default: choose the smallest useful route, audit or field-test existing workspaces before large changes, create or update Dual Index human/machine indexes for non-small project work, run Forge Doctor stable-core checks when stability or release readiness matters, validate router-contract boundaries with prompt corpus when triggers or pluginization matter, load only needed references, and turn this into an MVP, AI or multi-agent work order, review checklist, release plan, or delivery plan."
 
 policy:
   allow_implicit_invocation: true

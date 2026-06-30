@@ -1,5 +1,13 @@
 # Changelog
 
+## v2.0 - Stable Core
+
+- Added `references/stability-gate.md` and `forge_doctor.py` for Forge Doctor stable-core self-checks.
+- Added `forge_index_update.py` so `forge_index.json` can be safely updated while re-rendering `FORGE_INDEX.md` from the same payload.
+- Added `ROUTER_PROMPT_CORPUS.json` plus router corpus validation and Markdown report output.
+- Updated SKILL, INDEX, README, QUICK_COMMANDS, trigger examples, router contract, and OpenAI metadata for Forge 2.0.
+- Added unit tests for Forge Doctor, Forge Index updates, router corpus regression, secret redaction, invalid optional indexes, and 2.0 docs coverage.
+
 ## v1.9 - Dual Index
 
 - Added `references/dual-index.md` for generating paired human and machine indexes on non-small project work.

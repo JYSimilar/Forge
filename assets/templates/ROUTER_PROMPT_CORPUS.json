@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "scenarios": [
+    {
+      "id": "lite_commit_message",
+      "prompt": "只给我 commit message",
+      "expected_route_id": "lite",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false
+    },
+    {
+      "id": "standard_deep_not_burn",
+      "prompt": "详细一点，看看这个仓库有什么问题",
+      "expected_route_id": "existing_project_audit",
+      "expected_token_mode": "Standard Deep",
+      "expected_dual_index": true
+    },
+    {
+      "id": "burn_mode_mvp",
+      "prompt": "Forge: 燃烧模式，帮我拆 MVP",
+      "expected_route_id": "project_mvp",
+      "expected_token_mode": "Burn Mode",
+      "expected_dual_index": false
+    },
+    {
+      "id": "dual_index_explicit",
+      "prompt": "给我同时生成人类索引和机器索引",
+      "expected_route_id": "dual_index",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": true
+    },
+    {
+      "id": "forge_doctor_stability_gate",
+      "prompt": "跑一轮 Forge Doctor 稳定性总检，检查 2.0 稳定版能不能发布",
+      "expected_route_id": "stability_gate",
+      "expected_token_mode": "Standard Deep",
+      "expected_dual_index": true
+    },
+    {
+      "id": "existing_project_audit",
+      "prompt": "接手这个已有工程前，先自查当前工作区",
+      "expected_route_id": "existing_project_audit",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": true
+    },
+    {
+      "id": "field_test_loop",
+      "prompt": "跑一轮 field test，沉淀摩擦点",
+      "expected_route_id": "field_test_loop",
+      "expected_token_mode": "Standard Deep",
+      "expected_dual_index": true
+    },
+    {
+      "id": "multi_agent_split",
+      "prompt": "让前端后端测试几个 AI 分工协作",
+      "expected_route_id": "multi_agent_collaboration",
+      "expected_token_mode": "Standard Deep",
+      "expected_dual_index": true
+    },
+    {
+      "id": "router_contract",
+      "prompt": "检查这些自然调用会不会路由到正确能力",
+      "expected_route_id": "router_contract",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": true
+    },
+    {
+      "id": "pluginization_roadmap",
+      "prompt": "先不要拆实现，设计 router skill + 子 skill 的插件化路线",
+      "expected_route_id": "pluginization_roadmap",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": true
+    },
+    {
+      "id": "release_readiness",
+      "prompt": "按 RELEASE_CHECKLIST 检查这版能不能打 tag 发布",
+      "expected_route_id": "release_readiness",
+      "expected_token_mode": "Standard Deep",
+      "expected_dual_index": true
+    },
+    {
+      "id": "review_submit",
+      "prompt": "帮我看这次改动能不能提交",
+      "expected_route_id": "review_submit",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false
+    },
+    {
+      "id": "skip_index_lite",
+      "prompt": "不要生成索引文件，只给我结果",
+      "expected_route_id": "lite",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false
+    }
+  ]
+}

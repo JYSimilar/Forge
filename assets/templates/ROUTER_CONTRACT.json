@@ -220,6 +220,34 @@
       "token_mode_default": "Token Saver"
     },
     {
+      "id": "stability_gate",
+      "name": "Stability Gate",
+      "priority": 94,
+      "triggers": [
+        "Forge Doctor",
+        "稳定性总检",
+        "Stable Core",
+        "2.0 稳定版",
+        "自检闭环",
+        "稳定内核",
+        "FORGE_DOCTOR"
+      ],
+      "minimum_reference": "references/stability-gate.md",
+      "optional_references": [
+        "references/dual-index.md",
+        "references/router-contract.md",
+        "references/field-test-loop.md",
+        "references/release-readiness.md"
+      ],
+      "default_output": "Run or plan Forge Doctor checks across workspace evidence, dual index consistency, router corpus, agent index, field-test friction, and release readiness.",
+      "completion_evidence": [
+        "FORGE_DOCTOR_REPORT.md and forge_doctor.json are written or intentionally skipped",
+        "Stable-core evidence, risks, and next options are explicit"
+      ],
+      "handoff": "Route to Dual Index, Router Contract, Release Readiness, or Engineering Delivery based on doctor findings.",
+      "token_mode_default": "Standard Deep"
+    },
+    {
       "id": "pluginization_roadmap",
       "name": "Pluginization Roadmap",
       "priority": 85,

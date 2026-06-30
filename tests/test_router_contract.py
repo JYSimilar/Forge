@@ -51,6 +51,7 @@ class RouterContractTests(unittest.TestCase):
             "pluginization_roadmap",
             "router_contract",
             "dual_index",
+            "stability_gate",
             "release_readiness",
             "review_submit",
         }:
@@ -106,6 +107,43 @@ class RouterContractTests(unittest.TestCase):
                 decision = module.simulate_route(payload, prompt)
                 self.assertEqual(expected_route, decision.route_id)
                 self.assertGreater(decision.score, 0)
+
+    def test_prompt_corpus_validates_route_regressions(self):
+        module = load_router_validator()
+        payload = module.load_contract(ROOT / "assets" / "templates" / "ROUTER_CONTRACT.json")
+        corpus = module.load_corpus(ROOT / "assets" / "templates" / "ROUTER_PROMPT_CORPUS.json")
+
+        result = module.run_corpus(payload, corpus)
+
+        self.assertTrue(result.ok, result.errors)
+        self.assertGreaterEqual(len(result.cases), 10)
+        self.assertTrue(any(case["expected_dual_index"] is True for case in result.cases))
+        self.assertTrue(any(case["expected_token_mode"] == "Burn Mode" for case in result.cases))
+
+    def test_prompt_corpus_failure_returns_nonzero_and_writes_report(self):
+        module = load_router_validator()
+        with tempfile.TemporaryDirectory() as tmp:
+            corpus = Path(tmp) / "ROUTER_PROMPT_CORPUS.json"
+            report = Path(tmp) / "ROUTER_TEST_REPORT.md"
+            corpus.write_text(
+                '{"schema_version":"1.0","scenarios":[{"id":"bad","prompt":"只给我 commit message",'
+                '"expected_route_id":"dual_index","expected_token_mode":"Token Saver",'
+                '"expected_dual_index":false}]}',
+                encoding="utf-8",
+            )
+
+            with redirect_stderr(io.StringIO()):
+                code = module.run(
+                    ROOT / "assets" / "templates" / "ROUTER_CONTRACT.json",
+                    corpus_path=corpus,
+                    report_path=report,
+                )
+
+            report_text = report.read_text(encoding="utf-8")
+
+        self.assertEqual(1, code)
+        self.assertIn("failed", report_text)
+        self.assertIn("bad", report_text)
 
     def test_cli_rejects_invalid_json(self):
         module = load_router_validator()

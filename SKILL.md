@@ -1,6 +1,6 @@
 ---
 name: forge
-description: "Use when a user is shaping an idea into an MVP, auditing or field-testing an existing workspace, choosing next steps, preparing AI or multi-agent work orders, reviewing diffs, writing delivery docs, checking compatibility, automating safe progress, validating natural routing contracts, planning pluginization, preparing releases, or deciding whether work is ready to ship."
+description: "Use when a user is shaping an idea into an MVP, auditing or field-testing an existing workspace, choosing next steps, preparing AI or multi-agent work orders, reviewing diffs, writing delivery docs, checking compatibility, automating safe progress, validating natural routing contracts, updating dual indexes, running stable-core self-checks, planning pluginization, preparing releases, or deciding whether work is ready to ship."
 ---
 
 # Forge
@@ -30,6 +30,7 @@ Do not require `Forge:`. Apply Forge silently when requests are project-shaped:
 - "试跑 Forge", "field test", "验证这套流程", "沉淀摩擦点" -> Field Test Loop.
 - "自然触发", "无感路由", "router contract", "路由契约" -> Router Contract.
 - "人类索引和机器索引", "双索引", "给人看的 md 和 AI 看的 json" -> Dual Index.
+- "稳定性总检", "Forge Doctor", "Stable Core", "2.0 稳定版", "自检闭环" -> Stability Gate.
 - "插件化", "拆成多个 skill", "router skill", "像 Superpowers 那样" -> Pluginization Roadmap.
 - "发布", "打 tag", "release checklist", "安装说明" -> Release Readiness.
 - "改完能提交吗", "看 diff", "写 commit/PR" -> Review/Submit.
@@ -52,6 +53,7 @@ Choose one primary route; add another only when it changes the next action or re
 - **Field Test Loop**: validate Forge against a real workspace, record evidence, friction, and next improvements. Read `field-test-loop.md`; run `field_test_runner.py` when useful.
 - **Router Contract**: validate natural triggers, route boundaries, minimum references, output contracts, and future child-skill handoffs. Read `router-contract.md`; run `router_contract_validator.py` when useful.
 - **Dual Index**: produce `FORGE_INDEX.md` for humans and `forge_index.json` for AI/scripts from one shared payload. Read `dual-index.md`; run `dual_index_builder.py` when useful.
+- **Stability Gate**: run Forge Doctor to collect workspace, dual-index, router, agent-index, field-test, and release evidence. Read `stability-gate.md`; run `forge_doctor.py` when useful.
 - **Pluginization Roadmap**: plan future router skill, child skills, plugin packaging, and migration gates. Read `pluginization-roadmap.md`; do not split Forge by default.
 - **AI Orchestration**: work orders, prompts, task queues, acceptance checks, rework prompts. Read `ai-orchestration.md`.
 - **Multi-Agent Collaboration**: multiple AI models, role split, agent JSON index, write boundaries. Read `multi-agent-collaboration.md`; validate `AGENT_INDEX.json` when produced.
@@ -71,6 +73,7 @@ Choose one primary route; add another only when it changes the next action or re
 - **Field evidence loop**: when validating Forge itself, use real workspace evidence, name friction, and convert it into next-version improvements without modifying the target project.
 - **Router evidence**: when changing trigger behavior or pluginization boundaries, validate `ROUTER_CONTRACT.json` and simulate representative prompts before calling it stable.
 - **Dual Index evidence**: for non-small project, collaboration, release, handoff, or field-test work, create or update the human and machine indexes unless the user asks to skip files.
+- **Stable Core evidence**: before calling Forge itself stable, run or manually apply Stability Gate and report verification evidence, remaining risks, and next options.
 - **Brainstorm Everywhere**: at meaningful decisions, briefly diverge into options, converge on one recommendation, and park valuable deferred ideas in Idea Backlog. Skip for direct execution or tiny tasks.
 - **Work Summary**: after non-trivial tasks, close with a short summary of done, produced, verified, risks, next gate, and next step. No long reports by default.
 

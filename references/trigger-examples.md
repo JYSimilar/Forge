@@ -43,6 +43,9 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "输出给人看的 md 和 AI 看的 json，后续协作都以它为准。" -> Dual Index.
 - "根据当前工作区生成 FORGE_INDEX.md 和 forge_index.json。" -> Dual Index + Existing Project Audit.
 - "不要生成索引文件，只给我结果。" -> skip Dual Index.
+- "跑一轮 Forge Doctor 稳定性总检，检查 2.0 稳定版能不能发布。" -> Stability Gate + Release Readiness.
+- "更新 forge_index.json 的验证证据，并重新渲染 FORGE_INDEX.md。" -> Dual Index update.
+- "用 ROUTER_PROMPT_CORPUS 批量检查自然触发有没有漂移。" -> Router Contract regression.
 - "先不要拆实现，帮我设计 router skill + 子 skill 的插件化路线图。" -> Pluginization Roadmap.
 - "像 Superpowers 那样拆成多个能力时，哪些应该是子 skill？" -> Pluginization Roadmap.
 - "按 RELEASE_CHECKLIST 检查这版能不能打 tag 发布。" -> Release Readiness.
@@ -70,6 +73,7 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "这套 Forge 流程在这个项目上好不好用？" -> Field Test Loop.
 - "这个自然触发会不会走错能力？" -> Router Contract.
 - "这轮要不要留一个给人和 AI 都能看的索引？" -> Dual Index.
+- "这版需要一次稳定性总检。" -> Stability Gate.
 - "这个 skill 能不能以后拆成插件？" -> Pluginization Roadmap.
 - "这版能不能发布？" -> Release Readiness.
 - "帮我写一段给 Codex 的任务。" -> AI Orchestration.
@@ -87,5 +91,6 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "run a field test on this workspace" -> Field Test Loop.
 - "validate the router contract" -> Router Contract.
 - "create a human index and machine index" -> Dual Index.
+- "run Forge Doctor stable-core checks" -> Stability Gate.
 - "plan a future plugin split" -> Pluginization Roadmap.
 - "prepare this release" -> Release Readiness.
