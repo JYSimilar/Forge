@@ -1,5 +1,7 @@
 # Forge Compact Index
 
+Forge 2.1 adds host-agent compatible work orders, host adapter notes, and context budget contracts without adding an agent runtime.
+
 Use this file when you need one compact map of Forge routes, references, templates, and scripts.
 
 | Route | Minimum Reference | Optional Reference | Useful Templates | Useful Scripts |
@@ -16,6 +18,9 @@ Use this file when you need one compact map of Forge routes, references, templat
 | Pluginization Roadmap | `pluginization-roadmap.md` | `router-contract.md`, `ai-orchestration.md` | `PLUGINIZATION_PLAN.md`, `ROUTER_CONTRACT.json`, `ROUTER_TEST_REPORT.md` | `router_contract_validator.py` |
 | Engineering Delivery | `engineering-delivery.md` | `definition-of-done.md`, then Review/Submit gate | `ACCEPTANCE_CHECK.md`, `EXECUTION_LOG.md`, `troubleshooting.md` | `project_audit.py` |
 | AI Orchestration | `ai-orchestration.md` | `definition-of-done.md`, `multi-agent-collaboration.md` | `AI_TASK_BRIEF.md`, `AGENT_WORK_ORDER.md`, `TASK_QUEUE.md`, `REWORK_PROMPT.md` | none |
+| Agent-Compatible Work Protocol | `agent-compatible-work-protocol.md` | `host-adapters.md`, `context-budget-contract.md`, `ai-orchestration.md` | `HOST_WORK_ORDER.md`, `AI_TASK_BRIEF.md`, `AGENT_WORK_ORDER.md`, `ACCEPTANCE_CHECK.md` | none |
+| Host Adapters | `host-adapters.md` | `agent-compatible-work-protocol.md`, `context-budget-contract.md` | `HOST_WORK_ORDER.md`, `AGENT_TASK_CARD.md` | none |
+| Context Budget Contract | `context-budget-contract.md` | `token-policy.md`, `agent-compatible-work-protocol.md` | `HOST_WORK_ORDER.md`, `AI_TASK_BRIEF.md` | none |
 | Multi-Agent Collaboration | `multi-agent-collaboration.md` | `ai-orchestration.md`, `existing-project-audit.md` | `MULTI_AGENT_PLAN.md`, `AGENT_INDEX.json`, `AGENT_INDEX.schema.json`, `AGENT_TASK_CARD.md`, `ACCEPTANCE_CHECK.md` | `agent_index_validator.py`, `agent_index_update.py`, `workspace_inventory.py` |
 | Review/Submit | `review-and-submit.md` | `multi-role-review.md` | `mr_description.md`, `ACCEPTANCE_CHECK.md` | `diff_review_helper.py` |
 | Docs/Compatibility | `docs-compatibility-api.md` | `definition-of-done.md` | `quickstart.md`, `api_doc.md`, `troubleshooting.md`, `PROJECT_HANDOFF.md` | `doc_index_builder.py` |
@@ -39,6 +44,7 @@ Use this file when you need one compact map of Forge routes, references, templat
 - `EXECUTION_LOG.md`: record what was done and how it was verified.
 - `FIELD_TEST_REPORT.md`: record a real-workspace Forge field test, friction points, evidence, and next improvements.
 - `FORGE_INDEX.md`: human-readable index for project status, routes, artifacts, risks, evidence, and next options.
+- `HOST_WORK_ORDER.md`: portable work order for Claude Code, Codex, Cursor, or generic host agents.
 - `IDEA_BACKLOG.md`: park useful ideas deferred from the current version and define when to revisit them.
 - `MULTI_AGENT_PLAN.md`: human-readable plan for multi-agent collaboration.
 - `OPTION_SET.md`: compare options and recommend one.

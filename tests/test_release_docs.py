@@ -43,6 +43,50 @@ class ReleaseDocsTests(unittest.TestCase):
         self.assertNotIn("Forge 1.8 保留", readme)
         self.assertNotIn("Forge 1.8 仍然", readme)
 
+    def test_agent_compatible_protocol_docs_and_templates_are_indexed(self):
+        root = Path(__file__).resolve().parents[1]
+        index = (root / "INDEX.md").read_text(encoding="utf-8")
+        readme = (root / "README.md").read_text(encoding="utf-8")
+        commands = (root / "QUICK_COMMANDS.md").read_text(encoding="utf-8")
+        changelog = (root / "CHANGELOG.md").read_text(encoding="utf-8")
+
+        expected_files = [
+            root / "references" / "agent-compatible-work-protocol.md",
+            root / "references" / "host-adapters.md",
+            root / "references" / "context-budget-contract.md",
+            root / "assets" / "templates" / "HOST_WORK_ORDER.md",
+        ]
+        for path in expected_files:
+            self.assertTrue(path.exists(), f"{path} should exist")
+        for text in (index, readme, commands, changelog):
+            self.assertIn("Forge 2.1", text)
+        self.assertIn("agent-compatible-work-protocol.md", index)
+        self.assertIn("host-adapters.md", index)
+        self.assertIn("context-budget-contract.md", index)
+        self.assertIn("HOST_WORK_ORDER.md", index)
+
+    def test_agent_compatible_templates_do_not_claim_runtime_control(self):
+        root = Path(__file__).resolve().parents[1]
+        paths = [
+            root / "assets" / "templates" / "AI_TASK_BRIEF.md",
+            root / "assets" / "templates" / "AGENT_WORK_ORDER.md",
+            root / "assets" / "templates" / "AGENT_TASK_CARD.md",
+            root / "assets" / "templates" / "HOST_WORK_ORDER.md",
+        ]
+        forbidden = [
+            "Forge 直接调用模型",
+            "Forge 自动调度模型",
+            "Forge automatically calls models",
+            "Forge dispatches agents automatically",
+        ]
+        required = ["Target Host", "Context Budget", "Acceptance First", "Do Not"]
+        for path in paths:
+            text = path.read_text(encoding="utf-8")
+            for phrase in required:
+                self.assertIn(phrase, text, f"{path} should include {phrase}")
+            for phrase in forbidden:
+                self.assertNotIn(phrase, text, f"{path} should not claim runtime control")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -6,6 +6,19 @@ Forge should not become a blind multi-agent system. It should remain a controlle
 
 project goal -> role split -> work order -> execution guidance -> acceptance check -> rework or handoff.
 
+For Claude Code, Codex, Cursor, or another host agent, prefer `agent-compatible-work-protocol.md` when the user needs a copyable work order. Forge defines the task contract; the host agent executes it.
+
+## Acceptance-First Protocol
+
+Before handing work to any host agent:
+
+1. Define acceptance criteria.
+2. Define allowed and forbidden scope.
+3. Define required verification evidence.
+4. Define stop-and-ask conditions.
+
+Do not claim Forge can call models, trace host actions, provide memory/RAG, or dispatch agents automatically. Use host capabilities only when the current environment provides them.
+
 ## When to Use
 
 Use AI orchestration when the user says things like:

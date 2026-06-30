@@ -45,6 +45,9 @@ class RouterContractTests(unittest.TestCase):
         route_ids = {route["id"] for route in payload["routes"]}
         for expected in {
             "lite",
+            "agent_compatible_work_protocol",
+            "host_adapters",
+            "context_budget_contract",
             "existing_project_audit",
             "field_test_loop",
             "multi_agent_collaboration",
@@ -100,6 +103,11 @@ class RouterContractTests(unittest.TestCase):
             ("修复前端页面的登录按钮", "engineering_delivery"),
             ("给我同时生成人类索引和机器索引", "dual_index"),
             ("输出给人看的 md 和 AI 看的 json", "dual_index"),
+            ("给 Claude Code 的任务单", "agent_compatible_work_protocol"),
+            ("给 Codex 执行的 work order", "agent_compatible_work_protocol"),
+            ("Claude Code / Codex / Cursor 怎么用这个任务", "host_adapters"),
+            ("这个任务怎么控制上下文", "context_budget_contract"),
+            ("不要多 agent，生成一个通用 agent 任务单", "agent_compatible_work_protocol"),
         ]
 
         for prompt, expected_route in scenarios:

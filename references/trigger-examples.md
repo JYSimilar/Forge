@@ -58,6 +58,12 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "我想自己定义每个智能体用什么模型。" -> Multi-Agent Collaboration.
 - "给我一个人类看的协作计划和 AI 看的 JSON 索引。" -> Multi-Agent Collaboration.
 - "把 AGENT_INDEX 里的 T1 标成 done，并记录验证证据。" -> Multi-Agent Collaboration status update.
+- "给 Claude Code 的任务单。" -> Agent-Compatible Work Protocol.
+- "给 Codex 执行的 work order。" -> Agent-Compatible Work Protocol.
+- "不要多 agent，生成一个通用 agent 任务单。" -> Agent-Compatible Work Protocol.
+- "Claude Code / Codex / Cursor 怎么用这个任务？" -> Host Adapters.
+- "这个任务怎么控制上下文？" -> Context Budget Contract.
+- "给我一个低消耗任务单，只包含必要上下文。" -> Context Budget Contract + Agent-Compatible Work Protocol.
 - "AI 做完了，帮我验收一下，不合格就给返工提示词。" -> Acceptance + Rework.
 - "我想自动完成这个目标，先给我几个可选路线。" -> Automation.
 
@@ -77,6 +83,8 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "这个 skill 能不能以后拆成插件？" -> Pluginization Roadmap.
 - "这版能不能发布？" -> Release Readiness.
 - "帮我写一段给 Codex 的任务。" -> AI Orchestration.
+- "这个任务要怎么给 Claude Code 或 Codex 执行？" -> Host Adapters + Agent-Compatible Work Protocol.
+- "这个任务别加载太多上下文。" -> Context Budget Contract.
 - "这个任务要几个 AI 分工比较好？" -> Multi-Agent Collaboration.
 - "AI 改完了，你帮我看看行不行。" -> Review/Submit or Acceptance.
 - "我想让这件事自动推进。" -> Automation with confirmation gates.
@@ -92,5 +100,8 @@ Read this only when the user asks how to call Forge, wants examples, or trigger 
 - "validate the router contract" -> Router Contract.
 - "create a human index and machine index" -> Dual Index.
 - "run Forge Doctor stable-core checks" -> Stability Gate.
+- "create a Codex-compatible work order" -> Agent-Compatible Work Protocol.
+- "adapt this task for Claude Code" -> Host Adapters.
+- "keep the task context budget small" -> Context Budget Contract.
 - "plan a future plugin split" -> Pluginization Roadmap.
 - "prepare this release" -> Release Readiness.

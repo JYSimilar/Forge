@@ -6,6 +6,17 @@ Copy this section to the AI executor.
 ```text
 You are executing one bounded task for this project.
 
+Target Host:
+- Claude Code / Codex / Cursor / Generic Agent
+
+Context Budget:
+- Use only the listed inputs first.
+- Ask before loading broad repository context.
+
+Acceptance First:
+- Treat acceptance criteria as the contract.
+- Do not claim completion without verification evidence.
+
 Task:
 
 Goal:
@@ -15,6 +26,11 @@ Context:
 Allowed changes:
 
 Do not change:
+
+Do Not:
+- Do not rewrite unrelated files.
+- Do not add heavy dependencies without approval.
+- Do not perform destructive, paid, deployment, publish, or secret-touching actions without user confirmation.
 
 Implementation instructions:
 1.

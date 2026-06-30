@@ -2,6 +2,8 @@
 
 Use this when a task benefits from several AI executors with separate roles, models, and work boundaries. Forge remains the project manager; agents are executors.
 
+For a single Claude Code, Codex, Cursor, or generic host-agent handoff, use `agent-compatible-work-protocol.md` instead. Multi-agent planning is for explicit multiple roles/models or genuinely separate work streams.
+
 ## When to Use
 
 Use for broad work that crosses responsibilities:
@@ -22,6 +24,8 @@ Do not use for tiny tasks, one-file edits, or when a single bounded work order i
 5. Store the human-readable index in Markdown and the machine-readable index in JSON.
 6. Review outputs in two stages: spec compliance first, quality/risk second.
 7. Merge through one coordinator when files or interfaces overlap.
+
+Forge generates plans, task cards, indexes, and acceptance gates. It must not claim to run a model runtime, dispatch host subagents, or trace host execution unless the host environment explicitly exposes that capability.
 
 This borrows the useful Superpowers shape: plan before execution, fresh context per agent, evidence before completion, and least-capable model that can safely do the job. Forge should not copy heavy ceremony for small tasks.
 

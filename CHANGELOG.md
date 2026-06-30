@@ -1,5 +1,13 @@
 # Changelog
 
+## v2.1 - Agent-Compatible Work Protocol
+
+- Added host-agent compatible work protocol references for Claude Code, Codex, Cursor, and generic agents.
+- Added `HOST_WORK_ORDER.md` and upgraded AI task templates with Target Host, Context Budget, Acceptance First, and Do Not fields.
+- Added context budget and host adapter routing without adding a model runtime, tracing layer, or automatic agent dispatcher.
+- Updated router contract, prompt corpus, docs, quick commands, INDEX, and metadata for Forge 2.1.
+- Added tests to guard against misleading claims that Forge directly calls or automatically dispatches models.
+
 ## v2.0 - Stable Core
 
 - Added `references/stability-gate.md` and `forge_doctor.py` for Forge Doctor stable-core self-checks.

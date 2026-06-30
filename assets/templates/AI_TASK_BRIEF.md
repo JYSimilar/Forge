@@ -8,6 +8,18 @@
 ## Recommended Executor
 - Human / ChatGPT / Claude Code / Codex / Cursor / Manual Review / Other AI
 
+## Target Host
+- Claude Code / Codex / Cursor / Generic Agent:
+- Host-specific note:
+
+## Context Budget
+- Default: give only the files, commands, and facts required for this task.
+- Load more context only if acceptance criteria cannot be checked otherwise.
+
+## Acceptance First
+- Define acceptance before execution.
+- Executor must report verification evidence before claiming completion.
+
 ## Goal
 
 ## Project Context
@@ -17,6 +29,11 @@
 ## Allowed Scope
 
 ## Out of Scope / Do Not Touch
+
+## Do Not
+- Do not rewrite unrelated files.
+- Do not add heavy dependencies without approval.
+- Do not perform destructive, paid, deployment, publish, or secret-touching actions without user confirmation.
 
 ## Steps
 1.

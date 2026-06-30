@@ -58,6 +58,41 @@
       "expected_dual_index": true
     },
     {
+      "id": "claude_code_work_order",
+      "prompt": "给 Claude Code 的任务单",
+      "expected_route_id": "agent_compatible_work_protocol",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false
+    },
+    {
+      "id": "codex_work_order",
+      "prompt": "给 Codex 执行的 work order",
+      "expected_route_id": "agent_compatible_work_protocol",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false
+    },
+    {
+      "id": "host_adapter_notes",
+      "prompt": "Claude Code / Codex / Cursor 怎么用这个任务",
+      "expected_route_id": "host_adapters",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false
+    },
+    {
+      "id": "context_budget",
+      "prompt": "这个任务怎么控制上下文",
+      "expected_route_id": "context_budget_contract",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false
+    },
+    {
+      "id": "generic_agent_not_multi_agent",
+      "prompt": "不要多 agent，生成一个通用 agent 任务单",
+      "expected_route_id": "agent_compatible_work_protocol",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false
+    },
+    {
       "id": "router_contract",
       "prompt": "检查这些自然调用会不会路由到正确能力",
       "expected_route_id": "router_contract",
