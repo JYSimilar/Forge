@@ -77,6 +77,12 @@ class ReleaseDocsTests(unittest.TestCase):
         self.assertIn("project-manager skill", readme)
         self.assertIn("项目经理型 skill", zh_readme)
         self.assertIn("project-manager skill", en_readme)
+        self.assertIn("ordinary people", readme)
+        self.assertIn("普通人", zh_readme)
+        self.assertIn("ordinary people", en_readme)
+        self.assertIn("real, usable things", readme)
+        self.assertIn("真实可用成果", zh_readme)
+        self.assertIn("real, usable things", en_readme)
         for text in (readme, en_readme, skill):
             self.assertIn("Safe Work Order", text)
             self.assertIn("default execution unit", text)

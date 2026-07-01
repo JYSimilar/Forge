@@ -1,8 +1,8 @@
 # Forge English Documentation
 
-Forge is a project-manager skill for turning vague ideas, messy workspaces, and AI-assisted tasks into shippable progress.
+Forge is a skill that helps ordinary people turn vague ideas into real, usable things with AI agents.
 
-It helps users scope MVPs, audit existing projects, plan engineering work, delegate bounded tasks to AI agents, verify results, write docs, and prepare handoff or release.
+It works like a project manager: it helps users clarify ideas, scope MVPs, audit existing projects, plan engineering work, delegate bounded tasks to AI agents, verify results, write docs, and prepare handoff or release.
 
 Safe Work Order is Forge's default execution unit, not the whole product. Every AI task should have a clear goal, context budget, limits, acceptance checks, verification evidence, stop condition, and review gate.
 
@@ -15,7 +15,7 @@ Safe Work Order is Forge's default execution unit, not the whole product. Every 
 
 ## Current Version
 
-Forge 2.2 is the **Project Manager Core + Safe Work Order** release.
+Forge 2.2 is the **Ordinary People + AI Agents + Shippable Progress** release.
 
 Core principles:
 
@@ -33,11 +33,13 @@ Forge 2.2 turns that feedback into product behavior: Forge remains a project-man
 ## Flow
 
 ```text
-Idea / Existing Project / Messy Task
+Vague Idea / Existing Project / Personal Need
 ↓
 Clarify
 ↓
-Scope / Audit / Plan
+Choose the smallest useful version
+↓
+Plan the next concrete step
 ↓
 Safe Work Order
 ↓

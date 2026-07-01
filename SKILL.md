@@ -1,11 +1,11 @@
 ---
 name: forge
-description: "Use when a user wants a project-manager skill to turn a vague idea, messy workspace, existing project, AI-assisted task, review, handoff, or release into shippable progress. Use for MVP scoping, project audit, engineering planning, bounded current-agent work orders, result verification, docs, diff review, manual handoff notes, and release readiness. Safe Work Order is the default execution unit for AI tasks, not the whole product."
+description: "Use when a user wants help turning a vague idea, messy workspace, existing project, small tool, MVP, docs task, AI-assisted task, review, handoff, or release into a real usable result with AI agents. Forge is a project-manager skill for ordinary people: clarify ideas, scope MVPs, plan work, create bounded current-agent tasks, verify results, write docs, and prepare handoff or release. Safe Work Order is the default execution unit for AI tasks, not the whole product."
 ---
 
 # Forge
 
-Forge is a project-manager skill for turning vague ideas, messy workspaces, and AI-assisted tasks into shippable progress.
+Forge is a project-manager skill that helps ordinary people turn vague ideas, messy workspaces, and AI-assisted tasks into real, usable, shippable progress.
 
 Safe Work Order is Forge's default execution unit: clear goal, context budget, limits, acceptance checks, verification evidence, stop condition, and review gate.
 

@@ -1,7 +1,7 @@
 interface:
   display_name: "Forge 2.2"
-  short_description: "Turn vague work into safe agent work orders"
-  default_prompt: "Use $forge token-saving by default: choose the smallest useful route, create low-token Safe Work Orders with context budget, stop condition, acceptance-first checks, and review gates, audit or field-test existing workspaces before large changes, create or update Dual Index human/machine indexes for non-small project work, run Forge Doctor stable-core checks when stability or release readiness matters, treat cross-tool use as manual handoff only, validate router-contract boundaries with prompt corpus when triggers or pluginization matter, load only needed references, and turn this into an MVP, current-agent work order, review checklist, release plan, or delivery plan. User-facing docs are indexed by language: zh at docs/zh/README.md and en at docs/en/README.md."
+  short_description: "Help ordinary people build real things with AI agents"
+  default_prompt: "Use $forge as a project-manager skill for ordinary people: turn vague ideas, existing projects, messy tasks, small tools, MVPs, docs, or handoffs into real usable progress with AI agents. Stay token-saving by default: clarify the goal, choose the smallest useful version, plan the next concrete step, and use Safe Work Orders only as the bounded execution unit for AI work with context budget, stop condition, acceptance-first checks, and review gates. Treat cross-tool use as manual handoff only, load only needed references, and carry work toward review, docs, handoff, release, or the next version. User-facing docs are indexed by language: zh at docs/zh/README.md and en at docs/en/README.md."
 
 policy:
   allow_implicit_invocation: true

@@ -1,6 +1,6 @@
 # Forge Compact Index
 
-Forge 2.2 centers on Project Manager Core + Safe Work Order execution: MVP scoping, existing-project audit, engineering planning, bounded current-agent work orders, verification, docs, handoff, release readiness, and review gates without cross-model or cross-product dispatch.
+Forge centers on helping ordinary people turn vague ideas, existing projects, and AI-assisted work into shippable progress. Safe Work Order is the default bounded execution format used when AI agents need clear context, limits, acceptance checks, verification evidence, stop conditions, and review gates.
 
 Use this file when you need one compact map of Forge routes, references, templates, and scripts.
 
