@@ -55,7 +55,7 @@ Do not replace required quality gates with hints. If review, acceptance, verific
 | MVP scope contains many cut features | 可选增强：这些想法现在不做，但可以放进 IDEA_BACKLOG，后续版本再评估。 |
 | Task begins with unclear success criteria | 可选增强：要不要先定义“怎样才算完成”，避免做完后无法验收？ |
 | Project feels messy or user asks “下一步” | 可选增强：要不要我判断当前阶段，再决定下一步质量门？ |
-| User wants coding or implementation help | 可选增强：要不要我把这件事写成 Codex / Claude Code 可执行任务单？ |
+| User wants coding or implementation help | 可选增强：要不要我把这件事写成当前 agent 可执行的角色任务单？ |
 | AI executor returned work | 可选增强：要不要按 Acceptance Check 验收，不合格就生成返工提示词？ |
 | A plan, prototype, doc, or submit decision is important | 可选增强：要不要从产品、工程、文档、风险几个角度快速审一遍？ |
 | Project is long-running or multi-session | 可选增强：要不要生成或更新 PROJECT_STATE，方便以后接着做？ |

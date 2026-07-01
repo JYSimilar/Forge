@@ -1,6 +1,6 @@
 ---
 name: forge
-description: "Use when a user is shaping an idea into an MVP, auditing or field-testing an existing workspace, choosing next steps, preparing AI or multi-agent work orders, reviewing diffs, writing delivery docs, checking compatibility, automating safe progress, validating natural routing contracts, updating dual indexes, running stable-core self-checks, making Claude Code/Codex/Cursor-compatible work orders, planning pluginization, preparing releases, or deciding whether work is ready to ship."
+description: "Use when a user wants to turn a vague idea, project problem, existing workspace, AI task, review, handoff, or release into a safe agent-executable work order with clear goals, inputs, outputs, limits, acceptance checks, verification evidence, summary, and next steps. Also use for MVP scoping, project audit, docs, diff review, current-agent role planning, manual handoff notes, and release readiness."
 ---
 
 # Forge
@@ -34,11 +34,12 @@ Do not require `Forge:`. Apply Forge silently when requests are project-shaped:
 - "插件化", "拆成多个 skill", "router skill", "像 Superpowers 那样" -> Pluginization Roadmap.
 - "发布", "打 tag", "release checklist", "安装说明" -> Release Readiness.
 - "改完能提交吗", "看 diff", "写 commit/PR" -> Review/Submit.
-- "交给 Codex/Claude/ChatGPT 做", "写提示词", "验收 AI 结果" -> AI Orchestration.
-- "给 Claude Code/Codex/Cursor 的任务单", "通用 agent work order", "HOST_WORK_ORDER" -> Agent-Compatible Work Protocol.
-- "Claude Code / Codex / Cursor 怎么用", "host adapter", "宿主 agent" -> Host Adapters.
+- "写提示词", "验收 AI 结果", "给当前 agent 的任务单" -> AI Orchestration.
+- "在当前 agent 里分角色", "多角色任务卡", "ROLE_WORK_ORDER" -> Single-Host Role Protocol.
+- "手动交给 Claude Code/Codex/Cursor", "复制给另一个工具", "manual handoff" -> Manual Handoff Notes.
+- "让 Codex 调 Claude", "跨模型自动调用", "自动让几个模型并行做" -> clarify boundary; Forge can only produce manual handoff artifacts.
 - "控制上下文", "context budget", "少读资料", "低消耗任务单" -> Context Budget Contract.
-- "多个模型协作", "多智能体", "前端后端测试分工" -> Multi-Agent Collaboration.
+- "多角色协作", "多智能体", "前端后端测试分工" -> Multi-Agent Collaboration.
 - "自动推进", "一步步带我做", "给我几个路线" -> Automation.
 
 For one narrow artifact, use Lite Mode even when Forge is active.
@@ -59,10 +60,10 @@ Choose one primary route; add another only when it changes the next action or re
 - **Stability Gate**: run Forge Doctor to collect workspace, dual-index, router, agent-index, field-test, and release evidence. Read `stability-gate.md`; run `forge_doctor.py` when useful.
 - **Pluginization Roadmap**: plan future router skill, child skills, plugin packaging, and migration gates. Read `pluginization-roadmap.md`; do not split Forge by default.
 - **AI Orchestration**: work orders, prompts, task queues, acceptance checks, rework prompts. Read `ai-orchestration.md`.
-- **Agent-Compatible Work Protocol**: portable work orders for Claude Code, Codex, Cursor, or generic agents without duplicating host runtime features. Read `agent-compatible-work-protocol.md`; use `HOST_WORK_ORDER.md` when useful.
-- **Host Adapters**: concise notes for how specific host agents should consume Forge artifacts. Read `host-adapters.md`.
-- **Context Budget Contract**: required/optional/do-not-load context for low-token host-agent work. Read `context-budget-contract.md`.
-- **Multi-Agent Collaboration**: multiple AI models, role split, agent JSON index, write boundaries. Read `multi-agent-collaboration.md`; validate `AGENT_INDEX.json` when produced.
+- **Single-Host Role Protocol**: current-agent role work orders with acceptance-first and context-budget boundaries. Read `single-host-role-protocol.md`; use `ROLE_WORK_ORDER.md` when useful.
+- **Manual Handoff Notes**: copyable artifacts for user-managed handoff to another tool. Read `manual-handoff-notes.md`.
+- **Context Budget Contract**: required/optional/do-not-load context for low-token current-agent work. Read `context-budget-contract.md`.
+- **Multi-Agent Collaboration**: multi-role planning inside the current agent workflow, agent JSON index, write boundaries. Read `multi-agent-collaboration.md`; validate `AGENT_INDEX.json` when produced.
 - **Review/Submit**: diff review, commit message, PR/MR, submit readiness. Read `review-and-submit.md`.
 - **Docs/Compatibility**: README, Quick Start, API/CLI/SDK, install, device/mock/offline, handoff. Read `docs-compatibility-api.md`.
 - **Release Readiness**: release checklist, tag, install notes, validation evidence, public handoff. Read `release-readiness.md`; use `RELEASE_CHECKLIST.md`; add Review/Submit when code changed.
@@ -72,7 +73,7 @@ Choose one primary route; add another only when it changes the next action or re
 ## Project Manager Rules
 
 - **Route chaining**: after implementation, config, scripts, or execution docs change, carry the user to the next quality gate.
-- **Plan before execution**: for complex audits or multi-agent work, define goal, inputs, outputs, status, exceptions, limits, acceptance, and verification first.
+- **Plan before execution**: for complex audits or multi-role work, define goal, inputs, outputs, status, exceptions, limits, acceptance, and verification first.
 - **Evidence before completion**: do not claim work is complete without verification evidence or a clear note that verification was skipped.
 - **Next Step Protocol**: end non-trivial responses with a clear `下一步` / `Next step`, unless asked to stop or only produce the artifact.
 - **Capability Hints**: after meaningful non-trivial work, one optional `可选增强` may reveal a useful hidden Forge ability. Skip hints for tiny tasks, direct-result requests, or ignored hints. Use `references/capability-hints.md`.
@@ -80,7 +81,7 @@ Choose one primary route; add another only when it changes the next action or re
 - **Router evidence**: when changing trigger behavior or pluginization boundaries, validate `ROUTER_CONTRACT.json` and simulate representative prompts before calling it stable.
 - **Dual Index evidence**: for non-small project, collaboration, release, handoff, or field-test work, create or update the human and machine indexes unless the user asks to skip files.
 - **Stable Core evidence**: before calling Forge itself stable, run or manually apply Stability Gate and report verification evidence, remaining risks, and next options.
-- **Host boundary**: Forge defines project contracts and handoff artifacts; do not claim Forge can call models, trace host actions, or dispatch agents unless the host explicitly provides that capability.
+- **Single-agent boundary**: Forge defines project contracts and handoff artifacts for the current installed agent. Do not claim Forge can call Claude, Codex, Cursor, other models, trace host actions, or dispatch external agents. Cross-tool use is manual handoff by the user.
 - **Brainstorm Everywhere**: at meaningful decisions, briefly diverge into options, converge on one recommendation, and park valuable deferred ideas in Idea Backlog. Skip for direct execution or tiny tasks.
 - **Work Summary**: after non-trivial tasks, close with a short summary of done, produced, verified, risks, next gate, and next step. No long reports by default.
 

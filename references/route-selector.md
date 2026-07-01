@@ -22,8 +22,8 @@ Use this as Forge's single routing reference. Choose the smallest route that cha
 | Existing products/open source/current facts | Reference Scout | Scout first, cite evidence, then recommend | `reference-scout.md`, `evidence-discipline.md` |
 | Existing workspace/project audit | Existing Project Audit | Detect project status, summarize current materials, risks, and 2-3 next options | `existing-project-audit.md` |
 | Build/stabilize/package/test | Engineering Delivery | Smallest safe change + verification + risk + post-change review gate | `engineering-delivery.md`, `definition-of-done.md` |
-| Prompt/work order for another AI | AI Orchestration | Task boundary, prohibited changes, acceptance | `ai-orchestration.md` |
-| Multiple AI models/roles | Multi-Agent Collaboration | Human MD index + agent JSON index + file boundaries + acceptance loop | `multi-agent-collaboration.md` |
+| Prompt/work order for current agent role or manual AI handoff | AI Orchestration | Task boundary, prohibited changes, acceptance | `ai-orchestration.md` |
+| Multiple roles/task lanes | Multi-Agent Collaboration | Human MD index + agent JSON index + file boundaries + acceptance loop | `multi-agent-collaboration.md` |
 | Diff/commit/PR readiness | Review/Submit | Findings first; end with submit conclusion | `review-and-submit.md` |
 | README/install/API/compatibility | Docs/Compatibility | User can install, run, verify, troubleshoot | `docs-compatibility-api.md` |
 | Guided automation | Automation | Options first, recommend, confirm risky actions | `automation-loop.md` |
@@ -43,8 +43,9 @@ Use this as Forge's single routing reference. Choose the smallest route that cha
 | "接手这个工程", "当前工作区有什么", "先自查", "列一个 md 汇总" | Existing Project Audit |
 | "给别人用", "普通人能跑", "写 README" | Docs/Compatibility |
 | "改完能提交吗", "看 diff", "写 PR" | Review/Submit |
-| "交给 Codex/Claude 做", "写提示词", "验收 AI 结果" | AI Orchestration |
-| "多个模型协作", "多智能体", "前端后端测试分工" | Multi-Agent Collaboration |
+| "给当前 agent 写任务单", "写提示词", "验收 AI 结果" | AI Orchestration |
+| "多角色协作", "多智能体", "前端后端测试分工" | Multi-Agent Collaboration |
+| "让 Codex 调 Claude", "跨模型自动调用" | Clarify boundary + Manual Handoff Notes |
 | "自动推进", "一步步带我做", "给我几个路线" | Automation |
 | "下一步干什么", "做完以后呢", "我不懂流程" | Next Step Protocol + Route Selector |
 | "还能帮我做什么", "有没有更好的做法", "我不知道该问什么" | Capability Hints |

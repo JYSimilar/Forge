@@ -27,7 +27,7 @@ Use for:
 - MVP scoping.
 - README / Quick Start / interface design.
 - Diff review.
-- AI task queue or Codex / Claude Code work prompt.
+- AI task queue, current-agent role work order, or manual handoff prompt.
 - Open-source / competitor analysis.
 - Automation plan.
 

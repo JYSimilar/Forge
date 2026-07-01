@@ -52,29 +52,43 @@
     },
     {
       "id": "multi_agent_split",
-      "prompt": "让前端后端测试几个 AI 分工协作",
+      "prompt": "在当前 agent 里让前端后端测试几个角色分工协作",
       "expected_route_id": "multi_agent_collaboration",
       "expected_token_mode": "Standard Deep",
       "expected_dual_index": true
     },
     {
-      "id": "claude_code_work_order",
-      "prompt": "给 Claude Code 的任务单",
-      "expected_route_id": "agent_compatible_work_protocol",
+      "id": "current_agent_role_work_order",
+      "prompt": "在当前 agent 里生成一个角色任务单",
+      "expected_route_id": "single_host_role_protocol",
       "expected_token_mode": "Token Saver",
       "expected_dual_index": false
     },
     {
       "id": "codex_work_order",
-      "prompt": "给 Codex 执行的 work order",
-      "expected_route_id": "agent_compatible_work_protocol",
+      "prompt": "给当前 Codex 执行的 work order",
+      "expected_route_id": "single_host_role_protocol",
       "expected_token_mode": "Token Saver",
       "expected_dual_index": false
     },
     {
-      "id": "host_adapter_notes",
-      "prompt": "Claude Code / Codex / Cursor 怎么用这个任务",
-      "expected_route_id": "host_adapters",
+      "id": "manual_handoff_notes",
+      "prompt": "手动复制给 Claude Code 的任务单",
+      "expected_route_id": "manual_handoff_notes",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false
+    },
+    {
+      "id": "codex_calls_claude_boundary",
+      "prompt": "让 Codex 调 Claude 做 review",
+      "expected_route_id": "boundary_clarification",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false
+    },
+    {
+      "id": "automatic_model_dispatch_boundary",
+      "prompt": "自动让几个模型并行做",
+      "expected_route_id": "boundary_clarification",
       "expected_token_mode": "Token Saver",
       "expected_dual_index": false
     },
@@ -88,7 +102,7 @@
     {
       "id": "generic_agent_not_multi_agent",
       "prompt": "不要多 agent，生成一个通用 agent 任务单",
-      "expected_route_id": "agent_compatible_work_protocol",
+      "expected_route_id": "single_host_role_protocol",
       "expected_token_mode": "Token Saver",
       "expected_dual_index": false
     },

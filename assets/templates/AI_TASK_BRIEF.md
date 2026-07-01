@@ -5,12 +5,13 @@
 
 ## Executor Role
 
-## Recommended Executor
-- Human / ChatGPT / Claude Code / Codex / Cursor / Manual Review / Other AI
+## Recommended Role
+- Human reviewer / current agent implementation role / current agent review role / manual external handoff
 
-## Target Host
-- Claude Code / Codex / Cursor / Generic Agent:
-- Host-specific note:
+## Current Agent Context
+- Current installed agent/model:
+- Role view for this task:
+- Manual handoff note, if the user copies this elsewhere:
 
 ## Context Budget
 - Default: give only the files, commands, and facts required for this task.
@@ -34,6 +35,7 @@
 - Do not rewrite unrelated files.
 - Do not add heavy dependencies without approval.
 - Do not perform destructive, paid, deployment, publish, or secret-touching actions without user confirmation.
+- Do not assume Forge can call other models, products, or external agents.
 
 ## Steps
 1.

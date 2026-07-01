@@ -1,5 +1,16 @@
 # Changelog
 
+## v2.2 - Safe Work Order
+
+- Forge 2.2 turns user feedback about token over-consumption into a Safe Work Order posture: small-step execution, Context Budget, Stop Condition, and Review Gate.
+- Added field feedback to README so version evolution is grounded in real usage friction.
+- Fixed misleading cross-model wording by making the current installed agent the default execution boundary.
+- Reframed Forge work orders around current-agent role protocols instead of cross-host compatibility.
+- Replaced host adapter language with manual handoff notes for user-managed copying to other tools.
+- Renamed `HOST_WORK_ORDER.md` to `ROLE_WORK_ORDER.md` and replaced `Target Host` with `Current Agent Context`.
+- Clarified that multi-agent planning means multi-role/task-lane planning by default; `model` remains metadata, not a callable runtime.
+- Added route/test guardrails for cross-model requests such as “Codex 调 Claude” and automatic model dispatch.
+
 ## v2.1 - Agent-Compatible Work Protocol
 
 - Added host-agent compatible work protocol references for Claude Code, Codex, Cursor, and generic agents.

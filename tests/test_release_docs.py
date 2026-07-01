@@ -36,14 +36,14 @@ class ReleaseDocsTests(unittest.TestCase):
         self.assertTrue((root / "scripts" / "forge_doctor.py").exists())
         self.assertTrue((root / "scripts" / "forge_index_update.py").exists())
         for text in (index, readme, commands, changelog):
-            self.assertIn("Forge 2.0", text)
+            self.assertIn("Forge 2.2", text)
         self.assertIn("stability-gate.md", index)
         self.assertIn("forge_doctor.py", index)
         self.assertIn("forge_index_update.py", index)
         self.assertNotIn("Forge 1.8 保留", readme)
         self.assertNotIn("Forge 1.8 仍然", readme)
 
-    def test_agent_compatible_protocol_docs_and_templates_are_indexed(self):
+    def test_single_host_role_protocol_docs_and_templates_are_indexed(self):
         root = Path(__file__).resolve().parents[1]
         index = (root / "INDEX.md").read_text(encoding="utf-8")
         readme = (root / "README.md").read_text(encoding="utf-8")
@@ -51,35 +51,41 @@ class ReleaseDocsTests(unittest.TestCase):
         changelog = (root / "CHANGELOG.md").read_text(encoding="utf-8")
 
         expected_files = [
-            root / "references" / "agent-compatible-work-protocol.md",
-            root / "references" / "host-adapters.md",
+            root / "references" / "single-host-role-protocol.md",
+            root / "references" / "manual-handoff-notes.md",
             root / "references" / "context-budget-contract.md",
-            root / "assets" / "templates" / "HOST_WORK_ORDER.md",
+            root / "assets" / "templates" / "ROLE_WORK_ORDER.md",
         ]
         for path in expected_files:
             self.assertTrue(path.exists(), f"{path} should exist")
         for text in (index, readme, commands, changelog):
-            self.assertIn("Forge 2.1", text)
-        self.assertIn("agent-compatible-work-protocol.md", index)
-        self.assertIn("host-adapters.md", index)
+            self.assertIn("Forge 2.2", text)
+        self.assertIn("single-host-role-protocol.md", index)
+        self.assertIn("manual-handoff-notes.md", index)
         self.assertIn("context-budget-contract.md", index)
-        self.assertIn("HOST_WORK_ORDER.md", index)
+        self.assertIn("ROLE_WORK_ORDER.md", index)
 
-    def test_agent_compatible_templates_do_not_claim_runtime_control(self):
+    def test_role_templates_do_not_claim_runtime_control(self):
         root = Path(__file__).resolve().parents[1]
         paths = [
             root / "assets" / "templates" / "AI_TASK_BRIEF.md",
             root / "assets" / "templates" / "AGENT_WORK_ORDER.md",
             root / "assets" / "templates" / "AGENT_TASK_CARD.md",
-            root / "assets" / "templates" / "HOST_WORK_ORDER.md",
+            root / "assets" / "templates" / "ROLE_WORK_ORDER.md",
         ]
         forbidden = [
             "Forge 直接调用模型",
             "Forge 自动调度模型",
             "Forge automatically calls models",
             "Forge dispatches agents automatically",
+            "Forge can call Claude",
+            "Forge calls Codex",
+            "automatically dispatches models",
+            "Codex 调 Claude",
+            "Claude 调 Codex",
+            "Target Host",
         ]
-        required = ["Target Host", "Context Budget", "Acceptance First", "Do Not"]
+        required = ["Current Agent Context", "Context Budget", "Acceptance First", "Do Not"]
         for path in paths:
             text = path.read_text(encoding="utf-8")
             for phrase in required:

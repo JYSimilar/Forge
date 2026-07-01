@@ -1,13 +1,15 @@
-<!-- Forge template: Agent Work Order - 给另一个 AI/Agent 下发有边界的执行任务时使用 -->
+<!-- Forge template: Agent Work Order - 给当前 agent 的某个角色视角下发有边界的执行任务时使用 -->
 # Agent Work Order
 
-Copy this section to the AI executor.
+Use this section as a bounded task for the current agent. If the user wants another tool to run it, the user copies it manually.
 
 ```text
 You are executing one bounded task for this project.
 
-Target Host:
-- Claude Code / Codex / Cursor / Generic Agent
+Current Agent Context:
+- Current installed agent/model:
+- Role view:
+- Manual handoff destination, if user-provided:
 
 Context Budget:
 - Use only the listed inputs first.
@@ -31,6 +33,7 @@ Do Not:
 - Do not rewrite unrelated files.
 - Do not add heavy dependencies without approval.
 - Do not perform destructive, paid, deployment, publish, or secret-touching actions without user confirmation.
+- Do not assume Forge can call another model, product, or external agent.
 
 Implementation instructions:
 1.

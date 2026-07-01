@@ -2,29 +2,29 @@
 
 Use this reference when Forge needs to act like a project manager for AI-assisted work: split goals into work orders, assign tasks to a human or AI tool, define acceptance criteria, review results, and produce rework prompts when needed.
 
-Forge should not become a blind multi-agent system. It should remain a controlled project manager:
+Forge should not become a blind multi-agent or cross-model runtime. It should remain a controlled project manager:
 
 project goal -> role split -> work order -> execution guidance -> acceptance check -> rework or handoff.
 
-For Claude Code, Codex, Cursor, or another host agent, prefer `agent-compatible-work-protocol.md` when the user needs a copyable work order. Forge defines the task contract; the host agent executes it.
+For current-agent role work, prefer `single-host-role-protocol.md` when the user needs a copyable work order. Forge defines the task contract; the current agent executes it. If the user wants another tool to execute it, the user performs manual handoff.
 
 ## Acceptance-First Protocol
 
-Before handing work to any host agent:
+Before assigning work to the current agent or a manual handoff artifact:
 
 1. Define acceptance criteria.
 2. Define allowed and forbidden scope.
 3. Define required verification evidence.
 4. Define stop-and-ask conditions.
 
-Do not claim Forge can call models, trace host actions, provide memory/RAG, or dispatch agents automatically. Use host capabilities only when the current environment provides them.
+Do not claim Forge can call models, trace host actions, provide memory/RAG, or dispatch agents automatically. Use only capabilities available in the current environment; cross-tool use is manual.
 
 ## When to Use
 
 Use AI orchestration when the user says things like:
 
 - 把这个目标拆成 AI 可以执行的任务包
-- 给 Codex / Claude Code / ChatGPT 写提示词
+- 给当前 agent 写有边界的任务提示词
 - 这个任务适合交给哪个 AI 做
 - 帮我验收 AI 做完的结果
 - 不合格就给返工提示词
@@ -33,7 +33,7 @@ Use AI orchestration when the user says things like:
 
 Also use it when a broad task has multiple execution roles: research, planning, coding, testing, reviewing, documenting, or releasing.
 
-If the user explicitly wants multiple models, multiple agents, frontend/backend/test role splits, or a shared JSON index, read `multi-agent-collaboration.md` after this file. Keep this file as the single-agent or small-batch orchestration baseline.
+If the user explicitly wants multiple roles, frontend/backend/test lanes, review perspectives, or a shared JSON index, read `multi-agent-collaboration.md` after this file. Keep this file as the single-role or small-batch orchestration baseline.
 
 ## Project Manager Principle
 
@@ -55,7 +55,7 @@ Forge should not:
 
 - give vague “please improve the project” prompts;
 - let another AI rewrite unrelated files;
-- create multi-agent ceremony when one bounded work order is enough;
+- create multi-role ceremony when one bounded work order is enough;
 - skip acceptance criteria;
 - accept “tests passed” without knowing which tests;
 - ask an AI to do destructive, external, paid, or deployment actions without user confirmation.
@@ -74,7 +74,7 @@ Choose roles based on the task. Do not invent complex teams when one role is eno
 | Reviewer | diff, risks, regressions, submit readiness | findings, severity, submit decision |
 | Documenter | README, Quick Start, API docs, handoff | docs and usage examples |
 | Release Manager | changelog, MR, version, delivery | release notes, MR description, handoff |
-| Coordinator | multi-agent merge, shared contracts, conflict control | human index, JSON index, integration notes |
+| Coordinator | multi-role merge, shared contracts, conflict control | human index, JSON index, integration notes |
 | Human | product judgment, secrets, paid actions, final approval | choices, confirmations, external actions |
 
 ## Work Order Format
@@ -100,7 +100,7 @@ Keep work orders small. If a task is large, split it into multiple work orders.
 
 ## Low-Cost Prompt Rule
 
-For Codex / Claude Code / coding agents, the prompt should be low-cost and bounded:
+For coding agents, the prompt should be low-cost and bounded:
 
 - state the exact goal;
 - point to relevant files if known;
@@ -182,9 +182,8 @@ Executor can be:
 
 - Human
 - ChatGPT
-- Claude Code
-- Codex
-- Cursor
+- Current agent role
+- Manual external handoff, if user explicitly requests it
 - Manual Review
 - Other AI
 

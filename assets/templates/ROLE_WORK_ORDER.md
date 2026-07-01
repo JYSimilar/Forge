@@ -1,7 +1,8 @@
-# Host Work Order
+# Role Work Order
 
-## Target Host
-- Claude Code / Codex / Cursor / Generic Agent:
+## Current Agent Context
+- Current installed agent/model:
+- Role view for this task:
 
 ## Task
 
@@ -29,13 +30,12 @@
 - Do not rewrite unrelated files.
 - Do not add heavy dependencies without approval.
 - Do not perform destructive, paid, deployment, publish, or secret-touching actions without user confirmation.
-- Do not assume Forge can call models or dispatch agents; the host agent executes this work order.
+- Do not assume Forge can call other models, tools, or products.
+- Cross-tool use is manual: the user copies this work order elsewhere if needed.
 
-## Host Notes
-- Claude Code:
-- Codex:
-- Cursor:
-- Generic Agent:
+## Manual Handoff Notes
+- Destination tool, if the user manually copies this:
+- Destination-specific constraints:
 
 ## Completion Report
 - Files changed:

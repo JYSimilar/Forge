@@ -16,10 +16,12 @@
 
 - ID:
 - Role:
-- Model:
+- Model note (metadata only; Forge does not call models):
 
-## Target Host
-- Claude Code / Codex / Cursor / Generic Agent:
+## Current Agent Context
+- Current installed agent/model:
+- Role view:
+- Manual handoff note, if user-provided:
 
 ## Context Budget
 - Required context:
@@ -38,6 +40,7 @@
 - Do not rewrite unrelated files.
 - Do not add heavy dependencies without approval.
 - Do not perform destructive, paid, deployment, publish, or secret-touching actions without user confirmation.
+- Do not assume Forge can call another model, product, or external agent.
 
 ## 具体任务
 

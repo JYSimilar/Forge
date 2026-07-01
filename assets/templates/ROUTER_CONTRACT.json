@@ -305,9 +305,7 @@
       "name": "AI Orchestration",
       "priority": 65,
       "triggers": [
-        "交给 Codex",
-        "给 Codex 写",
-        "Claude Code",
+        "给当前 agent 写",
         "任务提示词",
         "AI 任务",
         "work order",
@@ -323,67 +321,97 @@
         "Goal, input, output, limits, and acceptance are explicit",
         "Executor and review loop are named"
       ],
-      "handoff": "Route to Multi-Agent Collaboration for multiple model roles.",
+      "handoff": "Route to Multi-Agent Collaboration for multiple role lanes.",
       "token_mode_default": "Token Saver"
     },
     {
-      "id": "agent_compatible_work_protocol",
-      "name": "Agent-Compatible Work Protocol",
+      "id": "single_host_role_protocol",
+      "name": "Single-Host Role Protocol",
       "priority": 96,
       "triggers": [
-        "Claude Code 的任务单",
-        "给 Claude Code 的任务单",
+        "当前 agent 里分角色",
+        "在当前 agent 里分角色",
+        "当前 agent 里生成一个角色任务单",
+        "在当前 agent 里生成一个角色任务单",
+        "当前 agent 的任务单",
         "Codex 执行",
         "给 Codex 执行的 work order",
-        "Cursor 执行",
-        "给 Cursor 用的任务卡",
+        "当前 Codex 执行",
         "通用 agent 任务单",
         "生成一个通用 agent 任务单",
-        "不同 agent 可用的任务单",
-        "HOST_WORK_ORDER",
-        "host work order",
+        "多角色任务卡",
+        "ROLE_WORK_ORDER",
+        "role work order",
         "copyable work order",
         "不要多 agent"
       ],
-      "minimum_reference": "references/agent-compatible-work-protocol.md",
+      "minimum_reference": "references/single-host-role-protocol.md",
       "optional_references": [
-        "references/host-adapters.md",
+        "references/manual-handoff-notes.md",
         "references/context-budget-contract.md",
         "references/ai-orchestration.md"
       ],
-      "default_output": "Create a portable host-agent work order with target host, context budget, allowed/forbidden scope, acceptance-first criteria, verification, and do-not rules.",
+      "default_output": "Create a current-agent role work order with current agent context, context budget, allowed/forbidden scope, acceptance-first criteria, verification, and do-not rules.",
       "completion_evidence": [
-        "Target host, context budget, acceptance criteria, verification, and do-not rules are explicit",
-        "Forge does not claim to call models or dispatch agents automatically"
+        "Current agent context, context budget, acceptance criteria, verification, and do-not rules are explicit",
+        "Forge does not claim to call other models or products"
       ],
-      "handoff": "Route to Host Adapters for host-specific notes, or Multi-Agent Collaboration only when multiple roles are explicitly needed.",
+      "handoff": "Route to Manual Handoff Notes only when the user explicitly wants to copy the artifact elsewhere, or Multi-Agent Collaboration when multiple role lanes are needed.",
       "token_mode_default": "Token Saver"
     },
     {
-      "id": "host_adapters",
-      "name": "Host Adapters",
+      "id": "manual_handoff_notes",
+      "name": "Manual Handoff Notes",
       "priority": 95,
       "triggers": [
-        "Claude Code / Codex / Cursor",
-        "Claude Code 怎么用",
-        "Codex 怎么用",
-        "Cursor 怎么用",
-        "宿主 agent",
-        "host adapter",
-        "不同宿主",
-        "agent 怎么用这个任务"
+        "手动复制给 Claude Code",
+        "复制给 Claude Code",
+        "手动交给 Claude Code",
+        "手动复制给 Codex",
+        "手动复制给 Cursor",
+        "人工交接",
+        "manual handoff",
+        "复制给另一个工具",
+        "外部工具交接"
       ],
-      "minimum_reference": "references/host-adapters.md",
+      "minimum_reference": "references/manual-handoff-notes.md",
       "optional_references": [
-        "references/agent-compatible-work-protocol.md",
+        "references/single-host-role-protocol.md",
         "references/context-budget-contract.md"
       ],
-      "default_output": "Explain how the same Forge artifact should be handed to Claude Code, Codex, Cursor, or a generic agent without duplicating host runtime features.",
+      "default_output": "Prepare concise manual handoff notes for a user-managed copy/paste transfer to another tool without implying runtime integration.",
       "completion_evidence": [
-        "Host-specific notes are concise",
-        "Runtime assumptions are avoided unless the environment proves them"
+        "Manual destination and copied artifact scope are explicit",
+        "Forge does not claim cross-tool or cross-model execution"
       ],
-      "handoff": "Route to Agent-Compatible Work Protocol when a copyable work order is needed.",
+      "handoff": "Route to Single-Host Role Protocol when a bounded role work order is needed.",
+      "token_mode_default": "Token Saver"
+    },
+    {
+      "id": "boundary_clarification",
+      "name": "Boundary Clarification",
+      "priority": 120,
+      "triggers": [
+        "让 Codex 调 Claude",
+        "Codex 调 Claude",
+        "Claude 调 Codex",
+        "跨模型自动调用",
+        "自动让几个模型并行做",
+        "自动调度多个模型",
+        "Forge 调用 Claude",
+        "Forge 调用 Codex"
+      ],
+      "minimum_reference": "references/manual-handoff-notes.md",
+      "optional_references": [
+        "references/single-host-role-protocol.md",
+        "references/multi-agent-collaboration.md"
+      ],
+      "default_output": "Clarify that Forge cannot call other products or models; offer current-agent role planning or a user-managed manual handoff artifact.",
+      "completion_evidence": [
+        "Cross-model automation is explicitly rejected",
+        "A safe manual handoff or current-agent role option is offered"
+      ],
+      "handoff": "Route to Manual Handoff Notes for copy/paste transfer, or Multi-Agent Collaboration for current-agent role planning.",
       "token_mode_default": "Token Saver"
     },
     {
@@ -402,14 +430,14 @@
       "minimum_reference": "references/context-budget-contract.md",
       "optional_references": [
         "references/token-policy.md",
-        "references/agent-compatible-work-protocol.md"
+        "references/single-host-role-protocol.md"
       ],
       "default_output": "Define the smallest context package, allowed optional context, do-not-load list, and escalation rule for the current route or work order.",
       "completion_evidence": [
         "Required, optional, and forbidden context are explicit",
         "Burn Mode is not entered without explicit command"
       ],
-      "handoff": "Route to Agent-Compatible Work Protocol for host-agent work orders or Dual Index for persistent context.",
+      "handoff": "Route to Single-Host Role Protocol for current-agent work orders or Dual Index for persistent context.",
       "token_mode_default": "Token Saver"
     },
     {
@@ -418,10 +446,11 @@
       "priority": 88,
       "triggers": [
         "多智能体",
-        "多个模型",
+        "当前 agent 里让前端后端测试几个角色分工",
+        "在当前 agent 里让前端后端测试几个角色分工",
         "几个 AI",
-        "几个模型",
-        "模型协作",
+        "多角色",
+        "角色分工",
         "分工协作",
         "AI 分工",
         "智能体分工",
@@ -432,9 +461,9 @@
         "references/ai-orchestration.md",
         "references/existing-project-audit.md"
       ],
-      "default_output": "Generate human-readable collaboration plans, agent task cards, machine JSON indexes, write scopes, and acceptance loops.",
+      "default_output": "Generate human-readable multi-role plans, agent task cards, machine JSON indexes, write scopes, and acceptance loops.",
       "completion_evidence": [
-        "Each agent has role, model, goal, inputs, outputs, allowed files, forbidden files, and acceptance",
+        "Each role lane has role, model metadata, goal, inputs, outputs, allowed files, forbidden files, and acceptance",
         "AGENT_INDEX.json validates when produced"
       ],
       "handoff": "Route to Review/Submit or Field Test Loop for validation.",

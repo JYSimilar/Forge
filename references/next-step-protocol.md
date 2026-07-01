@@ -54,7 +54,7 @@ Use after implementation, generated files, config changes, scripts, docs that af
 
 ### 5. Delegated AI Work
 
-Use when Forge creates a Codex / Claude Code / ChatGPT / Cursor work order.
+Use when Forge creates a current-agent role work order or manual handoff artifact.
 
 ```text
 下一步：把这份任务单交给执行 AI；它返回结果后，用 Acceptance Check 验收，不合格就生成返工提示词。

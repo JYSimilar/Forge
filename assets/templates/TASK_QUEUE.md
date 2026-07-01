@@ -9,9 +9,8 @@
 
 - Human
 - ChatGPT
-- Claude Code
-- Codex
-- Cursor
+- Current agent role
+- Manual external handoff
 - Manual Review
 - Other AI
 
