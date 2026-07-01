@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 import unittest
 
 
@@ -66,6 +67,21 @@ class ReleaseDocsTests(unittest.TestCase):
         self.assertIn("docs/zh/QUICK_COMMANDS.md", commands)
         self.assertIn("docs/en/QUICK_COMMANDS.md", commands)
 
+    def test_public_docs_center_project_manager_positioning(self):
+        root = Path(__file__).resolve().parents[1]
+        readme = (root / "README.md").read_text(encoding="utf-8")
+        zh_readme = (root / "docs" / "zh" / "README.md").read_text(encoding="utf-8")
+        en_readme = (root / "docs" / "en" / "README.md").read_text(encoding="utf-8")
+        skill = (root / "SKILL.md").read_text(encoding="utf-8")
+
+        self.assertIn("project-manager skill", readme)
+        self.assertIn("项目经理型 skill", zh_readme)
+        self.assertIn("project-manager skill", en_readme)
+        for text in (readme, en_readme, skill):
+            self.assertIn("Safe Work Order", text)
+            self.assertIn("default execution unit", text)
+        self.assertIn("默认执行单元", zh_readme)
+
     def test_single_host_role_protocol_docs_and_templates_are_indexed(self):
         root = Path(__file__).resolve().parents[1]
         index = (root / "INDEX.md").read_text(encoding="utf-8")
@@ -87,6 +103,56 @@ class ReleaseDocsTests(unittest.TestCase):
         self.assertIn("manual-handoff-notes.md", index)
         self.assertIn("context-budget-contract.md", index)
         self.assertIn("ROLE_WORK_ORDER.md", index)
+
+    def test_operational_docs_do_not_reference_removed_work_order_files(self):
+        root = Path(__file__).resolve().parents[1]
+        paths = [
+            root / "SKILL.md",
+            root / "INDEX.md",
+            root / "README.md",
+            root / "QUICK_COMMANDS.md",
+            root / "agents" / "openai.yaml",
+        ]
+        removed_names = [
+            "agent-compatible-work-protocol.md",
+            "host-adapters.md",
+            "HOST_WORK_ORDER.md",
+            "Agent-Compatible Work Protocol",
+            "Host Adapters",
+        ]
+
+        for path in paths:
+            text = path.read_text(encoding="utf-8")
+            for removed_name in removed_names:
+                self.assertNotIn(removed_name, text, f"{path} should not reference removed {removed_name}")
+
+    def test_skill_and_index_reference_paths_exist(self):
+        root = Path(__file__).resolve().parents[1]
+        docs = [
+            root / "SKILL.md",
+            root / "INDEX.md",
+        ]
+        reference_pattern = re.compile(r"`(references/[^`]+?\.md)`|`([A-Z][A-Z0-9_]+\.md)`")
+        generated_outputs = {
+            "FORGE_DOCTOR_REPORT.md",
+        }
+
+        for doc in docs:
+            text = doc.read_text(encoding="utf-8")
+            for match in reference_pattern.finditer(text):
+                reference_path = match.group(1)
+                template_name = match.group(2)
+                if reference_path:
+                    self.assertTrue((root / reference_path).exists(), f"{doc} references missing {reference_path}")
+                if template_name:
+                    if template_name in generated_outputs:
+                        continue
+                    template_path = root / "assets" / "templates" / template_name
+                    root_path = root / template_name
+                    self.assertTrue(
+                        template_path.exists() or root_path.exists(),
+                        f"{doc} references missing template or root doc {template_name}",
+                    )
 
     def test_role_templates_do_not_claim_runtime_control(self):
         root = Path(__file__).resolve().parents[1]

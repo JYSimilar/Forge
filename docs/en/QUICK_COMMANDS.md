@@ -3,7 +3,7 @@
 ## Start Here
 
 ```text
-Forge: Turn this idea into a safe work order for the current agent.
+Forge: Turn this idea into an MVP scope and tell me the next step.
 ```
 
 ```text
@@ -101,4 +101,3 @@ Forge: Run Forge Doctor and check whether this version is ready to release.
 ```text
 Forge: Split this into frontend, backend, and testing role lanes inside the current agent workflow.
 ```
-
