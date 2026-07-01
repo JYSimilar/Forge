@@ -2,6 +2,8 @@
 
 ## v2.2 - Safe Work Order
 
+- Added language-specific user docs: `docs/zh` for pure Chinese and `docs/en` for pure English.
+- Changed the root README into a compact language selector that indexes `zh` and `en`.
 - Forge 2.2 turns user feedback about token over-consumption into a Safe Work Order posture: small-step execution, Context Budget, Stop Condition, and Review Gate.
 - Added field feedback to README so version evolution is grounded in real usage friction.
 - Fixed misleading cross-model wording by making the current installed agent the default execution boundary.

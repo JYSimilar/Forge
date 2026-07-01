@@ -24,12 +24,10 @@ class RouterContractTests(unittest.TestCase):
 
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
         index = (ROOT / "INDEX.md").read_text(encoding="utf-8")
-        readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        commands = (ROOT / "QUICK_COMMANDS.md").read_text(encoding="utf-8")
         triggers = (ROOT / "references" / "trigger-examples.md").read_text(encoding="utf-8")
         roadmap = (ROOT / "references" / "pluginization-roadmap.md").read_text(encoding="utf-8")
 
-        for text in (skill, index, readme, commands, triggers, roadmap):
+        for text in (skill, index, triggers, roadmap):
             self.assertIn("router-contract.md", text)
         self.assertIn("ROUTER_CONTRACT.json", index)
         self.assertIn("ROUTER_TEST_REPORT.md", index)

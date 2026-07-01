@@ -4,6 +4,13 @@ Forge 2.2 centers on Safe Work Orders: small-step execution, context budget, rev
 
 Use this file when you need one compact map of Forge routes, references, templates, and scripts.
 
+## User Docs
+
+- `docs/zh/README.md`: pure Chinese overview.
+- `docs/zh/QUICK_COMMANDS.md`: pure Chinese command examples.
+- `docs/en/README.md`: pure English overview.
+- `docs/en/QUICK_COMMANDS.md`: pure English command examples.
+
 | Route | Minimum Reference | Optional Reference | Useful Templates | Useful Scripts |
 |---|---|---|---|---|
 | Lite | none | `route-selector.md` | any single requested template | none |
