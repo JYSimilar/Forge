@@ -2,9 +2,9 @@
 
 Forge is a skill that helps ordinary people turn vague ideas into real, usable things with AI agents.
 
-Forge is a project-manager skill: it helps users clarify ideas, scope MVPs, audit existing projects, plan engineering work, delegate bounded tasks to AI agents, verify results, write docs, and prepare handoff or release.
+As a lightweight project-manager skill, it helps users clarify ideas, scope the first useful version, audit existing projects, plan next steps, delegate bounded tasks to AI agents, verify results, write docs, and prepare handoff or release.
 
-Safe Work Order is Forge's default execution unit. Every AI task should have a clear goal, context budget, limits, acceptance checks, verification evidence, stop condition, and review gate.
+Safe Work Order is Forge's default execution unit for AI work. It keeps each AI task small, low-token, reviewable, and bounded by clear context, limits, acceptance checks, verification evidence, stop conditions, and review gates.
 
 Choose a language:
 
@@ -20,21 +20,20 @@ Quick commands:
 
 Current stable version: **Forge 2.2 - Ordinary People + AI Agents + Shippable Progress**.
 
-Install from source:
+## What Forge Does
 
-```bash
-git clone https://github.com/JYSimilar/Forge.git
-cd Forge
-git checkout <latest-tag>
-```
+Forge helps users:
 
-Current stable example:
+- turn a vague idea into an MVP scope;
+- decide what to build first and what to defer;
+- audit an existing project before changing it;
+- plan safe next steps for AI agents;
+- execute one bounded step at a time;
+- stop at a review gate instead of pushing forward blindly;
+- verify results, summarize risks, and choose the next step;
+- prepare docs, handoff, or release materials.
 
-```bash
-git checkout v2.2
-```
-
-## Flow
+## Core Workflow
 
 ```text
 Vague Idea / Existing Project / Personal Need
@@ -52,6 +51,20 @@ Bounded Execution
 Review Gate
 ↓
 Docs / Handoff / Release
+```
+
+## Install
+
+```bash
+git clone https://github.com/JYSimilar/Forge.git
+cd Forge
+git checkout <latest-tag>
+```
+
+Current stable example:
+
+```bash
+git checkout v2.2
 ```
 
 ## Before / After
