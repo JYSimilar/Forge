@@ -5,7 +5,7 @@ Choose a language:
 - [中文快速调用 / zh](docs/zh/QUICK_COMMANDS.md)
 - [English quick commands / en](docs/en/QUICK_COMMANDS.md)
 
-Current stable version: **Forge 2.2 - Ordinary People + AI Agents + Shippable Progress**.
+Current stable version: **Forge 2.2 - Project Manager Core + Safe Work Order**.
 
 For the full overview:
 
