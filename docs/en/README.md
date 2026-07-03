@@ -171,11 +171,5 @@ Advanced features stay out of the way for small tasks. Use them when the project
 ```bash
 git clone https://github.com/JYSimilar/Forge.git
 cd Forge
-git checkout <latest-tag>
-```
-
-Current stable example:
-
-```bash
 git checkout v2.2
 ```

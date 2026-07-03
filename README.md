@@ -58,12 +58,6 @@ Docs / Handoff / Release
 ```bash
 git clone https://github.com/JYSimilar/Forge.git
 cd Forge
-git checkout <latest-tag>
-```
-
-Current stable example:
-
-```bash
 git checkout v2.2
 ```
 

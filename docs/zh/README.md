@@ -173,11 +173,5 @@ Forge: 接手这个工程前，先帮我自查当前工作区。
 ```bash
 git clone https://github.com/JYSimilar/Forge.git
 cd Forge
-git checkout <latest-tag>
-```
-
-当前稳定版示例：
-
-```bash
 git checkout v2.2
 ```
