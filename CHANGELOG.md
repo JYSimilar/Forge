@@ -1,10 +1,11 @@
 # Changelog
 
-## v2.2 - Safe Work Order
+## v2.2 - Project Manager Core + Safe Work Order
 
 - Added language-specific user docs: `docs/zh` for pure Chinese and `docs/en` for pure English.
 - Changed the root README into a compact language selector that indexes `zh` and `en`.
 - Added regression checks so operational docs cannot point to removed references/templates such as old host-adapter work-order files.
+- Clarified Forge as a project-manager skill for helping ordinary people turn vague ideas into usable outcomes with AI agents, with Safe Work Order as the default bounded execution unit.
 - Re-centered public docs on Forge as a project-manager skill, with Safe Work Order as the default bounded execution unit rather than the whole product.
 - Clarified that Safe Work Order is an execution unit inside Forge's broader project-manager workflow.
 - Forge 2.2 turns user feedback about token over-consumption into a Safe Work Order posture: small-step execution, Context Budget, Stop Condition, and Review Gate.
