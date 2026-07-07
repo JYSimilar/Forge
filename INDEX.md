@@ -1,6 +1,8 @@
 # Forge Compact Index
 
-Forge centers on helping ordinary people turn vague ideas, existing projects, and AI-assisted work into shippable progress. Safe Work Order is the default bounded execution format used when AI agents need clear context, limits, acceptance checks, verification evidence, stop conditions, and review gates.
+Forge centers on helping ordinary people turn vague ideas, existing projects, and AI-assisted work into shippable progress.
+Safe Work Order is the default bounded execution format used when AI agents need clear context, limits, acceptance checks,
+verification evidence, stop conditions, and review gates.
 
 Use this file when you need one compact map of Forge routes, references, templates, and scripts.
 
@@ -10,6 +12,11 @@ Use this file when you need one compact map of Forge routes, references, templat
 - `docs/zh/QUICK_COMMANDS.md`: pure Chinese command examples.
 - `docs/en/README.md`: pure English overview.
 - `docs/en/QUICK_COMMANDS.md`: pure English command examples.
+
+## Examples
+
+- `examples/meeting-notes-mvp.md`: minimal ordinary-user flow from a vague idea to MVP scope,
+  Safe Work Order, acceptance checks, verification, and next options.
 
 | Route | Minimum Reference | Optional Reference | Useful Templates | Useful Scripts |
 |---|---|---|---|---|

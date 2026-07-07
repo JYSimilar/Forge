@@ -2,9 +2,11 @@
 
 Forge is a skill that helps ordinary people turn vague ideas into real, usable things with AI agents.
 
-It works like a project manager: it helps users clarify ideas, scope MVPs, audit existing projects, plan engineering work, delegate bounded tasks to AI agents, verify results, write docs, and prepare handoff or release.
+It works like a project manager: it helps users clarify ideas, scope MVPs, audit existing projects,
+plan engineering work, delegate bounded tasks to AI agents, verify results, write docs, and prepare handoff or release.
 
-Safe Work Order is Forge's default execution unit, not the whole product. Every AI task should have a clear goal, context budget, limits, acceptance checks, verification evidence, stop condition, and review gate.
+Safe Work Order is Forge's default execution unit, not the whole product.
+Every AI task should have a clear goal, context budget, limits, acceptance checks, verification evidence, stop condition, and review gate.
 
 ## How It Works
 
@@ -28,7 +30,9 @@ Core principles:
 
 Earlier versions reduced lazy stopping, but could over-consume tokens when the user only needed a small, safe next step.
 
-Forge 2.2 turns that feedback into product behavior: Forge remains a project-manager skill, but uses low-token Safe Work Orders as the default way to manage AI execution with Context Budget, Stop Condition, Acceptance Criteria, and Review Gate.
+Forge 2.2 turns that feedback into product behavior: Forge remains a project-manager skill,
+but uses low-token Safe Work Orders as the default way to manage AI execution with Context Budget,
+Stop Condition, Acceptance Criteria, and Review Gate.
 
 ## Flow
 

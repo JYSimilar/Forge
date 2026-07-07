@@ -83,10 +83,36 @@ class ReleaseDocsTests(unittest.TestCase):
         self.assertIn("real, usable things", readme)
         self.assertIn("真实可用成果", zh_readme)
         self.assertIn("real, usable things", en_readme)
+        self.assertIn("Who This Is For", readme)
+        self.assertIn("What Forge Is Not", readme)
+        self.assertIn("not an automatic multi-agent runtime", readme)
         for text in (readme, en_readme, skill):
             self.assertIn("Safe Work Order", text)
             self.assertIn("default execution unit", text)
         self.assertIn("默认执行单元", zh_readme)
+
+    def test_minimal_usage_example_is_indexed(self):
+        root = Path(__file__).resolve().parents[1]
+        index = (root / "INDEX.md").read_text(encoding="utf-8")
+        readme = (root / "README.md").read_text(encoding="utf-8")
+        changelog = (root / "CHANGELOG.md").read_text(encoding="utf-8")
+        example_path = root / "examples" / "meeting-notes-mvp.md"
+        self.assertTrue(example_path.exists())
+
+        example = example_path.read_text(encoding="utf-8")
+        for phrase in (
+            "MVP Scope",
+            "Safe Work Order",
+            "Acceptance Checks",
+            "Verification",
+            "Stop Condition",
+            "Review Gate",
+            "Next Options",
+        ):
+            self.assertIn(phrase, example)
+
+        for text in (index, readme, changelog):
+            self.assertIn("meeting-notes-mvp.md", text)
 
     def test_single_host_role_protocol_docs_and_templates_are_indexed(self):
         root = Path(__file__).resolve().parents[1]

@@ -2,9 +2,11 @@
 
 Forge is a skill that helps ordinary people turn vague ideas into real, usable things with AI agents.
 
-As a lightweight project-manager skill, it helps users clarify ideas, scope the first useful version, audit existing projects, plan next steps, delegate bounded tasks to AI agents, verify results, write docs, and prepare handoff or release.
+As a lightweight project-manager skill, it helps users clarify ideas, scope the first useful version, audit existing projects,
+plan next steps, delegate bounded tasks to AI agents, verify results, write docs, and prepare handoff or release.
 
-Safe Work Order is Forge's default execution unit for AI work. It keeps each AI task small, low-token, reviewable, and bounded by clear context, limits, acceptance checks, verification evidence, stop conditions, and review gates.
+Safe Work Order is Forge's default execution unit for AI work. It keeps each AI task small, low-token, reviewable, and bounded by
+clear context, limits, acceptance checks, verification evidence, stop conditions, and review gates.
 
 Choose a language:
 
@@ -19,6 +21,18 @@ Quick commands:
 ## Stable Version
 
 Current stable version: **Forge 2.2 - Ordinary People + AI Agents + Shippable Progress**.
+
+## Who This Is For
+
+Forge is for people who have an idea, a messy project, or an AI-assisted task,
+but do not know how to plan, scope, delegate, verify, and ship it.
+
+## What Forge Is Not
+
+Forge is not an automatic multi-agent runtime.
+Forge does not call Claude, Codex, Cursor, or other tools by itself.
+Forge does not replace software engineering judgment.
+It produces bounded plans, work orders, verification gates, and handoff artifacts.
 
 ## What Forge Does
 
@@ -104,6 +118,12 @@ Review Gate:
 
 Forge is the project manager. Safe Work Order is the execution unit it uses when AI work needs clear boundaries.
 
+## Minimal Usage Example
+
+See [Meeting Notes MVP](examples/meeting-notes-mvp.md) for a short example of how Forge turns one ordinary idea into an MVP scope,
+a Safe Work Order, acceptance checks, verification, and the next step.
+
 ## Advanced Internals
 
-Advanced routes such as Dual Index, Router Contract, Forge Doctor, Field Test, and multi-role collaboration are documented in [INDEX.md](INDEX.md). Normal users do not need to learn those names first.
+Advanced routes such as Dual Index, Router Contract, Forge Doctor, Field Test,
+and multi-role collaboration are documented in [INDEX.md](INDEX.md). Normal users do not need to learn those names first.
