@@ -19,7 +19,7 @@ Forge，中文可以叫“造物”。
 
 ## 当前版本
 
-Forge 2.2 是 **普通人 + AI Agent + 可交付进展** 版本。
+Forge 2.2.1 是 **发布加固** 补丁版本。
 
 核心原则：
 
@@ -176,7 +176,7 @@ Forge: 接手这个工程前，先帮我自查当前工作区。
 ```bash
 git clone https://github.com/JYSimilar/Forge.git
 cd Forge
-git checkout v2.2
+git checkout v2.2.1
 ```
 
 Forge 使用 [MIT License](../../LICENSE) 发布。

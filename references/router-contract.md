@@ -58,7 +58,7 @@ Record manual route tests with `assets/templates/ROUTER_TEST_REPORT.md` when cha
 
 `assets/templates/ROUTER_PROMPT_CORPUS.json` contains compact scenario sets for Chinese, English,
 conversational, ambiguous, and multi-intent prompts. The validator expands them into individual cases
-and reports total accuracy, per-route metrics, and expected-to-actual confusion pairs:
+and reports total Contract Pass Rate, per-route Contract Pass Rate, and expected-to-actual confusion pairs:
 
 ```bash
 python scripts/router_contract_validator.py assets/templates/ROUTER_CONTRACT.json \
@@ -67,7 +67,7 @@ python scripts/router_contract_validator.py assets/templates/ROUTER_CONTRACT.jso
 ```
 
 This is deterministic route-contract regression evidence. It does not claim to measure a host model's
-semantic routing accuracy.
+semantic routing ability.
 
 ## Production Boundaries
 

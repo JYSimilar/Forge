@@ -13,10 +13,28 @@ class ReleaseDocsTests(unittest.TestCase):
         self.assertIn("MIT License", license_text)
         for version in ("3.10", "3.11", "3.12", "3.13"):
             self.assertIn(version, workflow)
+        self.assertIn('tags: ["v*"]', workflow)
         self.assertIn("python -m unittest discover -s tests -v", workflow)
         self.assertIn("python -m py_compile scripts/*.py", workflow)
         self.assertIn("router_contract_validator.py", workflow)
         self.assertIn("actions/workflows/ci.yml/badge.svg", readme)
+
+    def test_v221_install_commands_and_release_notes_are_consistent(self):
+        root = Path(__file__).resolve().parents[1]
+        changelog = (root / "CHANGELOG.md").read_text(encoding="utf-8")
+        install_docs = [
+            root / "README.md",
+            root / "docs" / "zh" / "README.md",
+            root / "docs" / "en" / "README.md",
+        ]
+
+        for path in install_docs:
+            text = path.read_text(encoding="utf-8")
+            self.assertIn("git checkout v2.2.1", text, f"{path} should install the release tag")
+            self.assertNotIn("git checkout v2.2\n", text, f"{path} should not install the older tag")
+
+        self.assertIn("## v2.2.1 - Release Hardening", changelog)
+        self.assertIn("Contract Pass Rate", changelog)
 
     def test_pluginization_and_release_templates_are_indexed(self):
         root = Path(__file__).resolve().parents[1]

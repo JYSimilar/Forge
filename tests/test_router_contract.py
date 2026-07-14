@@ -131,7 +131,10 @@ class RouterContractTests(unittest.TestCase):
         self.assertEqual(len(result.cases), result.summary["total"])
         self.assertEqual(len(result.cases), result.summary["passed"])
         self.assertEqual(0, result.summary["failed"])
+        self.assertEqual(1.0, result.summary["contract_pass_rate"])
+        self.assertNotIn("accuracy", result.summary)
         self.assertIn("lite", result.summary["routes"])
+        self.assertEqual(1.0, result.summary["routes"]["lite"]["contract_pass_rate"])
         self.assertIn("language", result.cases[0])
 
     def test_prompt_corpus_failure_returns_nonzero_and_writes_report(self):
@@ -163,6 +166,8 @@ class RouterContractTests(unittest.TestCase):
         self.assertIn("failed", report_text)
         self.assertIn("bad", report_text)
         self.assertIn("## Summary", report_text)
+        self.assertIn("Contract Pass Rate", report_text)
+        self.assertNotIn("Accuracy", report_text)
         self.assertTrue(result)
         self.assertEqual("dual_index -> lite", result[0]["pair"])
 

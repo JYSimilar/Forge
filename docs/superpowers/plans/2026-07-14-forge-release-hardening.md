@@ -15,7 +15,7 @@
 - `--execute` accepts only inferred verification commands in a fixed allowlist and writes only under `--out-dir`.
 - Command output is redacted and truncated before it is persisted.
 - All claims of executed validation need command, exit code, duration, and redacted output evidence.
-- Corpus cases are deterministic route-contract regression cases, not claims about model-level routing accuracy.
+- Corpus cases are deterministic route-contract regression cases, not claims about model-level routing ability.
 - Case-study metrics must state `not measured` when no real observation exists.
 
 ---

@@ -57,7 +57,11 @@ class ForgeDoctorTests(unittest.TestCase):
                     }
                 ],
                 "skipped": [],
-                "limits": {"network": "denied", "target_workspace": "read_only_copy"},
+                "limits": {
+                    "platform": "macOS with sandbox-exec present and permitted",
+                    "network": "denied by macOS sandbox-exec",
+                    "target_workspace": "read_only_copy",
+                },
             }
             with patch.object(forge_doctor, "execute_validation_commands", return_value=fake_execution):
                 with redirect_stdout(io.StringIO()):
@@ -70,6 +74,7 @@ class ForgeDoctorTests(unittest.TestCase):
         self.assertEqual("failed", payload["execution"]["status"])
         self.assertIn("[REDACTED]", report)
         self.assertNotIn("super-secret-value", report)
+        self.assertIn("macOS with sandbox-exec", report)
 
     def test_execute_without_allowlisted_commands_is_skipped(self):
         from scripts import forge_doctor
@@ -118,6 +123,8 @@ class ForgeDoctorTests(unittest.TestCase):
         self.assertEqual("skipped", execution["status"])
         self.assertEqual([], execution["commands"])
         self.assertTrue(any("sandbox-exec_unavailable" in item for item in execution["skipped"]))
+        self.assertIn("macOS", execution["limits"]["platform"])
+        self.assertIn("execution is skipped", execution["limits"]["network"])
 
     def test_execution_redaction_handles_lowercase_secret_assignments(self):
         from scripts import forge_doctor

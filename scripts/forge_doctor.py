@@ -105,7 +105,8 @@ def execute_validation_commands(
 ) -> dict[str, Any]:
     commands, skipped = select_execution_commands(projects)
     limits = {
-        "network": "denied when sandbox-exec is available; otherwise execution is skipped",
+        "platform": "macOS with sandbox-exec present and permitted; otherwise execution is skipped",
+        "network": "denied by macOS sandbox-exec; otherwise execution is skipped",
         "target_workspace": "read_only_source; commands run in a temporary copy",
         "command_allowlist": sorted(ALLOWED_EXECUTION_COMMANDS),
         "timeout_seconds": timeout_seconds,
@@ -464,6 +465,11 @@ def render_markdown(payload: dict[str, Any]) -> str:
     execution = payload["execution"]
     lines.extend(["", "## Executed Validation"])
     lines.append(f"- Status: `{execution['status']}`")
+    limits = execution.get("limits", {})
+    if limits:
+        lines.append(f"- Platform: {limits.get('platform', 'not declared')}")
+        lines.append(f"- Network: {limits.get('network', 'not declared')}")
+        lines.append(f"- Target workspace: {limits.get('target_workspace', 'not declared')}")
     for item in execution.get("skipped", []):
         lines.append(f"- Skipped: {item}")
     for command in execution.get("commands", []):
@@ -562,7 +568,7 @@ def main() -> int:
     parser.add_argument(
         "--execute",
         action="store_true",
-        help="Run only allowlisted validation commands in a network-denied temporary copy when sandbox-exec is available",
+        help="macOS only: run allowlisted validation in a network-denied temporary copy when sandbox-exec is present and permitted",
     )
     parser.add_argument("--timeout-seconds", type=int, default=60, help="Per-command execution timeout")
     parser.add_argument("--max-output-chars", type=int, default=4000, help="Max saved stdout/stderr characters per command")

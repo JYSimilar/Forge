@@ -4,7 +4,7 @@ Forge centers on helping ordinary people turn vague ideas, existing projects, an
 Safe Work Order is the default bounded execution format used when AI agents need clear context, limits, acceptance checks,
 verification evidence, stop conditions, and review gates.
 
-Current stable baseline: **Forge 2.2 - Project Manager Core + Safe Work Order**.
+Current stable baseline: **Forge 2.2.1 - Project Manager Core + Safe Work Order**.
 
 Use this file when you need one compact map of Forge routes, references, templates, and scripts.
 
