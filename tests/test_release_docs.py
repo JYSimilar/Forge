@@ -4,6 +4,20 @@ import unittest
 
 
 class ReleaseDocsTests(unittest.TestCase):
+    def test_release_boundary_includes_mit_license_ci_and_badge(self):
+        root = Path(__file__).resolve().parents[1]
+        license_text = (root / "LICENSE").read_text(encoding="utf-8")
+        workflow = (root / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+        readme = (root / "README.md").read_text(encoding="utf-8")
+
+        self.assertIn("MIT License", license_text)
+        for version in ("3.10", "3.11", "3.12", "3.13"):
+            self.assertIn(version, workflow)
+        self.assertIn("python -m unittest discover -s tests -v", workflow)
+        self.assertIn("python -m py_compile scripts/*.py", workflow)
+        self.assertIn("router_contract_validator.py", workflow)
+        self.assertIn("actions/workflows/ci.yml/badge.svg", readme)
+
     def test_pluginization_and_release_templates_are_indexed(self):
         root = Path(__file__).resolve().parents[1]
         index = (root / "INDEX.md").read_text(encoding="utf-8")
@@ -113,6 +127,32 @@ class ReleaseDocsTests(unittest.TestCase):
 
         for text in (index, readme, changelog):
             self.assertIn("meeting-notes-mvp.md", text)
+
+    def test_case_studies_are_reproducible_and_indexed(self):
+        root = Path(__file__).resolve().parents[1]
+        index = (root / "INDEX.md").read_text(encoding="utf-8")
+        readme = (root / "README.md").read_text(encoding="utf-8")
+        cases = [
+            "new-project-meeting-notes",
+            "existing-project-forge",
+            "nontechnical-personal-tracker",
+        ]
+        required_sections = [
+            "Original Input",
+            "Forge Route",
+            "Artifacts",
+            "Verification Evidence",
+            "Token Measurement",
+            "Human Interventions",
+        ]
+        for case in cases:
+            path = root / "examples" / "cases" / case / "README.md"
+            self.assertTrue(path.exists(), f"Missing case study: {case}")
+            text = path.read_text(encoding="utf-8")
+            for section in required_sections:
+                self.assertIn(section, text)
+            self.assertIn(case, index)
+        self.assertIn("examples/cases/README.md", readme)
 
     def test_single_host_role_protocol_docs_and_templates_are_indexed(self):
         root = Path(__file__).resolve().parents[1]

@@ -4,7 +4,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import re
+import shlex
+import shutil
+import subprocess
 import sys
+import tempfile
+import time
 from pathlib import Path
 from typing import Any
 
@@ -14,6 +21,207 @@ try:
 except ImportError:  # pragma: no cover - used when run directly from scripts/
     import dual_index_builder
     import field_test_runner
+
+
+ALLOWED_EXECUTION_COMMANDS = {
+    "python3 -m unittest discover -s tests -v",
+    "python -m unittest discover -s tests -v",
+}
+SECRET_ASSIGNMENT = re.compile(r"(?m)^([A-Za-z_][A-Za-z0-9_]*)\s*=\s*.*$")
+INLINE_SECRET = re.compile(r"\b(sk-[A-Za-z0-9_-]{8,}|gh[pousr]_[A-Za-z0-9_]{8,})\b")
+SECRET_NAME_MARKERS = ("key", "token", "secret", "password", "pass", "auth")
+
+
+def _redact_assignment(match: re.Match[str]) -> str:
+    name = match.group(1)
+    return f"{name}=[REDACTED]" if any(marker in name.casefold() for marker in SECRET_NAME_MARKERS) else match.group(0)
+
+
+def _redact_text(value: str, max_output_chars: int) -> str:
+    redacted = SECRET_ASSIGNMENT.sub(_redact_assignment, value)
+    redacted = INLINE_SECRET.sub("[REDACTED]", redacted)
+    if len(redacted) > max_output_chars:
+        return redacted[:max_output_chars] + "\n[TRUNCATED]"
+    return redacted
+
+
+def _redact_execution(execution: dict[str, Any], max_output_chars: int) -> dict[str, Any]:
+    clean = dict(execution)
+    commands: list[dict[str, Any]] = []
+    for item in execution.get("commands", []):
+        record = dict(item)
+        for key in ("stdout", "stderr"):
+            record[key] = _redact_text(str(record.get(key, "")), max_output_chars)
+        commands.append(record)
+    clean["commands"] = commands
+    clean["skipped"] = [_redact_text(str(item), max_output_chars) for item in execution.get("skipped", [])]
+    return clean
+
+
+def select_execution_commands(projects: list[dict[str, Any]]) -> tuple[list[dict[str, str]], list[str]]:
+    """Select only exact, deterministic test commands inferred by inventory."""
+    commands: list[dict[str, str]] = []
+    skipped: list[str] = []
+    seen: set[tuple[str, str]] = set()
+    for project in projects:
+        cwd = str(project.get("absolute_path", ""))
+        for command in [*project.get("test_commands", []), *project.get("validation_commands", [])]:
+            command = str(command)
+            key = (cwd, command)
+            if key in seen:
+                continue
+            seen.add(key)
+            if command in ALLOWED_EXECUTION_COMMANDS and cwd:
+                commands.append({"cwd": cwd, "command": command})
+            else:
+                skipped.append(f"skipped_not_allowlisted: {command}")
+    return commands, skipped
+
+
+def _sandbox_profile(source_workspace: Path, execution_workspace: Path) -> str:
+    source = str(source_workspace).replace('"', '\\"')
+    execution = str(execution_workspace).replace('"', '\\"')
+    return "\n".join(
+        [
+            "(version 1)",
+            "(allow default)",
+            "(deny network*)",
+            "(deny file-read* (subpath \"%s\"))" % source,
+            "(deny file-write*)",
+            "(allow file-write* (subpath \"%s\"))" % execution,
+        ]
+    )
+
+
+def _copy_workspace(source: Path, destination: Path) -> None:
+    ignored_names = shutil.ignore_patterns(".git", ".env", ".env.*", "__pycache__", ".pytest_cache", "*.pyc")
+    shutil.copytree(source, destination, ignore=ignored_names, dirs_exist_ok=False)
+
+
+def execute_validation_commands(
+    projects: list[dict[str, Any]],
+    timeout_seconds: int,
+    max_output_chars: int,
+) -> dict[str, Any]:
+    commands, skipped = select_execution_commands(projects)
+    limits = {
+        "network": "denied when sandbox-exec is available; otherwise execution is skipped",
+        "target_workspace": "read_only_source; commands run in a temporary copy",
+        "command_allowlist": sorted(ALLOWED_EXECUTION_COMMANDS),
+        "timeout_seconds": timeout_seconds,
+        "max_output_chars": max_output_chars,
+    }
+    if not commands:
+        return {"status": "skipped", "commands": [], "skipped": skipped or ["no_allowlisted_commands"], "limits": limits}
+
+    sandbox_exec = shutil.which("sandbox-exec")
+    if not sandbox_exec:
+        return {
+            "status": "skipped",
+            "commands": [],
+            "skipped": [*skipped, "sandbox-exec_unavailable: refusing unisolated execution"],
+            "limits": limits,
+        }
+
+    records: list[dict[str, Any]] = []
+    for selected in commands:
+        source = Path(selected["cwd"]).resolve()
+        if not source.is_dir():
+            records.append(
+                {
+                    **selected,
+                    "exit_code": None,
+                    "duration_seconds": 0.0,
+                    "stdout": "",
+                    "stderr": "workspace no longer exists",
+                    "status": "failed",
+                }
+            )
+            continue
+        with tempfile.TemporaryDirectory(prefix="forge-doctor-") as temp_dir:
+            execution_root = Path(temp_dir) / "workspace"
+            try:
+                _copy_workspace(source, execution_root)
+                (execution_root / ".home").mkdir()
+                (execution_root / ".tmp").mkdir()
+            except OSError as exc:
+                records.append(
+                    {
+                        "command": selected["command"],
+                        "cwd": str(execution_root),
+                        "exit_code": None,
+                        "duration_seconds": 0.0,
+                        "stdout": "",
+                        "stderr": str(exc),
+                        "status": "failed",
+                    }
+                )
+                continue
+            environment = {
+                "HOME": str(execution_root / ".home"),
+                "TMPDIR": str(execution_root / ".tmp"),
+                "PYTHONDONTWRITEBYTECODE": "1",
+                "NO_PROXY": "*",
+                "no_proxy": "*",
+                "PATH": os.environ.get("PATH", ""),
+            }
+            started = time.monotonic()
+            try:
+                completed = subprocess.run(
+                    [sandbox_exec, "-p", _sandbox_profile(source, execution_root), *shlex.split(selected["command"])],
+                    cwd=execution_root,
+                    env=environment,
+                    capture_output=True,
+                    text=True,
+                    timeout=timeout_seconds,
+                    check=False,
+                )
+                if completed.returncode == 71 and "sandbox_apply: Operation not permitted" in completed.stderr:
+                    return {
+                        "status": "skipped",
+                        "commands": [],
+                        "skipped": [*skipped, "sandbox-exec_unavailable: platform denied sandbox policy"],
+                        "limits": limits,
+                    }
+                status = "passed" if completed.returncode == 0 else "failed"
+                records.append(
+                    {
+                        "command": selected["command"],
+                        "cwd": str(execution_root),
+                        "exit_code": completed.returncode,
+                        "duration_seconds": round(time.monotonic() - started, 3),
+                        "stdout": completed.stdout,
+                        "stderr": completed.stderr,
+                        "status": status,
+                    }
+                )
+            except subprocess.TimeoutExpired as exc:
+                records.append(
+                    {
+                        "command": selected["command"],
+                        "cwd": str(execution_root),
+                        "exit_code": None,
+                        "duration_seconds": round(time.monotonic() - started, 3),
+                        "stdout": exc.stdout or "",
+                        "stderr": exc.stderr or "",
+                        "status": "timed_out",
+                    }
+                )
+            except OSError as exc:
+                records.append(
+                    {
+                        "command": selected["command"],
+                        "cwd": str(execution_root),
+                        "exit_code": None,
+                        "duration_seconds": round(time.monotonic() - started, 3),
+                        "stdout": "",
+                        "stderr": str(exc),
+                        "status": "failed",
+                    }
+                )
+
+    status = "passed" if records and all(item["status"] == "passed" for item in records) else "failed"
+    return {"status": status, "commands": records, "skipped": skipped, "limits": limits}
 
 
 def _release_gate(projects: list[dict[str, Any]], workspace_status: str, release: bool) -> dict[str, Any]:
@@ -79,6 +287,12 @@ def build_input_error(workspace: str, exc: Exception) -> dict[str, Any]:
         },
         "projects": [],
         "field_test": None,
+        "execution": {
+            "status": "not_available",
+            "commands": [],
+            "skipped": ["input_error"],
+            "limits": {},
+        },
         "release_readiness": {"enabled": False, "status": "not_available", "evidence": [], "risks": []},
         "evidence": [],
         "risks": [str(exc)],
@@ -101,7 +315,14 @@ def build_result(
     router_contract_path: str | None = None,
     field_test_json_path: str | None = None,
     release: bool = False,
+    execute: bool = False,
+    timeout_seconds: int = 60,
+    max_output_chars: int = 4000,
 ) -> tuple[dict[str, Any], int]:
+    if timeout_seconds < 1:
+        raise ValueError("--timeout-seconds must be a positive integer")
+    if max_output_chars < 1:
+        raise ValueError("--max-output-chars must be a positive integer")
     dual_payload, dual_code = dual_index_builder.build_payload(
         workspace,
         max_files=max_files,
@@ -115,11 +336,30 @@ def build_result(
         field_test = None
 
     release_gate = _release_gate(dual_payload["projects"], dual_payload["status"], release)
+    execution = {
+        "status": "not_requested",
+        "commands": [],
+        "skipped": [],
+        "limits": {
+            "network": "not_applicable",
+            "target_workspace": "read_only",
+            "command_allowlist": sorted(ALLOWED_EXECUTION_COMMANDS),
+            "timeout_seconds": timeout_seconds,
+            "max_output_chars": max_output_chars,
+        },
+    }
+    if execute:
+        execution = _redact_execution(
+            execute_validation_commands(dual_payload["projects"], timeout_seconds, max_output_chars),
+            max_output_chars,
+        )
     statuses = ["forge_doctor", *dual_payload["statuses"]]
     if release_gate["enabled"]:
         statuses.append("release_mode")
     if field_test and "field_test_loop" not in statuses:
         statuses.append("field_test_loop")
+    if execute:
+        statuses.append(f"execution_{execution['status']}")
 
     evidence = [
         "workspace inventory collected",
@@ -129,6 +369,11 @@ def build_result(
     if field_test:
         evidence.append(f"field_test_status={field_test['status']}")
     evidence.extend(release_gate["evidence"])
+    for command in execution["commands"]:
+        evidence.append(
+            f"execution={command['status']} command={command['command']} exit_code={command['exit_code']} "
+            f"duration_seconds={command['duration_seconds']}"
+        )
 
     risks = list(dual_payload["risks"])
     if field_test:
@@ -136,6 +381,10 @@ def build_result(
             if point != "No major field-test friction detected from static evidence.":
                 risks.append(str(point))
     risks.extend(release_gate["risks"])
+    if execute and execution["status"] in {"failed", "timed_out"}:
+        risks.append("execution_mode: one or more allowlisted validation commands failed or timed out.")
+    if execute and execution["status"] == "skipped":
+        risks.append("execution_mode: no safely isolated allowlisted validation command was run.")
 
     artifacts = {
         "doctor_report": "FORGE_DOCTOR_REPORT.md",
@@ -154,6 +403,7 @@ def build_result(
         "artifacts": artifacts,
         "projects": dual_payload["projects"],
         "field_test": field_test,
+        "execution": execution,
         "release_readiness": release_gate,
         "evidence": evidence,
         "risks": risks,
@@ -166,7 +416,7 @@ def build_result(
             "optional_invalid_indexes_return_code": 1,
         },
     }
-    code = 1 if dual_code == 1 else 0
+    code = 1 if dual_code == 1 or execution["status"] in {"failed", "timed_out"} else 0
     return payload, code
 
 
@@ -211,6 +461,25 @@ def render_markdown(payload: dict[str, Any]) -> str:
     for item in release_gate.get("risks", []):
         lines.append(f"- Risk: {item}")
 
+    execution = payload["execution"]
+    lines.extend(["", "## Executed Validation"])
+    lines.append(f"- Status: `{execution['status']}`")
+    for item in execution.get("skipped", []):
+        lines.append(f"- Skipped: {item}")
+    for command in execution.get("commands", []):
+        lines.extend(
+            [
+                f"- Command: `{command['command']}`",
+                f"  - Exit code: {command['exit_code']}",
+                f"  - Duration: {command['duration_seconds']} seconds",
+                f"  - Status: {command['status']}",
+            ]
+        )
+        if command.get("stdout"):
+            lines.append(f"  - Stdout: {command['stdout']}")
+        if command.get("stderr"):
+            lines.append(f"  - Stderr: {command['stderr']}")
+
     lines.extend(["", "## 验证证据"])
     if payload["evidence"]:
         lines.extend(f"- {item}" for item in payload["evidence"])
@@ -248,6 +517,9 @@ def run(
     router_contract_path: str | None = None,
     field_test_json_path: str | None = None,
     release: bool = False,
+    execute: bool = False,
+    timeout_seconds: int = 60,
+    max_output_chars: int = 4000,
 ) -> int:
     try:
         payload, code = build_result(
@@ -257,6 +529,9 @@ def run(
             router_contract_path=router_contract_path,
             field_test_json_path=field_test_json_path,
             release=release,
+            execute=execute,
+            timeout_seconds=timeout_seconds,
+            max_output_chars=max_output_chars,
         )
     except ValueError as exc:
         payload = build_input_error(workspace, exc)
@@ -284,6 +559,13 @@ def main() -> int:
     parser.add_argument("--router-contract", dest="router_contract_path", help="Optional ROUTER_CONTRACT.json to validate")
     parser.add_argument("--field-test-json", dest="field_test_json_path", help="Optional field_test.json to include")
     parser.add_argument("--release", action="store_true", help="Enable release-readiness checks")
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+        help="Run only allowlisted validation commands in a network-denied temporary copy when sandbox-exec is available",
+    )
+    parser.add_argument("--timeout-seconds", type=int, default=60, help="Per-command execution timeout")
+    parser.add_argument("--max-output-chars", type=int, default=4000, help="Max saved stdout/stderr characters per command")
     args = parser.parse_args()
     return run(
         args.workspace,
@@ -293,6 +575,9 @@ def main() -> int:
         args.router_contract_path,
         args.field_test_json_path,
         args.release,
+        args.execute,
+        args.timeout_seconds,
+        args.max_output_chars,
     )
 
 

@@ -177,3 +177,5 @@ git clone https://github.com/JYSimilar/Forge.git
 cd Forge
 git checkout v2.2
 ```
+
+Forge is released under the [MIT License](../../LICENSE).

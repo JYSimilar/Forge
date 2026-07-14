@@ -1,5 +1,7 @@
 # Forge Skill
 
+[![CI](https://github.com/JYSimilar/Forge/actions/workflows/ci.yml/badge.svg)](https://github.com/JYSimilar/Forge/actions/workflows/ci.yml)
+
 Forge is a skill that helps ordinary people turn vague ideas into real, usable things with AI agents.
 
 As a lightweight project-manager skill, it helps users clarify ideas, scope the first useful version, audit existing projects,
@@ -75,6 +77,8 @@ cd Forge
 git checkout v2.2
 ```
 
+Forge is released under the [MIT License](LICENSE).
+
 ## Before / After
 
 Before:
@@ -122,6 +126,18 @@ Forge is the project manager. Safe Work Order is the execution unit it uses when
 
 See [Meeting Notes MVP](examples/meeting-notes-mvp.md) for a short example of how Forge turns one ordinary idea into an MVP scope,
 a Safe Work Order, acceptance checks, verification, and the next step.
+
+## Reproducible Cases
+
+See [case studies](examples/cases/README.md) for a new-project walkthrough,
+an observed existing-project release-hardening case, and a nontechnical planning case.
+
+## Verification Evidence
+
+Forge Doctor is static and read-only by default. When a workspace needs recorded test evidence,
+`--execute` runs only allowlisted Python `unittest` commands in an isolated temporary copy and records
+redacted output, exit code, and duration. If safe isolation is unavailable, it skips execution instead
+of running an unsafe fallback.
 
 ## Advanced Internals
 

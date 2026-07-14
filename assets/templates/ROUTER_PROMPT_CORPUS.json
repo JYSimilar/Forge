@@ -141,5 +141,197 @@
       "expected_token_mode": "Token Saver",
       "expected_dual_index": false
     }
+  ],
+  "scenario_sets": [
+    {
+      "id_prefix": "lite_zh",
+      "language": "zh",
+      "intent": "small_direct_artifact",
+      "ambiguity": "none",
+      "expected_route_id": "lite",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false,
+      "prompts": ["只给我一句 commit message", "只给我结果，不解释", "这是小任务，只给我答案", "不用解释，直接给结果", "只给我一个 command"]
+    },
+    {
+      "id_prefix": "clarify_mixed",
+      "language": "mixed",
+      "intent": "clarify_blocker",
+      "ambiguity": "high",
+      "expected_route_id": "clarify",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false,
+      "prompts": ["我还不确定需求，先问我关键问题", "这里不清楚怎么选，帮我 clarify", "缺少什么信息才能开始？", "我不清楚第一步，问我几个关键问题", "需求还不确定，先别实现"]
+    },
+    {
+      "id_prefix": "mvp_zh",
+      "language": "zh",
+      "intent": "scope_new_project",
+      "ambiguity": "low",
+      "expected_route_id": "project_mvp",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false,
+      "prompts": ["我想做一个记录工具", "这个产品第一版应该做什么", "帮我拆一个 MVP", "能不能做一个简单原型", "我不知道怎么开始做这个小工具"]
+    },
+    {
+      "id_prefix": "reference_en",
+      "language": "en",
+      "intent": "research_reference",
+      "ambiguity": "low",
+      "expected_route_id": "reference_scout",
+      "expected_token_mode": "Standard Deep",
+      "expected_dual_index": false,
+      "prompts": ["找开源参考给我", "看看竞品是怎么做的", "有没有现成方案可以借鉴", "别人怎么做这种功能", "Find similar products before we build"]
+    },
+    {
+      "id_prefix": "audit_zh",
+      "language": "zh",
+      "intent": "audit_existing_project",
+      "ambiguity": "medium",
+      "expected_route_id": "existing_project_audit",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": true,
+      "prompts": ["接手已有工程前先看看", "这个仓库有什么问题", "先自查当前工作区", "给现有项目做一次项目体检", "根据当前资料做 md 汇总"]
+    },
+    {
+      "id_prefix": "field_test_mixed",
+      "language": "mixed",
+      "intent": "validate_real_usage",
+      "ambiguity": "medium",
+      "expected_route_id": "field_test_loop",
+      "expected_token_mode": "Standard Deep",
+      "expected_dual_index": true,
+      "prompts": ["对这个 Skill 项目做一次 field test", "用真实项目试跑 Forge", "跑一轮实战闭环找摩擦点", "验证这套流程有没有问题", "试跑后沉淀成下一版"]
+    },
+    {
+      "id_prefix": "router_zh",
+      "language": "zh",
+      "intent": "validate_routing",
+      "ambiguity": "medium",
+      "expected_route_id": "router_contract",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": true,
+      "prompts": ["检查无感路由是否正确", "这些自然调用会走到哪里", "帮我看触发方式会不会冲突", "验证路由契约", "这个自动路由规则可靠吗"]
+    },
+    {
+      "id_prefix": "dual_index_mixed",
+      "language": "mixed",
+      "intent": "create_dual_index",
+      "ambiguity": "low",
+      "expected_route_id": "dual_index",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": true,
+      "prompts": ["给我人类索引和机器索引", "输出给人看的 md 和 AI 看的 json", "这轮做一个双索引", "Create a human index and machine index", "更新 FORGE_INDEX"]
+    },
+    {
+      "id_prefix": "stability_zh",
+      "language": "zh",
+      "intent": "stability_check",
+      "ambiguity": "low",
+      "expected_route_id": "stability_gate",
+      "expected_token_mode": "Standard Deep",
+      "expected_dual_index": true,
+      "prompts": ["跑 Forge Doctor", "做一次稳定性总检", "检查 Stable Core", "跑自检闭环", "执行 FORGE_DOCTOR"]
+    },
+    {
+      "id_prefix": "plugin_en",
+      "language": "mixed",
+      "intent": "plan_plugin_split",
+      "ambiguity": "medium",
+      "expected_route_id": "pluginization_roadmap",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": true,
+      "prompts": ["Forge 以后怎么插件化", "要不要拆成多个 skill", "设计一个 router skill", "规划子 skill 的边界", "create a plugin split roadmap"]
+    },
+    {
+      "id_prefix": "engineering_zh",
+      "language": "zh",
+      "intent": "bounded_engineering_delivery",
+      "ambiguity": "medium",
+      "expected_route_id": "engineering_delivery",
+      "expected_token_mode": "Standard Deep",
+      "expected_dual_index": false,
+      "prompts": ["修复这个登录问题", "把这个功能实现出来", "补测试让它能跑", "这个服务放生产前要检查什么", "给这里加错误处理和日志"]
+    },
+    {
+      "id_prefix": "orchestration_mixed",
+      "language": "mixed",
+      "intent": "create_ai_work_order",
+      "ambiguity": "low",
+      "expected_route_id": "ai_orchestration",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false,
+      "prompts": ["给当前 agent 写一个任务提示词", "帮我生成 AI 任务", "给这个工作写 work order", "怎么验收 AI 的结果", "帮我写一张 AI 任务卡"]
+    },
+    {
+      "id_prefix": "single_host_zh",
+      "language": "zh",
+      "intent": "current_agent_role_work_order",
+      "ambiguity": "low",
+      "expected_route_id": "single_host_role_protocol",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false,
+      "prompts": ["在当前 agent 里分角色", "给当前 Codex 执行的 work order", "生成一个通用 agent 任务单", "给我多角色任务卡", "不要多 agent，写一张任务单"]
+    },
+    {
+      "id_prefix": "handoff_zh",
+      "language": "zh",
+      "intent": "manual_handoff",
+      "ambiguity": "low",
+      "expected_route_id": "manual_handoff_notes",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false,
+      "prompts": ["手动复制给 Claude Code", "我要手动复制给 Codex", "准备一份人工交接稿", "手动复制给 Cursor 的任务单", "把这个复制给另一个工具"]
+    },
+    {
+      "id_prefix": "boundary_zh",
+      "language": "zh",
+      "intent": "cross_host_boundary",
+      "ambiguity": "none",
+      "expected_route_id": "boundary_clarification",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false,
+      "prompts": ["让 Codex 调 Claude", "能不能 Claude 调 Codex", "Forge 调用 Claude 做 review", "自动让几个模型并行做", "跨模型自动调用可以吗"]
+    },
+    {
+      "id_prefix": "context_zh",
+      "language": "zh",
+      "intent": "control_context_budget",
+      "ambiguity": "low",
+      "expected_route_id": "context_budget_contract",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false,
+      "prompts": ["这个任务怎么控制上下文", "帮我定一个上下文预算", "少读资料怎么做", "少加载 reference，不要太多", "帮我节省 token"]
+    },
+    {
+      "id_prefix": "automation_zh",
+      "language": "zh",
+      "intent": "controlled_iteration",
+      "ambiguity": "medium",
+      "expected_route_id": "automation",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false,
+      "prompts": ["给我一个任务队列", "把这件事一步步推进", "给我几个路线选方案", "小批次执行怎么安排", "设计一个 automation 流程"]
+    },
+    {
+      "id_prefix": "docs_zh",
+      "language": "zh",
+      "intent": "docs_compatibility",
+      "ambiguity": "low",
+      "expected_route_id": "docs_compatibility",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false,
+      "prompts": ["帮我补 README", "写一个 Quick Start", "文档要给别人用", "检查 Windows 兼容", "补 Docker 使用说明"]
+    },
+    {
+      "id_prefix": "summary_zh",
+      "language": "zh",
+      "intent": "project_progress_summary",
+      "ambiguity": "low",
+      "expected_route_id": "work_summary",
+      "expected_token_mode": "Token Saver",
+      "expected_dual_index": false,
+      "prompts": ["给我一个工作总结", "用项目经理的方式总结", "写一份阶段报告", "做一个 Boss Report", "给负责人看的总结"]
+    }
   ]
 }

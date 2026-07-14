@@ -46,6 +46,7 @@ class CorpusResult:
     cases: list[dict[str, Any]]
     errors: list[str]
     warnings: list[str]
+    summary: dict[str, Any]
 
     @property
     def ok(self) -> bool:
@@ -94,7 +95,38 @@ def load_contract(contract_path: str | Path) -> dict[str, Any]:
 def load_corpus(corpus_path: str | Path) -> dict[str, Any]:
     path = Path(corpus_path).expanduser()
     with path.open("r", encoding="utf-8") as handle:
-        return json.load(handle)
+        return _expand_corpus(json.load(handle))
+
+
+def _expand_corpus(corpus: Any) -> dict[str, Any]:
+    """Expand compact scenario sets into ordinary deterministic corpus cases."""
+    if not isinstance(corpus, dict):
+        return corpus
+    expanded = dict(corpus)
+    scenarios = list(corpus.get("scenarios", []))
+    scenario_sets = corpus.get("scenario_sets", [])
+    if not isinstance(scenario_sets, list):
+        return expanded
+    for set_index, scenario_set in enumerate(scenario_sets):
+        if not isinstance(scenario_set, dict):
+            scenarios.append({"id": f"invalid_set_{set_index}"})
+            continue
+        prefix = scenario_set.get("id_prefix", f"set_{set_index}")
+        prompts = scenario_set.get("prompts", [])
+        if not isinstance(prefix, str) or not isinstance(prompts, list):
+            scenarios.append({"id": f"invalid_set_{set_index}"})
+            continue
+        for prompt_index, prompt in enumerate(prompts, start=1):
+            scenario = {
+                key: value
+                for key, value in scenario_set.items()
+                if key not in {"id_prefix", "prompts"}
+            }
+            scenario["id"] = f"{prefix}_{prompt_index:02d}"
+            scenario["prompt"] = prompt
+            scenarios.append(scenario)
+    expanded["scenarios"] = scenarios
+    return expanded
 
 
 def _find_repo_root(start: Path) -> Path:
@@ -260,10 +292,40 @@ def _validate_corpus(corpus: Any) -> list[str]:
     return errors
 
 
+def _corpus_summary(cases: list[dict[str, Any]]) -> dict[str, Any]:
+    routes: dict[str, dict[str, Any]] = {}
+    confusion_counts: dict[str, int] = {}
+    passed = 0
+    for case in cases:
+        expected = str(case["expected_route_id"])
+        route = routes.setdefault(expected, {"total": 0, "passed": 0, "failed": 0, "accuracy": 0.0})
+        route["total"] += 1
+        if case["passed"]:
+            passed += 1
+            route["passed"] += 1
+        else:
+            route["failed"] += 1
+            pair = f"{expected} -> {case['actual_route_id']}"
+            confusion_counts[pair] = confusion_counts.get(pair, 0) + 1
+    for route in routes.values():
+        route["accuracy"] = round(route["passed"] / route["total"], 4) if route["total"] else 0.0
+    return {
+        "total": len(cases),
+        "passed": passed,
+        "failed": len(cases) - passed,
+        "accuracy": round(passed / len(cases), 4) if cases else 0.0,
+        "routes": dict(sorted(routes.items())),
+        "confusion_pairs": [
+            {"pair": pair, "count": count}
+            for pair, count in sorted(confusion_counts.items(), key=lambda item: (-item[1], item[0]))
+        ],
+    }
+
+
 def run_corpus(payload: dict[str, Any], corpus: Any) -> CorpusResult:
     errors = _validate_corpus(corpus)
     if errors:
-        return CorpusResult([], errors, [])
+        return CorpusResult([], errors, [], _corpus_summary([]))
 
     route_ids = {route.get("id") for route in payload.get("routes", []) if isinstance(route, dict)}
     cases: list[dict[str, Any]] = []
@@ -284,6 +346,9 @@ def run_corpus(payload: dict[str, Any], corpus: Any) -> CorpusResult:
             "expected_dual_index": bool(scenario["expected_dual_index"]),
             "actual_dual_index": actual_dual_index,
             "matched_triggers": decision.matched_triggers,
+            "language": str(scenario.get("language", "unspecified")),
+            "intent": str(scenario.get("intent", "unspecified")),
+            "ambiguity": str(scenario.get("ambiguity", "none")),
             "passed": True,
         }
         failures: list[str] = []
@@ -300,7 +365,7 @@ def run_corpus(payload: dict[str, Any], corpus: Any) -> CorpusResult:
             case["failures"] = failures
             errors.extend(f"{case['id']}: {failure}" for failure in failures)
         cases.append(case)
-    return CorpusResult(cases, errors, [])
+    return CorpusResult(cases, errors, [], _corpus_summary(cases))
 
 
 def render_corpus_report(result: CorpusResult, contract_path: Path, corpus_path: Path) -> str:
@@ -314,9 +379,28 @@ def render_corpus_report(result: CorpusResult, contract_path: Path, corpus_path:
         f"状态：{status}",
         "异常情况：失败样例会列出实际路线、token 模式或双索引触发差异。",
         "限制：本报告只做本地确定性模拟，不调用模型。",
+        "评测说明：这是路由契约回归集，不代表模型语义理解准确率。",
         "",
-        "## Cases",
+        "## Summary",
+        f"- Total: {result.summary['total']}",
+        f"- Passed: {result.summary['passed']}",
+        f"- Failed: {result.summary['failed']}",
+        f"- Accuracy: {result.summary['accuracy']:.2%}",
+        "",
+        "## Route Metrics",
     ]
+    for route_id, metrics in result.summary["routes"].items():
+        lines.append(
+            f"- `{route_id}`: {metrics['passed']}/{metrics['total']} passed "
+            f"({metrics['accuracy']:.2%}), failed={metrics['failed']}"
+        )
+    lines.extend(["", "## Confusion Pairs"])
+    if result.summary["confusion_pairs"]:
+        for item in result.summary["confusion_pairs"]:
+            lines.append(f"- {item['pair']}: {item['count']}")
+    else:
+        lines.append("- none")
+    lines.extend(["", "## Cases"])
     for case in result.cases:
         marker = "PASS" if case["passed"] else "FAIL"
         lines.append(

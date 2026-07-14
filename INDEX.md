@@ -4,6 +4,8 @@ Forge centers on helping ordinary people turn vague ideas, existing projects, an
 Safe Work Order is the default bounded execution format used when AI agents need clear context, limits, acceptance checks,
 verification evidence, stop conditions, and review gates.
 
+Current stable baseline: **Forge 2.2 - Project Manager Core + Safe Work Order**.
+
 Use this file when you need one compact map of Forge routes, references, templates, and scripts.
 
 ## User Docs
@@ -17,6 +19,11 @@ Use this file when you need one compact map of Forge routes, references, templat
 
 - `examples/meeting-notes-mvp.md`: minimal ordinary-user flow from a vague idea to MVP scope,
   Safe Work Order, acceptance checks, verification, and next options.
+- `examples/cases/README.md`: reproducible case-study index with new-project, existing-project,
+  and nontechnical planning examples.
+- `examples/cases/new-project-meeting-notes/README.md`: meeting-notes MVP walkthrough.
+- `examples/cases/existing-project-forge/README.md`: observed Forge release-hardening case.
+- `examples/cases/nontechnical-personal-tracker/README.md`: nontechnical personal-tracker planning case.
 
 | Route | Minimum Reference | Optional Reference | Useful Templates | Useful Scripts |
 |---|---|---|---|---|
@@ -70,8 +77,8 @@ Use this file when you need one compact map of Forge routes, references, templat
 - `REWORK_PROMPT.md`: ask an AI agent to fix failed acceptance checks.
 - `ROUTER_CONTRACT.json`: machine-readable route contract for natural triggers, minimum references, outputs, evidence, and handoffs.
 - `ROUTER_CONTRACT.md`: human-readable route contract planning template.
-- `ROUTER_PROMPT_CORPUS.json`: route regression examples for natural trigger, token mode, and Dual Index expectations.
-- `ROUTER_TEST_REPORT.md`: record route simulation, expected/actual routes, issues, and fixes.
+- `ROUTER_PROMPT_CORPUS.json`: compact 115-case route regression corpus with Chinese, English, conversational, ambiguous, and multi-intent prompts.
+- `ROUTER_TEST_REPORT.md`: record route simulation, aggregate metrics, confusion pairs, expected/actual routes, issues, and fixes.
 - `TASK_QUEUE.md`: track planned, active, blocked, and completed tasks.
 - `WORK_SUMMARY.md`: produce a concise completion or handoff summary.
 - `WORKSPACE_SUMMARY.md`: summarize an existing workspace before iteration.
@@ -89,5 +96,5 @@ Use this file when you need one compact map of Forge routes, references, templat
 
 ## Stable Core Scripts
 
-- `forge_doctor.py`: run Forge 2.2 stability checks and write `FORGE_DOCTOR_REPORT.md` plus `forge_doctor.json`.
+- `forge_doctor.py`: run stability checks and write `FORGE_DOCTOR_REPORT.md` plus `forge_doctor.json`; `--execute` is an opt-in, allowlisted, isolated verification mode.
 - `forge_index_update.py`: safely append status, evidence, risk, or artifact entries to `forge_index.json` and re-render `FORGE_INDEX.md`.
