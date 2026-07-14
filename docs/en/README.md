@@ -17,7 +17,7 @@ Every AI task should have a clear goal, context budget, limits, acceptance check
 
 ## Current Version
 
-Forge 2.2 is the **Ordinary People + AI Agents + Shippable Progress** release.
+Forge 2.2.1 is the **Release Hardening** patch release.
 
 Core principles:
 
@@ -175,7 +175,7 @@ Advanced features stay out of the way for small tasks. Use them when the project
 ```bash
 git clone https://github.com/JYSimilar/Forge.git
 cd Forge
-git checkout v2.2
+git checkout v2.2.1
 ```
 
 Forge is released under the [MIT License](../../LICENSE).

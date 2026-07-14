@@ -1,5 +1,5 @@
 interface:
-  display_name: "Forge 2.2"
+  display_name: "Forge 2.2.1"
   short_description: "Help ordinary people build real things with AI agents"
   default_prompt: "Use $forge as a project-manager skill for ordinary people: turn vague ideas, existing projects, messy tasks, small tools, MVPs, docs, or handoffs into real usable progress with AI agents. Stay token-saving by default: clarify the goal, choose the smallest useful version, plan the next concrete step, and use Safe Work Orders only as the bounded execution unit for AI work with context budget, stop condition, acceptance-first checks, and review gates. Treat cross-tool use as manual handoff only, load only needed references, and carry work toward review, docs, handoff, release, or the next version. User-facing docs are indexed by language: zh at docs/zh/README.md and en at docs/en/README.md."
 

@@ -69,8 +69,10 @@ Execution is deliberately narrow:
 
 - Only exact allowlisted Python `unittest discover` commands inferred from the workspace can run.
 - Commands run in a temporary copy, never in the inspected workspace.
+- `--execute` currently requires macOS with `sandbox-exec` both available and permitted; it is not supported on other platforms.
 - On supported macOS environments, `sandbox-exec` denies network access and source-workspace writes.
-- If isolation is unavailable or denied, Forge Doctor records `execution_skipped` instead of running an unsafe fallback.
+- If the platform is unsupported, `sandbox-exec` is unavailable, or the system denies its policy, Forge Doctor records
+  `execution_skipped` instead of running an unsafe fallback.
 - JSON and Markdown record command, exit code, duration, redacted stdout/stderr, timeout, and skipped reasons.
 
 `--execute` is a verification helper, not a general command runner. It never installs packages,

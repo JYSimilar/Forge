@@ -298,7 +298,10 @@ def _corpus_summary(cases: list[dict[str, Any]]) -> dict[str, Any]:
     passed = 0
     for case in cases:
         expected = str(case["expected_route_id"])
-        route = routes.setdefault(expected, {"total": 0, "passed": 0, "failed": 0, "accuracy": 0.0})
+        route = routes.setdefault(
+            expected,
+            {"total": 0, "passed": 0, "failed": 0, "contract_pass_rate": 0.0},
+        )
         route["total"] += 1
         if case["passed"]:
             passed += 1
@@ -308,12 +311,14 @@ def _corpus_summary(cases: list[dict[str, Any]]) -> dict[str, Any]:
             pair = f"{expected} -> {case['actual_route_id']}"
             confusion_counts[pair] = confusion_counts.get(pair, 0) + 1
     for route in routes.values():
-        route["accuracy"] = round(route["passed"] / route["total"], 4) if route["total"] else 0.0
+        route["contract_pass_rate"] = (
+            round(route["passed"] / route["total"], 4) if route["total"] else 0.0
+        )
     return {
         "total": len(cases),
         "passed": passed,
         "failed": len(cases) - passed,
-        "accuracy": round(passed / len(cases), 4) if cases else 0.0,
+        "contract_pass_rate": round(passed / len(cases), 4) if cases else 0.0,
         "routes": dict(sorted(routes.items())),
         "confusion_pairs": [
             {"pair": pair, "count": count}
@@ -379,20 +384,20 @@ def render_corpus_report(result: CorpusResult, contract_path: Path, corpus_path:
         f"状态：{status}",
         "异常情况：失败样例会列出实际路线、token 模式或双索引触发差异。",
         "限制：本报告只做本地确定性模拟，不调用模型。",
-        "评测说明：这是路由契约回归集，不代表模型语义理解准确率。",
+        "评测说明：这是路由契约回归集，不代表宿主模型的语义路由能力。",
         "",
         "## Summary",
         f"- Total: {result.summary['total']}",
         f"- Passed: {result.summary['passed']}",
         f"- Failed: {result.summary['failed']}",
-        f"- Accuracy: {result.summary['accuracy']:.2%}",
+        f"- Contract Pass Rate: {result.summary['contract_pass_rate']:.2%}",
         "",
         "## Route Metrics",
     ]
     for route_id, metrics in result.summary["routes"].items():
         lines.append(
             f"- `{route_id}`: {metrics['passed']}/{metrics['total']} passed "
-            f"({metrics['accuracy']:.2%}), failed={metrics['failed']}"
+            f"({metrics['contract_pass_rate']:.2%}), failed={metrics['failed']}"
         )
     lines.extend(["", "## Confusion Pairs"])
     if result.summary["confusion_pairs"]:

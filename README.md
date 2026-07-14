@@ -22,7 +22,7 @@ Quick commands:
 
 ## Stable Version
 
-Current stable version: **Forge 2.2 - Ordinary People + AI Agents + Shippable Progress**.
+Current stable version: **Forge 2.2.1 - Release Hardening**.
 
 ## Who This Is For
 
@@ -74,7 +74,7 @@ Docs / Handoff / Release
 ```bash
 git clone https://github.com/JYSimilar/Forge.git
 cd Forge
-git checkout v2.2
+git checkout v2.2.1
 ```
 
 Forge is released under the [MIT License](LICENSE).
@@ -134,10 +134,10 @@ an observed existing-project release-hardening case, and a nontechnical planning
 
 ## Verification Evidence
 
-Forge Doctor is static and read-only by default. When a workspace needs recorded test evidence,
-`--execute` runs only allowlisted Python `unittest` commands in an isolated temporary copy and records
-redacted output, exit code, and duration. If safe isolation is unavailable, it skips execution instead
-of running an unsafe fallback.
+Forge Doctor is static and read-only by default. `--execute` currently requires macOS with `sandbox-exec`
+available and permitted. It runs only allowlisted Python `unittest` commands in an isolated temporary copy
+and records redacted output, exit code, and duration. On unsupported platforms or unavailable isolation,
+it reports `execution_skipped` instead of running an unsafe fallback.
 
 ## Advanced Internals
 

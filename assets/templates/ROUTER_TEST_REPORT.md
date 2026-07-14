@@ -5,7 +5,7 @@
 - Total:
 - Passed:
 - Failed:
-- Accuracy:
+- Contract Pass Rate:
 
 ## Route Metrics
 
