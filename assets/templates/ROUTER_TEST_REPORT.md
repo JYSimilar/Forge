@@ -1,5 +1,16 @@
 # Router Test Report
 
+## Summary
+
+- Total:
+- Passed:
+- Failed:
+- Accuracy:
+
+## Route Metrics
+
+## Confusion Pairs
+
 ## 测试目标
 
 ## 输入提示

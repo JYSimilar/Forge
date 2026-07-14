@@ -54,3 +54,24 @@ python scripts/forge_doctor.py . --out-dir /path/to/out --release \
 ```
 
 The target workspace is read-only. The script writes only to `--out-dir`.
+
+## Optional Restricted Execution
+
+Use `--execute` only when static evidence is insufficient and the user needs
+recorded verification evidence:
+
+```bash
+python scripts/forge_doctor.py . --out-dir /path/to/out --release --execute \
+  --timeout-seconds 60 --max-output-chars 4000
+```
+
+Execution is deliberately narrow:
+
+- Only exact allowlisted Python `unittest discover` commands inferred from the workspace can run.
+- Commands run in a temporary copy, never in the inspected workspace.
+- On supported macOS environments, `sandbox-exec` denies network access and source-workspace writes.
+- If isolation is unavailable or denied, Forge Doctor records `execution_skipped` instead of running an unsafe fallback.
+- JSON and Markdown record command, exit code, duration, redacted stdout/stderr, timeout, and skipped reasons.
+
+`--execute` is a verification helper, not a general command runner. It never installs packages,
+deploys, deletes files, calls models, or executes arbitrary package scripts.

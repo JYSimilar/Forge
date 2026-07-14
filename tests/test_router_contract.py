@@ -125,9 +125,14 @@ class RouterContractTests(unittest.TestCase):
         result = module.run_corpus(payload, corpus)
 
         self.assertTrue(result.ok, result.errors)
-        self.assertGreaterEqual(len(result.cases), 10)
+        self.assertGreaterEqual(len(result.cases), 100)
         self.assertTrue(any(case["expected_dual_index"] is True for case in result.cases))
         self.assertTrue(any(case["expected_token_mode"] == "Burn Mode" for case in result.cases))
+        self.assertEqual(len(result.cases), result.summary["total"])
+        self.assertEqual(len(result.cases), result.summary["passed"])
+        self.assertEqual(0, result.summary["failed"])
+        self.assertIn("lite", result.summary["routes"])
+        self.assertIn("language", result.cases[0])
 
     def test_prompt_corpus_failure_returns_nonzero_and_writes_report(self):
         module = load_router_validator()
@@ -149,10 +154,17 @@ class RouterContractTests(unittest.TestCase):
                 )
 
             report_text = report.read_text(encoding="utf-8")
+            result = module.run_corpus(
+                module.load_contract(ROOT / "assets" / "templates" / "ROUTER_CONTRACT.json"),
+                module.load_corpus(corpus),
+            ).summary["confusion_pairs"]
 
         self.assertEqual(1, code)
         self.assertIn("failed", report_text)
         self.assertIn("bad", report_text)
+        self.assertIn("## Summary", report_text)
+        self.assertTrue(result)
+        self.assertEqual("dual_index -> lite", result[0]["pair"])
 
     def test_cli_rejects_invalid_json(self):
         module = load_router_validator()

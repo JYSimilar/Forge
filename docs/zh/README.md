@@ -178,3 +178,5 @@ git clone https://github.com/JYSimilar/Forge.git
 cd Forge
 git checkout v2.2
 ```
+
+Forge 使用 [MIT License](../../LICENSE) 发布。

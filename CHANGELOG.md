@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased - Release Hardening
+
+- Added an MIT License and GitHub Actions matrix for Python 3.10 through 3.13.
+- Added optional restricted Forge Doctor execution: allowlisted `unittest` only, temporary-copy execution,
+  timeout, redacted evidence, and fail-closed behavior when network isolation is unavailable.
+- Expanded deterministic route-contract regression coverage to 115 Chinese, English, conversational,
+  ambiguous, and multi-intent cases with route metrics and confusion-pair reporting.
+- Added reproducible new-project, existing-project, and nontechnical project case studies; unobserved token
+  and intervention values are explicitly marked `not measured`.
+
 ## v2.2 - Project Manager Core + Safe Work Order
 
 - Added language-specific user docs: `docs/zh` for pure Chinese and `docs/en` for pure English.
